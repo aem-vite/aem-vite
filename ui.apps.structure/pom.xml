@@ -38,34 +38,11 @@
                         <cloudManagerTarget>none</cloudManagerTarget>
                     </properties>
                     <filters>
-                        <!-- /apps root -->
                         <filter>
                             <root>/apps</root>
                         </filter>
                         <filter>
                             <root>/apps/aem-vite</root>
-                        </filter>
-
-                        <!-- Common overlay roots -->
-                        <filter>
-                            <root>/apps/sling</root>
-                        </filter>
-                        <filter>
-                            <root>/apps/cq</root>
-                        </filter>
-                        <filter>
-                            <root>/apps/dam</root>
-                        </filter>
-                        <filter>
-                            <root>/apps/wcm</root>
-                        </filter>
-                        <filter>
-                            <root>/apps/msm</root>
-                        </filter>
-
-                        <!-- Immutable context-aware configurations -->
-                        <filter>
-                            <root>/apps/settings</root>
                         </filter>
                     </filters>
                 </configuration>

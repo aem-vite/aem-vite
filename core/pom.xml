@@ -57,7 +57,9 @@
                             <bnd><![CDATA[
 Import-Package: \
 com.adobe.cq.commerce.*;resolution:=optional,\
-javax.annotation;version=0.0.0,*
+javax.annotation;version=0.0.0,\
+com.adobe.acs.commons.util;version=0.0.0,\
+*
                                 ]]></bnd>
                         </configuration>
                     </execution>
@@ -219,6 +221,12 @@ javax.annotation;version=0.0.0,*
             <artifactId>org.apache.sling.models.impl</artifactId>
             <version>1.4.4</version>
             <scope>test</scope>
+        </dependency>
+        <!-- Other -->
+        <dependency>
+            <groupId>com.adobe.acs</groupId>
+            <artifactId>acs-aem-commons-bundle</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
