@@ -65,12 +65,6 @@
                             <artifactId>aem-vite.core</artifactId>
                             <target>/apps/aem-vite-packages/application/install</target>
                         </embedded>
-<!--                        <embedded>-->
-<!--                            <groupId>xyz.cshaw</groupId>-->
-<!--                            <artifactId>aem-vite.ui.content</artifactId>-->
-<!--                            <type>zip</type>-->
-<!--                            <target>/apps/aem-vite-packages/content/install</target>-->
-<!--                        </embedded>-->
                         <embedded>
                             <groupId>xyz.cshaw</groupId>
                             <artifactId>aem-vite.ui.config</artifactId>
@@ -173,12 +167,6 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>xyz.cshaw</groupId>-->
-<!--            <artifactId>aem-vite.ui.content</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--            <type>zip</type>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>xyz.cshaw</groupId>
             <artifactId>aem-vite.ui.config</artifactId>

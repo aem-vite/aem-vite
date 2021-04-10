@@ -10,7 +10,6 @@ The main parts are:
 
 * core: Java bundle containing all core functionality
 * ui.apps: contains the /apps (and /etc) parts of the project
-* ui.content: contains sample content using the components from the ui.apps
 * ui.config: contains runmode specific OSGi configs for the project
 * all: a single content package that embeds all of the compiled modules (bundles and content packages) including any
   vendor dependencies
