@@ -656,7 +656,8 @@ Embed-Transitive: true
             <dependency>
                 <groupId>com.adobe.aem</groupId>
                 <artifactId>uber-jar</artifactId>
-                <version>6.5.7</version>
+                <classifier>apis</classifier>
+                <version>6.5.0</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
