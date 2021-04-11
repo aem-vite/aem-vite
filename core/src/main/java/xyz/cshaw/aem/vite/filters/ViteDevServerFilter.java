@@ -18,7 +18,6 @@ package xyz.cshaw.aem.vite.filters;
 import com.adobe.acs.commons.util.BufferedHttpServletResponse;
 import com.adobe.acs.commons.util.BufferedServletOutput;
 import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.config.RequestConfig;
@@ -52,18 +51,19 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
+import java.io.Writer;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component(immediate = true)
@@ -76,10 +76,10 @@ import java.util.regex.Pattern;
 public class ViteDevServerFilter implements Filter {
     private final Logger log = LoggerFactory.getLogger(ViteDevServerFilter.class);
 
-    private static final String HTML_FILE = "/vite-devserver/inject.html";
-    private static final Pattern ENTRY_POINTS_PATTERN = Pattern.compile("<!--eps-->(.*)<!--epe-->");
+    private static final Pattern BODY_END_TAG_PATTERN = Pattern.compile("</body>");
 
-    private String injectionHTML = StringUtils.EMPTY;
+    private static final String CLIENT_ENTRY_POINT_SCRIPT = "<script type=\"module\" src=\"$devServer/$entryPoint\"></script>";
+    private static final String CLIENT_HTML_SCRIPT = "<script type=\"module\" src=\"$devServer/@vite/client\"></script>";
 
     private final List<ViteDevServerConfig> devServerConfigurations = new LinkedList<>();
     private final List<Function<AtomicReference<String>, String>> responseCallbacks = new ArrayList<>();
@@ -121,15 +121,15 @@ public class ViteDevServerFilter implements Filter {
         boolean useCapturedResponse = false;
 
         for (ViteDevServerConfig config : devServerConfigurations) {
-            if (!accepts(request, config) || StringUtils.isBlank(injectionHTML)) {
+            if (!accepts(request, config)) {
                 log.info("Configuration does not accept this request!");
-                log.info("Content paths: {}", (Object[]) config.contentPaths());
+                log.info("Content paths: {}", (Object) config.contentPaths());
 
                 continue;
             }
 
             // Short-circuit for testing if the Vite DevServer is available. Whenever an exception occurs, we can assume
-            // that is unavailable as normal responses will generally return a 404 response code rather than throwing.
+            // that it is unavailable as normal responses will generally return a 404 status code rather than throwing.
             try {
                 devServerActive(config.devServerUrl());
             } catch (Exception ex) {
@@ -141,14 +141,10 @@ public class ViteDevServerFilter implements Filter {
 
             useCapturedResponse = true;
 
-            responseCallbacks.add((contents) -> {
-                String content = contents.get();
-
-                log.info("Running callback for: {}", config.devServerUrl());
-                log.info("content length: {}", content.length());
-
-                return content;
-            });
+            responseCallbacks.add((content) -> handleResponseModificationForDevServer(
+                    content.get(),
+                    config,
+                    slingRequest));
         }
 
         if (useCapturedResponse) {
@@ -169,9 +165,7 @@ public class ViteDevServerFilter implements Filter {
                         AtomicReference<String> contentsToModify = new AtomicReference<>(
                                 String.copyValueOf(contents.toCharArray()));
 
-                        responseCallbacks.forEach((callback) -> {
-                            contentsToModify.set(callback.apply(contentsToModify));
-                        });
+                        responseCallbacks.forEach((callback) -> contentsToModify.set(callback.apply(contentsToModify)));
 
                         printWriter.write(contentsToModify.get());
                     }
@@ -185,17 +179,6 @@ public class ViteDevServerFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
         log.info("Vite DevServer filter initialised...");
-
-        try {
-            InputStream inputStream = getClass().getResourceAsStream(HTML_FILE);
-
-            if (inputStream != null) {
-                injectionHTML = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-                inputStream.close();
-            }
-        } catch (IOException e) {
-            log.error("Unable to read injection HTML file! Error: {}", e.getMessage());
-        }
     }
 
     @Override
@@ -261,5 +244,66 @@ public class ViteDevServerFilter implements Filter {
             final ViteDevServerConfig config) {
         return ArrayUtils.contains(((SlingHttpServletRequest) request).getRequestPathInfo().getSelectors(),
                 config.manualInjectionSelector());
+    }
+
+    private String handleResponseModificationForDevServer(
+            String content,
+            final ViteDevServerConfig config,
+            final SlingHttpServletRequest slingRequest) {
+        log.info("Running callback for: {}", config.devServerUrl());
+        log.info("ClientLibs: {}", (Object) config.clientlibCategories());
+
+        try {
+            Collection<String> includes = getClientLibraryIncludes(config.clientlibCategories(), slingRequest);
+
+            for (String include : includes) {
+                Matcher includeMatches = getClientLibPattern(include).matcher(content);
+
+                while (includeMatches.find()) {
+                    content = content.replaceAll(includeMatches.group(), StringUtils.EMPTY);
+                }
+            }
+        } catch (IOException ex) {
+            log.warn("Unable to modify response as the ClientLibs generator returned an exception!", ex);
+        }
+
+        return injectDevServerClient(content, config);
+    }
+
+    private String injectDevServerClient(String content, final ViteDevServerConfig config) {
+        List<String> entryPoints = new ArrayList<>();
+
+        for (String entryPoint : config.devServerEntryPoints()) {
+            entryPoints.add(String.copyValueOf(CLIENT_ENTRY_POINT_SCRIPT.toCharArray())
+                    .replace("$entryPoint", entryPoint));
+        }
+
+        String clientScripts = String.format("%s\n%s", CLIENT_HTML_SCRIPT, String.join("\n", entryPoints))
+                .replaceAll("\\$devServer", config.devServerUrl());
+
+        return BODY_END_TAG_PATTERN.matcher(content).replaceFirst(String.format("%s\n</body>", clientScripts));
+    }
+
+    private Collection<String> getClientLibraryIncludes(
+            final String[] categories,
+            final SlingHttpServletRequest slingRequest) throws IOException {
+        Collection<String> includes = new ArrayList<>();
+        Writer writer = new StringWriter();
+
+        htmlLibraryManager.writeIncludes(slingRequest, writer, categories);
+
+        Matcher includeMatches = getClientLibPattern(null).matcher(writer.toString().trim());
+
+        while (includeMatches.find()) {
+            includes.add(includeMatches.group(1));
+        }
+
+        return includes;
+    }
+
+    private Pattern getClientLibPattern(String customExpression) {
+        String expression = StringUtils.isNotEmpty(customExpression) ? customExpression : "(.*\\.(?:css|js))";
+
+        return Pattern.compile(String.format("<(?:script|link).*(?:src|href)=\"%s\".*>", expression));
     }
 }
