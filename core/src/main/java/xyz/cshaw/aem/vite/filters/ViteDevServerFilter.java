@@ -288,7 +288,7 @@ public class ViteDevServerFilter implements Filter {
         clientScripts.append(String.format("%s\n%s", CLIENT_HTML_SCRIPT, String.join("\n", entryPoints))
                 .replaceAll("\\$devServer", config.devServerUrl()));
 
-        return BODY_END_TAG_PATTERN.matcher(content).replaceFirst(String.format("%s\n%s", clientScripts, BODY_END_TAG));
+        return BODY_END_TAG_PATTERN.matcher(content).replaceFirst(String.format("%s\n\n%s", clientScripts, BODY_END_TAG));
     }
 
     private Collection<String> getClientLibraryIncludes(
