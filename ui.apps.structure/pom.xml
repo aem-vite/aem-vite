@@ -20,9 +20,7 @@
     <packaging>content-package</packaging>
     <name>Vite for AEM - Repository Structure Package</name>
     <description>
-        Empty package that defines the structure of the Adobe Experience Manager repository the Code packages in this
-        project deploy into.
-        Any roots in the Code packages of this project should have their parent enumerated in the Filters list below.
+        Empty package that defines the structure of the Adobe Experience Manager repository the Code packages in this project deploy into. Any roots in the Code packages of this project should have their parent enumerated in the Filters list below.
     </description>
 
     <!-- ====================================================================== -->

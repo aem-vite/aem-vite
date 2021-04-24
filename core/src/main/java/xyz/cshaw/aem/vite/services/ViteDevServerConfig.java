@@ -18,4 +18,6 @@ public interface ViteDevServerConfig {
     String devServerUrl();
 
     String[] devServerEntryPoints();
+
+    boolean usingReact();
 }

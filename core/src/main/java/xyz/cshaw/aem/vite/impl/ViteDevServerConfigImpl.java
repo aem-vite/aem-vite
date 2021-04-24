@@ -16,6 +16,7 @@ import static xyz.cshaw.aem.vite.Constants.DEFAULT_DEVSERVER_HOSTNAME;
 import static xyz.cshaw.aem.vite.Constants.DEFAULT_DEVSERVER_PORT;
 import static xyz.cshaw.aem.vite.Constants.DEFAULT_DEVSERVER_PROTOCOL;
 import static xyz.cshaw.aem.vite.Constants.DEFAULT_MANUAL_INJECTOR_SELECTOR;
+import static xyz.cshaw.aem.vite.Constants.DEFAULT_USING_REACT;
 
 @Component(
         configurationPolicy = ConfigurationPolicy.REQUIRE,
@@ -79,5 +80,10 @@ public class ViteDevServerConfigImpl implements ViteDevServerConfig {
     @Override
     public String[] devServerEntryPoints() {
         return PropertiesUtil.toStringArray(configuration.devserver_entrypoints(), new String[]{});
+    }
+
+    @Override
+    public boolean usingReact() {
+        return PropertiesUtil.toBoolean(configuration.using_react(), DEFAULT_USING_REACT);
     }
 }

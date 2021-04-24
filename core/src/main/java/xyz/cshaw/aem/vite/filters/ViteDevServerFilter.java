@@ -66,6 +66,12 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static xyz.cshaw.aem.vite.Constants.BODY_END_TAG;
+import static xyz.cshaw.aem.vite.Constants.BODY_END_TAG_PATTERN;
+import static xyz.cshaw.aem.vite.Constants.CLIENT_ENTRY_POINT_SCRIPT;
+import static xyz.cshaw.aem.vite.Constants.CLIENT_HTML_REACT_SCRIPT;
+import static xyz.cshaw.aem.vite.Constants.CLIENT_HTML_SCRIPT;
+
 @Component(immediate = true)
 @SlingServletFilter(
         methods = {HttpConstants.METHOD_GET},
@@ -75,11 +81,6 @@ import java.util.regex.Pattern;
 @ServiceVendor("Chris Shaw")
 public class ViteDevServerFilter implements Filter {
     private final Logger log = LoggerFactory.getLogger(ViteDevServerFilter.class);
-
-    private static final Pattern BODY_END_TAG_PATTERN = Pattern.compile("</body>");
-
-    private static final String CLIENT_ENTRY_POINT_SCRIPT = "<script type=\"module\" src=\"$devServer/$entryPoint\"></script>";
-    private static final String CLIENT_HTML_SCRIPT = "<script type=\"module\" src=\"$devServer/@vite/client\"></script>";
 
     private final List<ViteDevServerConfig> devServerConfigurations = new LinkedList<>();
     private final List<Function<AtomicReference<String>, String>> responseCallbacks = new ArrayList<>();
@@ -278,10 +279,16 @@ public class ViteDevServerFilter implements Filter {
                     .replace("$entryPoint", entryPoint));
         }
 
-        String clientScripts = String.format("%s\n%s", CLIENT_HTML_SCRIPT, String.join("\n", entryPoints))
-                .replaceAll("\\$devServer", config.devServerUrl());
+        StringBuilder clientScripts = new StringBuilder();
 
-        return BODY_END_TAG_PATTERN.matcher(content).replaceFirst(String.format("%s\n</body>", clientScripts));
+        if (config.usingReact()) {
+            clientScripts.append(CLIENT_HTML_REACT_SCRIPT);
+        }
+
+        clientScripts.append(String.format("%s\n%s", CLIENT_HTML_SCRIPT, String.join("\n", entryPoints))
+                .replaceAll("\\$devServer", config.devServerUrl()));
+
+        return BODY_END_TAG_PATTERN.matcher(content).replaceFirst(String.format("%s\n%s", clientScripts, BODY_END_TAG));
     }
 
     private Collection<String> getClientLibraryIncludes(

@@ -10,6 +10,7 @@ import static xyz.cshaw.aem.vite.Constants.DEFAULT_DEVSERVER_HOSTNAME;
 import static xyz.cshaw.aem.vite.Constants.DEFAULT_DEVSERVER_PORT;
 import static xyz.cshaw.aem.vite.Constants.DEFAULT_DEVSERVER_PROTOCOL;
 import static xyz.cshaw.aem.vite.Constants.DEFAULT_MANUAL_INJECTOR_SELECTOR;
+import static xyz.cshaw.aem.vite.Constants.DEFAULT_USING_REACT;
 
 @ObjectClassDefinition(
         name = "Vite DevServer",
@@ -69,4 +70,10 @@ public @interface ViteDevServerConfiguration {
             name = "DevServer entrypoints"
     )
     String[] devserver_entrypoints() default {};
+
+    @AttributeDefinition(
+            description = "Ensure this option is enabled when using React to ensure things work correctly.",
+            name = "Using React?"
+    )
+    boolean using_react() default DEFAULT_USING_REACT;
 }

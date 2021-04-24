@@ -175,6 +175,7 @@ com.adobe.acs.commons.util;version=0.0.0,\
             <groupId>com.adobe.aem</groupId>
             <artifactId>uber-jar</artifactId>
             <classifier>apis</classifier>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.sling</groupId>
