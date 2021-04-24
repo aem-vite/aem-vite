@@ -66,11 +66,11 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static xyz.cshaw.aem.vite.Constants.BODY_END_TAG;
-import static xyz.cshaw.aem.vite.Constants.BODY_END_TAG_PATTERN;
-import static xyz.cshaw.aem.vite.Constants.CLIENT_ENTRY_POINT_SCRIPT;
-import static xyz.cshaw.aem.vite.Constants.CLIENT_HTML_REACT_SCRIPT;
-import static xyz.cshaw.aem.vite.Constants.CLIENT_HTML_SCRIPT;
+import static xyz.cshaw.aem.vite.utilities.Constants.BODY_END_TAG;
+import static xyz.cshaw.aem.vite.utilities.Constants.BODY_END_TAG_PATTERN;
+import static xyz.cshaw.aem.vite.utilities.Constants.CLIENT_ENTRY_POINT_SCRIPT;
+import static xyz.cshaw.aem.vite.utilities.Constants.CLIENT_HTML_REACT_SCRIPT;
+import static xyz.cshaw.aem.vite.utilities.Constants.CLIENT_HTML_SCRIPT;
 
 @Component(immediate = true)
 @SlingServletFilter(

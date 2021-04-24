@@ -1,4 +1,4 @@
-package xyz.cshaw.aem.vite;
+package xyz.cshaw.aem.vite.utilities;
 
 import java.util.regex.Pattern;
 
@@ -24,6 +24,17 @@ public class Constants {
             "  window.$RefreshSig$ = () => (type) => type\n" +
             "  window.__vite_plugin_react_preamble_installed__ = true\n" +
             "</script>";
+
+    public static final String CLIENTLIB_TAG_JAVASCRIPT = "<script src=\"%s\"%s></script>";
+    public static final String CLIENTLIB_TAG_STYLESHEET = "<link rel=\"stylesheet\" href=\"%s\"%s>";
+
+    public static final String CLIENTLIB_BINDINGS_CATEGORIES = "categories";
+    public static final String CLIENTLIB_BINDINGS_MODE = "mode";
+    public static final String CLIENTLIB_BINDINGS_MODULE = "module";
+    public static final String CLIENTLIB_BINDINGS_MODULE_FALLBACK = "moduleFallback";
+    public static final String CLIENTLIB_ES_SELECTOR = ".es";
+    public static final String CLIENTLIB_MODULE_TYPE_ATTRIBUTE = " type=\"module\"";
+    public static final String CLIENTLIB_NOMODULE_TYPE_ATTRIBUTE = " nomodule";
 
     public Constants() {
     }
