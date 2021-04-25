@@ -1,0 +1,41 @@
+<!--/*
+    Template used for including CSS client libraries
+*/-->
+<template data-sly-template.css="${@ categories='Client Library categories'}">
+    <section data-sly-test="${request.getResourceResolver}"
+             data-sly-use.clientlib="${'aem-vite/granite/sightly/templates/graniteClientLib.html'}"
+             data-sly-call="${clientlib.include @ categories=categories, mode='css'}"
+             data-sly-unwrap>
+    </section>
+</template>
+
+<!--/*
+    Template used for including JS client libraries
+*/-->
+<template data-sly-template.js="${@ categories='Client Library categories',
+                                    module='Load the script as a modern ES module',
+                                    moduleFallback='Load fallback scripts alongside ES modules'}">
+    <section data-sly-test="${request.getResourceResolver}"
+             data-sly-use.clientlib="${'aem-vite/granite/sightly/templates/graniteClientLib.html'}"
+             data-sly-call="${clientlib.include @ categories=categories,
+                                                  mode='js',
+                                                  module=module,
+                                                  moduleFallback=moduleFallback}"
+             data-sly-unwrap>
+    </section>
+</template>
+
+<!--/*
+    Template used for including all client libraries
+*/-->
+<template data-sly-template.all="${@ categories='Client Library categories',
+                                     module='Load the script as a modern ES module',
+                                     moduleFallback='Load fallback scripts alongside ES modules'}">
+    <section data-sly-test="${request.getResourceResolver}"
+             data-sly-use.clientlib="${'aem-vite/granite/sightly/templates/graniteClientLib.html'}"
+             data-sly-call="${clientlib.include @ categories=categories,
+                                                  module=module,
+                                                  moduleFallback=moduleFallback}"
+             data-sly-unwrap>
+    </section>
+</template>

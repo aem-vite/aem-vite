@@ -1,0 +1,10 @@
+<template data-sly-template.include="${@ categories='Client Library categories',
+                                         mode='optional: JS or CSS, case-insensitive',
+                                         module='optional: load the script as a modern ES module',
+                                         moduleFallback='Load fallback scripts alongside ES modules'}"
+          data-sly-use.clientlib="${'xyz.cshaw.aem.vite.utilities.ClientLibUseObject' @ categories     = categories,
+                                                                                        mode           = mode,
+                                                                                        module         = module,
+                                                                                        moduleFallback = moduleFallback}">
+    ${clientlib.include @ context='unsafe'}
+</template>
