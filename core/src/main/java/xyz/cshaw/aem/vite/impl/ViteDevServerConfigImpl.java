@@ -12,6 +12,7 @@ import xyz.cshaw.aem.vite.config.ViteDevServerConfiguration;
 import xyz.cshaw.aem.vite.services.ViteDevServerConfig;
 
 import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_AUTOMATIC_INJECTION;
+import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_DOCKER;
 import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_HOSTNAME;
 import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_PORT;
 import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_PROTOCOL;
@@ -68,13 +69,23 @@ public class ViteDevServerConfigImpl implements ViteDevServerConfig {
     }
 
     @Override
+    public boolean devServerDocker() {
+        return PropertiesUtil.toBoolean(configuration.devserver_docker(), DEFAULT_DEVSERVER_DOCKER);
+    }
+
+    @Override
     public int devServerPort() {
         return PropertiesUtil.toInteger(configuration.devserver_port(), DEFAULT_DEVSERVER_PORT);
     }
 
     @Override
     public String devServerUrl() {
-        return String.format("%s://%s:%d", devServerProtocol(), devServerHostname(), devServerPort());
+        return devServerUrl(String.format("%s://%s", devServerProtocol(), devServerHostname()));
+    }
+
+    @Override
+    public String devServerUrl(final String hostname) {
+        return String.format("%s:%d", hostname, devServerPort());
     }
 
     @Override

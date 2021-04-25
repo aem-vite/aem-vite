@@ -7,6 +7,7 @@ public class Constants {
     public static final String DEFAULT_MANUAL_INJECTOR_SELECTOR = "vite";
     public static final String DEFAULT_DEVSERVER_PROTOCOL = "http";
     public static final String DEFAULT_DEVSERVER_HOSTNAME = "localhost";
+    public static final boolean DEFAULT_DEVSERVER_DOCKER = false;
     public static final int DEFAULT_DEVSERVER_PORT = 3000;
     public static final boolean DEFAULT_USING_REACT = false;
 
@@ -35,6 +36,8 @@ public class Constants {
     public static final String CLIENTLIB_ES_SELECTOR = ".es";
     public static final String CLIENTLIB_MODULE_TYPE_ATTRIBUTE = " type=\"module\"";
     public static final String CLIENTLIB_NOMODULE_TYPE_ATTRIBUTE = " nomodule";
+
+    public static final String DOCKER_INTERNAL_HOSTNAME = "host.docker.internal";
 
     public Constants() {
     }

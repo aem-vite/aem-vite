@@ -71,6 +71,7 @@ import static xyz.cshaw.aem.vite.utilities.Constants.BODY_END_TAG_PATTERN;
 import static xyz.cshaw.aem.vite.utilities.Constants.CLIENT_ENTRY_POINT_SCRIPT;
 import static xyz.cshaw.aem.vite.utilities.Constants.CLIENT_HTML_REACT_SCRIPT;
 import static xyz.cshaw.aem.vite.utilities.Constants.CLIENT_HTML_SCRIPT;
+import static xyz.cshaw.aem.vite.utilities.Constants.DOCKER_INTERNAL_HOSTNAME;
 
 @Component(immediate = true)
 @SlingServletFilter(
@@ -132,7 +133,9 @@ public class ViteDevServerFilter implements Filter {
             // Short-circuit for testing if the Vite DevServer is available. Whenever an exception occurs, we can assume
             // that it is unavailable as normal responses will generally return a 404 status code rather than throwing.
             try {
-                devServerActive(config.devServerUrl());
+                devServerActive(config.devServerDocker()
+                        ? config.devServerUrl(DOCKER_INTERNAL_HOSTNAME)
+                        : config.devServerUrl());
             } catch (Exception ex) {
                 log.info("DevServer is not running!");
                 log.info("URL: {}", config.devServerUrl());

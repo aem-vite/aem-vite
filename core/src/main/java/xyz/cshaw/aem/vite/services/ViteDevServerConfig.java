@@ -13,9 +13,13 @@ public interface ViteDevServerConfig {
 
     String devServerHostname();
 
+    boolean devServerDocker();
+
     int devServerPort();
 
     String devServerUrl();
+
+    String devServerUrl(String hostname);
 
     String[] devServerEntryPoints();
 

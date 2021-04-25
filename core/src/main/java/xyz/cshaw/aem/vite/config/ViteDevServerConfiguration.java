@@ -6,6 +6,7 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.osgi.service.metatype.annotations.Option;
 
 import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_AUTOMATIC_INJECTION;
+import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_DOCKER;
 import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_HOSTNAME;
 import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_PORT;
 import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_PROTOCOL;
@@ -57,6 +58,12 @@ public @interface ViteDevServerConfiguration {
             name = "DevServer hostname"
     )
     String devserver_hostname() default DEFAULT_DEVSERVER_HOSTNAME;
+
+    @AttributeDefinition(
+            description = "Check this option if your AEM instance is running within Docker. This will ensure that the DevServer check works correctly via http://host.docker.internal.",
+            name = "DevServer Docker"
+    )
+    boolean devserver_docker() default DEFAULT_DEVSERVER_DOCKER;
 
     @AttributeDefinition(
             description = "Which port should be used to contact Vite's DevServer? (default: 3000)",
