@@ -13,11 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package xyz.cshaw.aem.vite.filters;
+package dev.aemvite.aem.filters;
 
 import com.adobe.acs.commons.util.BufferedHttpServletResponse;
 import com.adobe.acs.commons.util.BufferedServletOutput;
 import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
+import dev.aemvite.aem.services.ViteDevServerConfig;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.config.RequestConfig;
@@ -40,7 +41,6 @@ import org.osgi.service.component.propertytypes.ServiceDescription;
 import org.osgi.service.component.propertytypes.ServiceVendor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.cshaw.aem.vite.services.ViteDevServerConfig;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -66,12 +66,12 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static xyz.cshaw.aem.vite.utilities.Constants.BODY_END_TAG;
-import static xyz.cshaw.aem.vite.utilities.Constants.BODY_END_TAG_PATTERN;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENT_ENTRY_POINT_SCRIPT;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENT_HTML_REACT_SCRIPT;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENT_HTML_SCRIPT;
-import static xyz.cshaw.aem.vite.utilities.Constants.DOCKER_INTERNAL_HOSTNAME;
+import static dev.aemvite.aem.utilities.Constants.BODY_END_TAG;
+import static dev.aemvite.aem.utilities.Constants.BODY_END_TAG_PATTERN;
+import static dev.aemvite.aem.utilities.Constants.CLIENT_ENTRY_POINT_SCRIPT;
+import static dev.aemvite.aem.utilities.Constants.CLIENT_HTML_REACT_SCRIPT;
+import static dev.aemvite.aem.utilities.Constants.CLIENT_HTML_SCRIPT;
+import static dev.aemvite.aem.utilities.Constants.DOCKER_INTERNAL_HOSTNAME;
 
 @Component(immediate = true)
 @SlingServletFilter(

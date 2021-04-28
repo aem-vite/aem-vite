@@ -22,7 +22,7 @@
     <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>xyz.cshaw</groupId>
+        <groupId>dev.aemvite</groupId>
         <artifactId>aem-vite</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -49,24 +49,24 @@
                 <artifactId>filevault-package-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <group>xyz.cshaw</group>
+                    <group>dev.aemvite</group>
                     <packageType>container</packageType>
                     <!-- skip sub package validation for now as some vendor packages like CIF apps will not pass -->
                     <skipSubPackageValidation>true</skipSubPackageValidation>
                     <embeddeds>
                         <embedded>
-                            <groupId>xyz.cshaw</groupId>
+                            <groupId>dev.aemvite</groupId>
                             <artifactId>aem-vite.ui.apps</artifactId>
                             <type>zip</type>
                             <target>/apps/aem-vite-packages/application/install</target>
                         </embedded>
                         <embedded>
-                            <groupId>xyz.cshaw</groupId>
+                            <groupId>dev.aemvite</groupId>
                             <artifactId>aem-vite.core</artifactId>
                             <target>/apps/aem-vite-packages/application/install</target>
                         </embedded>
                         <embedded>
-                            <groupId>xyz.cshaw</groupId>
+                            <groupId>dev.aemvite</groupId>
                             <artifactId>aem-vite.ui.config</artifactId>
                             <type>zip</type>
                             <target>/apps/aem-vite-packages/application/install</target>
@@ -162,13 +162,13 @@
     <!-- ====================================================================== -->
     <dependencies>
         <dependency>
-            <groupId>xyz.cshaw</groupId>
+            <groupId>dev.aemvite</groupId>
             <artifactId>aem-vite.ui.apps</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
         <dependency>
-            <groupId>xyz.cshaw</groupId>
+            <groupId>dev.aemvite</groupId>
             <artifactId>aem-vite.ui.config</artifactId>
             <version>${project.version}</version>
             <type>zip</type>

@@ -1,4 +1,19 @@
-package xyz.cshaw.aem.vite.impl;
+/*
+ *  Copyright 2021 Chris Shaw
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+package dev.aemvite.aem.impl;
 
 import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.osgi.service.component.annotations.Activate;
@@ -8,16 +23,16 @@ import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.cshaw.aem.vite.config.ViteDevServerConfiguration;
-import xyz.cshaw.aem.vite.services.ViteDevServerConfig;
+import dev.aemvite.aem.config.ViteDevServerConfiguration;
+import dev.aemvite.aem.services.ViteDevServerConfig;
 
-import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_AUTOMATIC_INJECTION;
-import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_DOCKER;
-import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_HOSTNAME;
-import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_PORT;
-import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_DEVSERVER_PROTOCOL;
-import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_MANUAL_INJECTOR_SELECTOR;
-import static xyz.cshaw.aem.vite.utilities.Constants.DEFAULT_USING_REACT;
+import static dev.aemvite.aem.utilities.Constants.DEFAULT_AUTOMATIC_INJECTION;
+import static dev.aemvite.aem.utilities.Constants.DEFAULT_DEVSERVER_DOCKER;
+import static dev.aemvite.aem.utilities.Constants.DEFAULT_DEVSERVER_HOSTNAME;
+import static dev.aemvite.aem.utilities.Constants.DEFAULT_DEVSERVER_PORT;
+import static dev.aemvite.aem.utilities.Constants.DEFAULT_DEVSERVER_PROTOCOL;
+import static dev.aemvite.aem.utilities.Constants.DEFAULT_MANUAL_INJECTOR_SELECTOR;
+import static dev.aemvite.aem.utilities.Constants.DEFAULT_USING_REACT;
 
 @Component(
         configurationPolicy = ConfigurationPolicy.REQUIRE,

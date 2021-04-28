@@ -1,41 +1,53 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright 2021 Chris Shaw
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
 <!--/*
     Template used for including CSS client libraries
 */-->
 <template data-sly-template.css="${@ categories='Client Library categories'}">
-    <section data-sly-test="${request.getResourceResolver}"
-             data-sly-use.clientlib="${'aem-vite/granite/sightly/templates/graniteClientLib.html'}"
-             data-sly-call="${clientlib.include @ categories=categories, mode='css'}"
-             data-sly-unwrap>
-    </section>
+  <section data-sly-test="${request.getResourceResolver}"
+           data-sly-use.clientlib="${'aem-vite/granite/sightly/templates/graniteClientLib.html'}"
+           data-sly-call="${clientlib.include @ categories=categories, mode='css'}"
+           data-sly-unwrap>
+  </section>
 </template>
 
 <!--/*
     Template used for including JS client libraries
 */-->
 <template data-sly-template.js="${@ categories='Client Library categories',
-                                    module='Load the script as a modern ES module',
-                                    moduleFallback='Load fallback scripts alongside ES modules'}">
-    <section data-sly-test="${request.getResourceResolver}"
-             data-sly-use.clientlib="${'aem-vite/granite/sightly/templates/graniteClientLib.html'}"
-             data-sly-call="${clientlib.include @ categories=categories,
-                                                  mode='js',
-                                                  module=module,
-                                                  moduleFallback=moduleFallback}"
-             data-sly-unwrap>
-    </section>
+                                    esModule='Load the script as a modern ES module'}">
+  <section data-sly-test="${request.getResourceResolver}"
+           data-sly-use.clientlib="${'aem-vite/granite/sightly/templates/graniteClientLib.html'}"
+           data-sly-call="${clientlib.include @ categories=categories,
+                                                mode='js',
+                                                esModule=esModule}"
+           data-sly-unwrap>
+  </section>
 </template>
 
 <!--/*
     Template used for including all client libraries
 */-->
 <template data-sly-template.all="${@ categories='Client Library categories',
-                                     module='Load the script as a modern ES module',
-                                     moduleFallback='Load fallback scripts alongside ES modules'}">
-    <section data-sly-test="${request.getResourceResolver}"
-             data-sly-use.clientlib="${'aem-vite/granite/sightly/templates/graniteClientLib.html'}"
-             data-sly-call="${clientlib.include @ categories=categories,
-                                                  module=module,
-                                                  moduleFallback=moduleFallback}"
-             data-sly-unwrap>
-    </section>
+                                     esModule='Load the script as a modern ES module'}">
+  <section data-sly-test="${request.getResourceResolver}"
+           data-sly-use.clientlib="${'aem-vite/granite/sightly/templates/graniteClientLib.html'}"
+           data-sly-call="${clientlib.include @ categories=categories,
+                                                esModule=esModule}"
+           data-sly-unwrap>
+  </section>
 </template>

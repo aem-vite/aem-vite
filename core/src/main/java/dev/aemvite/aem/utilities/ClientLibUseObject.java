@@ -1,9 +1,23 @@
-package xyz.cshaw.aem.vite.utilities;
+/*
+ *  Copyright 2021 Chris Shaw
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+package dev.aemvite.aem.utilities;
 
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
 import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
 import com.adobe.granite.ui.clientlibs.LibraryType;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -20,21 +34,20 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
 
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENTLIB_BINDINGS_CATEGORIES;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENTLIB_BINDINGS_MODE;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENTLIB_BINDINGS_MODULE;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENTLIB_BINDINGS_MODULE_FALLBACK;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENTLIB_ES_SELECTOR;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENTLIB_MODULE_TYPE_ATTRIBUTE;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENTLIB_NOMODULE_TYPE_ATTRIBUTE;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENTLIB_TAG_JAVASCRIPT;
-import static xyz.cshaw.aem.vite.utilities.Constants.CLIENTLIB_TAG_STYLESHEET;
+import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_CATEGORIES;
+import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_ESMODULE;
+import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_MODE;
+import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_MODULE_TYPE_ATTRIBUTE;
+import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_NOMODULE_TYPE_ATTRIBUTE;
+import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_PROPERTY_ESMODULE;
+import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_PROPERTY_NOMODULE;
+import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_TAG_JAVASCRIPT;
+import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_TAG_STYLESHEET;
 
 public class ClientLibUseObject implements Use {
     protected String[] categories;
     protected String mode;
-    protected Boolean useEsModule;
-    protected Boolean useEsModuleFallback;
+    protected Boolean esModule;
 
     protected HtmlLibraryManager htmlLibraryManager = null;
     protected Logger log;
@@ -72,8 +85,7 @@ public class ClientLibUseObject implements Use {
 
             if (categories != null && categories.length > 0) {
                 mode = (String) bindings.get(CLIENTLIB_BINDINGS_MODE);
-                useEsModule = (Boolean) bindings.getOrDefault(CLIENTLIB_BINDINGS_MODULE, false);
-                useEsModuleFallback = (Boolean) bindings.getOrDefault(CLIENTLIB_BINDINGS_MODULE_FALLBACK, false);
+                esModule = (Boolean) bindings.getOrDefault(CLIENTLIB_BINDINGS_ESMODULE, false);
                 request = (SlingHttpServletRequest) bindings.get(SlingBindings.REQUEST);
                 SlingScriptHelper sling = (SlingScriptHelper) bindings.get(SlingBindings.SLING);
                 htmlLibraryManager = sling.getService(HtmlLibraryManager.class);
@@ -175,40 +187,22 @@ public class ClientLibUseObject implements Use {
     }
 
     /**
-     * Determines if the provided binding conditions prove {@code true}.
+     * Determines if the provided property exists on the {@link ClientLibrary}.
      *
-     * @param lib              {@link ClientLibrary} instance
-     * @param bindingCondition binding condition to lookup
-     * @param conditionToMatch a pre-populated variable as a control
-     * @return {@code true} when the condition matches, otherwise {@code false}
+     * @param lib      {@link ClientLibrary} instance
+     * @param property {@link ClientLibrary} property to lookup
+     * @return {@code true} when the property exists, otherwise {@code false}
      */
-    protected final boolean isBindingActive(ClientLibrary lib, String bindingCondition, boolean conditionToMatch) {
+    protected final boolean clientlibHasProperty(ClientLibrary lib, String property) {
         Resource libResource = resourceResolver.resolve(lib.getPath());
 
         if (!ResourceUtil.isNonExistingResource(libResource)) {
             ValueMap libProps = libResource.getValueMap();
 
-            return Boolean.TRUE.equals(libProps.get(bindingCondition, Boolean.class))
-                    && Boolean.TRUE.equals(conditionToMatch);
+            return Boolean.TRUE.equals(libProps.get(property, Boolean.class));
         }
 
         return false;
-    }
-
-    /**
-     * Retrieve the ES module path based on the state of {@code useEsModuleFallback}.
-     *
-     * @param path {@link String} path to the {@link ClientLibrary} resource
-     * @return path to the {@link ClientLibrary} resource
-     */
-    protected final String getEsModulePath(String path) {
-        if (useEsModuleFallback) {
-            return path.replaceFirst(
-                    "(\\w+)(\\/\\w+" + LibraryType.JS.extension.replace(".", "\\.") + "$)",
-                    "$1" + CLIENTLIB_ES_SELECTOR + "$2");
-        }
-
-        return path;
     }
 
     /**
@@ -225,31 +219,32 @@ public class ClientLibUseObject implements Use {
             final LibraryType libraryType,
             final PrintWriter out
     ) {
-        String libAttribute = getLibraryTypeAttributes(libraryType);
+        String attributes = getLibraryTypeAttributes(lib, libraryType).toString();
         String tag = libraryType.equals(LibraryType.CSS) ? CLIENTLIB_TAG_STYLESHEET : CLIENTLIB_TAG_JAVASCRIPT;
 
-        if (libraryType.equals(LibraryType.JS) && isBindingActive(lib, "esModule", useEsModule)) {
-            String modulePath = getEsModulePath(path);
-
-            out.format(CLIENTLIB_TAG_JAVASCRIPT, modulePath, libAttribute + CLIENTLIB_MODULE_TYPE_ATTRIBUTE);
-
-            if (useEsModuleFallback) {
-                libAttribute += CLIENTLIB_NOMODULE_TYPE_ATTRIBUTE;
-            } else {
-                return;
-            }
-        }
-
-        out.format(tag, path, libAttribute);
+        out.format(tag, path, attributes);
     }
 
     /**
      * Retrieve any attributes required for the provided library type.
      *
+     * @param lib         {@link ClientLibrary} instance
      * @param libraryType {@link LibraryType} which is either CSS or JS
      * @return a string containing HTML attributes
      */
-    protected String getLibraryTypeAttributes(LibraryType libraryType) {
-        return StringUtils.EMPTY;
+    protected StringBuilder getLibraryTypeAttributes(final ClientLibrary lib, final LibraryType libraryType) {
+        StringBuilder attributes = new StringBuilder();
+
+        if (libraryType.equals(LibraryType.JS)) {
+            if (clientlibHasProperty(lib, CLIENTLIB_PROPERTY_ESMODULE)) {
+                attributes.append(CLIENTLIB_MODULE_TYPE_ATTRIBUTE);
+            }
+
+            if (clientlibHasProperty(lib, CLIENTLIB_PROPERTY_NOMODULE)) {
+                attributes.append(CLIENTLIB_NOMODULE_TYPE_ATTRIBUTE);
+            }
+        }
+
+        return attributes;
     }
 }

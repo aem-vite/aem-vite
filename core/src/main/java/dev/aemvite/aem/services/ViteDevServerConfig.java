@@ -1,4 +1,4 @@
-package xyz.cshaw.aem.vite.services;
+package dev.aemvite.aem.services;
 
 public interface ViteDevServerConfig {
     boolean automaticInjection();

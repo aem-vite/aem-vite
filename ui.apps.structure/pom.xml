@@ -7,7 +7,7 @@
     <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>xyz.cshaw</groupId>
+        <groupId>dev.aemvite</groupId>
         <artifactId>aem-vite</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>

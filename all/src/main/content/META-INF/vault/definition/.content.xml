@@ -17,7 +17,7 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0"
           jcr:primaryType="vlt:PackageDefinition"
           providerLink="https://github.com/adobe/aem-project-archetype/releases"
-          providerName="Chris Shaw"
-          providerUrl="https://github.com/cshawaus/aem-vite"
+          providerName="AEM Vite"
+          providerUrl="https://github.com/aem-vite/aem-vite"
           testedWith="AEM 6.5">
 </jcr:root>

@@ -1,5 +1,5 @@
 @Version("1.0.0")
 
-package xyz.cshaw.aem.vite.utilities;
+package dev.aemvite.aem.utilities;
 
 import org.osgi.annotation.versioning.Version;
