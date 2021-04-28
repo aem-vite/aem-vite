@@ -1,17 +1,27 @@
-# Vite for AEM
+<div style="text-align: center">
 
-Vite for AEM is a transparent handler for the next generation front end tool, [Vite](https://vitejs.dev/). Tooling can
+![AEM Vite logo](./logo-outlined.png?raw=true)
+
+</div>
+
+# AEM Vite
+
+AEM Vite is a transparent handler for the next generation front end tool, [Vite](https://vitejs.dev/). Tooling can
 be the most complex piece of a project to complete, Vite for AEM aims to bring speed and simplicity without needing to
 invest hours of your time upfront.
+
+## Getting Started
+
+Visit [aem-vite.dev](https://aem-vite.dev) for install instructions.
 
 ## Modules
 
 The main parts are:
 
 * core: Java bundle containing all core functionality
-* ui.apps: contains the /apps (and /etc) parts of the project
+* ui.apps: contains the /apps parts of the project
 * ui.config: contains runmode specific OSGi configs for the project
-* all: a single content package that embeds all of the compiled modules (bundles and content packages) including any
+* all: a single content package that embeds all the compiled modules (bundles and content packages) including any
   vendor dependencies
 
 ## How to build

@@ -23,7 +23,7 @@
     <artifactId>aem-vite</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <description>Vite for AEM</description>
+    <description>Next generation front end tooling for AEM</description>
 
     <modules>
         <module>all</module>
