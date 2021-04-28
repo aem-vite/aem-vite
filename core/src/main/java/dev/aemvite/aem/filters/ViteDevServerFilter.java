@@ -114,10 +114,7 @@ public class ViteDevServerFilter implements Filter {
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         final SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
 
-        log.info("request for {}, with selector {}", slingRequest
-                .getRequestPathInfo().getResourcePath(), slingRequest
-                .getRequestPathInfo().getSelectorString());
-
+        // Clear any previous callbacks to avoid memory leaks
         responseCallbacks.clear();
 
         boolean useCapturedResponse = false;
@@ -130,12 +127,15 @@ public class ViteDevServerFilter implements Filter {
                 continue;
             }
 
-            // Short-circuit for testing if the Vite DevServer is available. Whenever an exception occurs, we can assume
-            // that it is unavailable as normal responses will generally return a 404 status code rather than throwing.
             try {
-                devServerActive(config.devServerDocker()
-                        ? config.devServerUrl(DOCKER_INTERNAL_HOSTNAME)
-                        : config.devServerUrl());
+                String devServerUrl = getDevServerUrl(config);
+                int statusCode = devServerActive(devServerUrl);
+
+                if (statusCode < 200 || statusCode >= 400) {
+                    throw new Exception("Unable to connect with the Vite DevServer... " + devServerUrl);
+                }
+
+                log.info("Successfully connected to Vite DevServer... {} (status code: {})", devServerUrl, statusCode);
             } catch (Exception ex) {
                 log.info("DevServer is not running!");
                 log.info("URL: {}", config.devServerUrl());
@@ -190,7 +190,13 @@ public class ViteDevServerFilter implements Filter {
         log.info("Vite DevServer filter has been destroyed.");
     }
 
-    private void devServerActive(final String devServerUrl)
+    private String getDevServerUrl(final ViteDevServerConfig config) {
+        return String.format("%s/%s",
+                config.devServerDocker() ? config.devServerUrl(DOCKER_INTERNAL_HOSTNAME) : config.devServerUrl(),
+                config.devServerEntryPoints()[0]);
+    }
+
+    private int devServerActive(final String devServerUrl)
             throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         // A custom SSL context/factory is needed on the chance that someone is testing using a self-signed cert
         SSLContextBuilder builder = new SSLContextBuilder();
@@ -209,9 +215,9 @@ public class ViteDevServerFilter implements Filter {
                 .build()) {
             HttpGet request = new HttpGet(devServerUrl);
 
-            try (CloseableHttpResponse response = httpClient.execute(request)) {
-                log.info("Successfully connected to Vite DevServer... {} ({})", devServerUrl, response.getStatusLine());
-            }
+            CloseableHttpResponse response = httpClient.execute(request);
+
+            return response.getStatusLine().getStatusCode();
         }
     }
 
