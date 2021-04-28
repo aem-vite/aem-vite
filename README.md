@@ -1,8 +1,10 @@
-<div style="text-align: center">
+<p align="center">
+  <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
+    
+![AEM Vite Logo](./logo-outlined.png)
 
-![AEM Vite logo](./logo-outlined.png?raw=true)
-
-</div>
+  </a>
+</p>
 
 # AEM Vite
 
