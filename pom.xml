@@ -39,7 +39,7 @@
             <name>Chris Shaw</name>
             <email>me@cshaw.xyz</email>
             <organization>AEM Vite</organization>
-            <organizationUrl>https://aem-vite.dev</organizationUrl>
+            <organizationUrl>https://aemvite.dev</organizationUrl>
         </developer>
     </developers>
 
@@ -476,6 +476,36 @@ Embed-Transitive: true
     </build>
 
     <profiles>
+        <!-- ====================================================================== -->
+        <!-- M A V E N  C E N T R A L                                               -->
+        <!-- ====================================================================== -->
+        <profile>
+            <id>maven-central</id>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
         <!-- ====================================================================== -->
         <!-- A D O B E  P U L I C  P R O F I L E                                    -->
         <!-- ====================================================================== -->

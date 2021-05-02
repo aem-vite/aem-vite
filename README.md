@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://aem-vite.dev" target="_blank" rel="noopener noreferrer">
-    <img width="180" src="https://aem-vite.dev/static/logo-outlined.png" alt="AEM Vite logo">
+  <a href="https://aemvite.dev" target="_blank" rel="noopener noreferrer">
+    <img width="180" src="https://aemvite.dev/static/logo-outlined.png" alt="AEM Vite logo">
   </a>
 </p>
 <br/>
@@ -13,7 +13,7 @@ invest hours of your time upfront.
 
 ## Getting Started
 
-Visit [aem-vite.dev](https://aem-vite.dev) for install instructions.
+Visit [aemvite.dev](https://aemvite.dev) for install instructions.
 
 ## Modules
 
