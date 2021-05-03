@@ -5,22 +5,22 @@ env:
     - secure: UlGZ3MDpMyChMmpSOVUDTjLhKfYg5GdSVkuwbVyGeXc4YW6bDUvz7KxB9CCfNqpbUw0glm0Xg6KpNxzkHCkCMQAV8ctz87rb+Ryr43k3ww0Uyc7BjL5qE4jPo9bYCtuYdZJ4j/ZurHB8T0sNcZaoIfpHWlRg5VrtlYfFO+w5iS0hoJWvDqS93Z/UVlRElEdsHphpmKBuk0Qenc2vMfbSqliGXJ6wrl1+2Xj1NfyLG5FpmsS2oUbaWgX5drxOABjHnggnvz7H20CjciCupNQZ4EZNaCUOedw/anMoo27i/dSNkx7tP74is/FFBFzsPciy+ntFFAt8wmhVD+Oj4szxm3s8vtj83SlOgeXkZtL6ewd76QNmZObBEmN7vJag5kdn25PL3ZSQzNEOARuChsH67/6FsfTTOeHAMrDuA3s+dARDMeCfCGEc1Jtr5xj3vEcHsWgUVQTNpuUDNSe8IouLI0UmbBrxFjpbkakxFoOCFoyEt3BWG7e0jfStAxXYpSvUDIBkoKxLHpC0LOVx06YQMl/qZr1bjG1k+HU5YUAupEPnsfySjOYZJS7xJyKFBNE1IZX0UPqV2+HNPCZUpE0Uih48XGviYJuIzGLiK9ledX5SbNwr+eLz2LzJao/f7QWyuM5jmEwkFf/9tguDHBZmsaKxEgsMgBh1ZvD83JEkrTs=
     - secure: GK0+uWr78C6gGwZGGPvtA72jGthBmYMaZpUu3YazWteqKAAHLq5peBHzAii3Rv6yZeoeKyx2bFhL40Dqk9ya5jhLB1UR30cYSwfZaPrOUXKy/8Nwd40H93IRDRDu5fZvlWQG0qwsvqgM6y8Kjwhw+t9GFzw9hFP25OeETIfxAqYf9tBg3ycC3+MY4K6JA4ux/nuZGPmIP4tpiUX4yI5DwcZgDg3dKUHrqKj1kpnrvxockmlq9tZRVacyliRlE8o9ZIxHh1Ic7AVvjGPzkGGJhy09nkC0jtmmNLFNDeX1lDqjjXKGbTMArX5wTenaVZaIMVxeS/y243fzXJ4TPvEUVKyKRmvp7uDQxisb1CJ09/8St8GZyke08Bn3yJf9Cp4ov6lam+H2JZSmF/WI6F0VNF2Ppf4aQBNRYdohJR41DHyJtJ4a+ODkPEJaGWghYM2BcgmCf8DgJ07pIMT3y2lRa8c5Ee7wWSpRWawJJJYLTWKhKVds0xD/rBiZAcOcJRA6Iazt3ztTYTlxgEDX5cnQrayZoZRqqWOBzwJCt9CdN9r9K3VGcgrvi18FCQRgPKTa9qnrNU1Te/H4ohyDHB7zwbhcdCbkZkag0U1GT+g8d9uwq+/Qe/O1eUQl4ly8sdeY/mNWAdLShiNFCe5v8YtiPE8c/kehKNFm5G2lhahBRPo=
     - secure: EBe4rEvjDPrbrkbtEKq/izTGSETXhNEk2M70wQkjsa/tKAS/C7XoFRntZIXtnEC/sMejF3tf8OWzNIM7t1K3r2L02VG3ctwCOV3Qi8MnLvkCRRX7QITunGyImznSuMN/INN1Bz0JmLXQ2UqQElHFtflsOmGbFbtnGMY42P4lEyvqH0A2gzdqz1MXtw+yNhCe/iORS26e2OSlYT2u+La8NIFPN1myC4P2NeSFqHMhshE7mbjvBxwjQRUgEnEF9sMFRvdKmVY3dEhOoEkxFQug6smCFrxOr2tnAVuH5qzlt1b707PS6F3KxYg2IVxMPNntUldKJT5RQaDisxZeF/Vc5lEK75LbK53tj/bmNRcQLijICQ1KJ1h1OkQz2D+JzPMhIiMrkmpwoU+aCyDMaE5seKnKXwJCL31Z+XHskY6XOrtyNGdUlg4ZiQ62DFheGlic3GWHKaxe5p8uKAg4cEGGqLAe/9vC4JNljAwsdlEIOTCVa9XiWSE0NxoSf8nBi6QJmmzzDXNnW6fu9BZz1GZhaTtj+MwpSvwDofeicPxAtPQYmbCNT4xPBOYev5TNphrRnNC72I6JDrH9qk4HVXAUv/T7TGwG2M7Rg+dAL158vZqttuztgpZIYkwKK8yizrjw1LvRu15nE73PAziii7aD+zGD3JBeVmxFPuv5YJgpEnA=
-after_success: |
-  semantic-release \
-    --prepare @conveyal/maven-semantic-release \
-    --publish @semantic-release/github,@conveyal/maven-semantic-release \
-    --verify-conditions @semantic-release/github,@conveyal/maven-semantic-release \
-    --verify-release @conveyal/maven-semantic-release \
-    --use-conveyal-workflow \
-    --dev-branch=develop
+#after_success: |
+#  semantic-release \
+#    --prepare @conveyal/maven-semantic-release \
+#    --publish @semantic-release/github,@conveyal/maven-semantic-release \
+#    --verify-conditions @semantic-release/github,@conveyal/maven-semantic-release \
+#    --verify-release @conveyal/maven-semantic-release \
+#    --use-conveyal-workflow \
+#    --dev-branch=develop
 before_install: |
   if [[ "$TRAVIS_PULL_REQUEST" = false ]] && [[ "$TRAVIS_BRANCH" = main ]]; then
     openssl aes-256-cbc -K $encrypted_d81b39e7ac43_key -iv $encrypted_d81b39e7ac43_iv -in maven-artifact-signing-key.asc.enc -out maven-artifact-signing-key.asc -d
     gpg --import --batch maven-artifact-signing-key.asc
   fi
-before_script:
-  - nvm install '12'
-  - yarn global add @conveyal/maven-semantic-release @semantic-release/changelog @semantic-release/git semantic-release
+#before_script:
+#  - nvm install '12'
+#  - yarn global add @conveyal/maven-semantic-release @semantic-release/changelog @semantic-release/git semantic-release
 cache:
   directories:
     - $HOME/.m2
@@ -32,4 +32,4 @@ language: java
 notifications:
   email: false
 script:
-  - mvn package
+  - mvn clean deploy
