@@ -23,7 +23,7 @@
     <parent>
         <groupId>dev.aemvite</groupId>
         <artifactId>aem-vite</artifactId>
-        <version>0.0.1</version>
+        <version>0.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
