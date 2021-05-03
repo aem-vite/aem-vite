@@ -16,7 +16,7 @@ env:
 before_install: |
   if [[ "$TRAVIS_PULL_REQUEST" = false ]]; then
     openssl aes-256-cbc -K $encrypted_d81b39e7ac43_key -iv $encrypted_d81b39e7ac43_iv -in maven-artifact-signing-key.asc.enc -out maven-artifact-signing-key.asc -d
-    gpg --import --batch maven-artifact-signing-key.asc
+    gpg --import maven-artifact-signing-key.asc
   fi
 #before_script:
 #  - nvm install '12'
