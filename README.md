@@ -5,6 +5,8 @@
 </p>
 <br/>
 
+[![Build Status](https://travis-ci.com/aem-vite/aem-vite.svg?branch=main)](https://travis-ci.com/aem-vite/aem-vite)
+
 # AEM Vite
 
 AEM Vite is a transparent handler for the next generation front end tool, [Vite](https://vitejs.dev/). Tooling can
