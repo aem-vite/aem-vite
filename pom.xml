@@ -36,6 +36,7 @@
 
     <developers>
         <developer>
+            <id>chris-shaw</id>
             <name>Chris Shaw</name>
             <email>me@cshaw.xyz</email>
             <organization>AEM Vite</organization>
@@ -866,7 +867,7 @@ Embed-Transitive: true
             <dependency>
                 <groupId>com.adobe.acs</groupId>
                 <artifactId>acs-aem-commons-bundle</artifactId>
-                <version>4.6.0</version>
+                <version>4.11.0</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>

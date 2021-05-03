@@ -6,7 +6,7 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     ["@semantic-release/git", {
-      "assets": ["CHANGELOG.md"]
+      "assets": ["CHANGELOG.md", "pom.xml"]
     }],
     "@semantic-release/github"
   ]

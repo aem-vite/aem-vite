@@ -140,6 +140,7 @@ public class ClientLibUseObject implements Use {
     /**
      * Returns the include path for the given lib and libraryType, respecting the proxy settings.
      *
+     * @param request     {@link SlingHttpServletRequest} instance
      * @param lib         {@link ClientLibrary} instance
      * @param libraryType {@link LibraryType} which is either CSS or JS
      * @param minify      {@code true} for minify, {@code false} for no minification
