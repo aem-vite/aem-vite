@@ -32,4 +32,4 @@ language: java
 notifications:
   email: false
 script:
-  - mvn clean deploy -P sign,build-extras --settings maven-settings.xml
+  - mvn clean deploy --settings maven-settings.xml
