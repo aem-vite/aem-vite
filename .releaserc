@@ -8,6 +8,15 @@
     ["@semantic-release/git", {
       "assets": ["CHANGELOG.md", "pom.xml"]
     }],
-    "@semantic-release/github"
+    ["@semantic-release/github", {
+      "assets": [
+        {
+          "path": "all/target/aem-vite.all-${nextRelease.version}.zip"
+        },
+        {
+          "path": "core/target/aem-vite.core-${nextRelease.version}.jar"
+        }
+      ]
+    }]
   ]
 }
