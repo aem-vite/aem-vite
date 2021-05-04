@@ -6,7 +6,15 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     ["@semantic-release/git", {
-      "assets": ["CHANGELOG.md", "pom.xml"]
+      "assets": [
+        "all/pom.xml",
+        "core/pom.xml",
+        "ui.apps/pom.xml",
+        "ui.apps.structure/pom.xml",
+        "ui.config/pom.xml",
+        "CHANGELOG.md",
+        "pom.xml"
+      ]
     }],
     ["@semantic-release/github", {
       "assets": [
