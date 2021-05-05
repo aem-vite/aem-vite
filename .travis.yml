@@ -20,7 +20,7 @@ before_install: |
   fi
 before_script:
   - nvm install '12'
-  - yarn global add @conveyal/maven-semantic-release @semantic-release/changelog @semantic-release/git semantic-release
+  - yarn install
 cache:
   directories:
     - $HOME/.m2

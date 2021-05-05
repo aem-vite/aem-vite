@@ -66,6 +66,9 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+### Node/npm
+node_modules
+
 ### IntelliJ ###
 .idea/
 *.iml

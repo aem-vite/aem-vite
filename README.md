@@ -21,10 +21,10 @@ Visit [aemvite.dev](https://aemvite.dev) for install instructions.
 
 The main parts are:
 
-* core: Java bundle containing all core functionality
-* ui.apps: contains the /apps parts of the project
-* ui.config: contains runmode specific OSGi configs for the project
-* all: a single content package that embeds all the compiled modules (bundles and content packages) including any
+- core: Java bundle containing all core functionality
+- ui.apps: contains the /apps parts of the project
+- ui.config: contains runmode specific OSGi configs for the project
+- all: a single content package that embeds all the compiled modules (bundles and content packages) including any
   vendor dependencies
 
 ## How to build
@@ -75,3 +75,7 @@ here https://github.com/adobe/aemanalyser-maven-plugin
 The project comes with the auto-public repository configured. To setup the repository in your Maven settings, refer to:
 
     http://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html
+
+## Contributing
+
+Before committing any changes please ensure you run `yarn install` and follow the [commit convention](./.github/commit-convention.md)
