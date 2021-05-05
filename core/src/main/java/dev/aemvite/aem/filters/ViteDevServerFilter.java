@@ -84,7 +84,7 @@ import static dev.aemvite.aem.utilities.Constants.DOCKER_INTERNAL_HOSTNAME;
 public class ViteDevServerFilter implements Filter {
     private final Logger log = LoggerFactory.getLogger(ViteDevServerFilter.class);
 
-    private final List<ViteDevServerConfig> devServerConfigurations = new LinkedList<>();
+    private final List<ViteDevServerConfig> devServerConfigurations = new ArrayList<>();
     private final List<Function<AtomicReference<String>, String>> responseCallbacks = new ArrayList<>();
 
     @Reference
