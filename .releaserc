@@ -7,13 +7,7 @@
     "@semantic-release/changelog",
     ["@semantic-release/git", {
       "assets": [
-        "all/pom.xml",
-        "core/pom.xml",
-        "ui.apps/pom.xml",
-        "ui.apps.structure/pom.xml",
-        "ui.config/pom.xml",
-        "CHANGELOG.md",
-        "pom.xml"
+        "CHANGELOG.md"
       ]
     }],
     ["@semantic-release/github", {
