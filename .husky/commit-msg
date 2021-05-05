@@ -1,4 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn commitlint --edit $1
+if [ -z ${TRAVIS+x} ]; then
+  yarn commitlint --edit $1
+fi
