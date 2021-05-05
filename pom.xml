@@ -21,7 +21,7 @@
     <groupId>dev.aemvite</groupId>
     <artifactId>aem-vite</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>AEM Vite</name>
     <description>Next generation front end tooling for AEM</description>
     <url>https:/aemvite.dev</url>
@@ -678,7 +678,7 @@ Embed-Transitive: true
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>org.osgi.annotation.bundle</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
