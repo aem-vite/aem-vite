@@ -25,6 +25,7 @@
           "path": "core/target/aem-vite.core-${nextRelease.version}.jar"
         }
       ]
-    }]
+    }],
+    "@conveyal/maven-semantic-release"
   ]
 }
