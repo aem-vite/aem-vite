@@ -61,6 +61,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -117,14 +118,14 @@ public class ViteDevServerFilter implements Filter {
         // Clear any previous callbacks to avoid memory leaks
         responseCallbacks.clear();
 
-        boolean useCapturedResponse = false;
+        AtomicBoolean useCapturedResponse = new AtomicBoolean(false);
 
-        for (ViteDevServerConfig config : devServerConfigurations) {
+        devServerConfigurations.iterator().forEachRemaining(config -> {
             if (!accepts(request, config)) {
                 log.info("Configuration does not accept this request!");
                 log.info("Content paths: {}", (Object) config.contentPaths());
 
-                continue;
+                return;
             }
 
             try {
@@ -140,18 +141,18 @@ public class ViteDevServerFilter implements Filter {
                 log.info("DevServer is not running!");
                 log.info("URL: {}", config.devServerUrl());
 
-                continue;
+                return;
             }
 
-            useCapturedResponse = true;
+            useCapturedResponse.set(true);
 
             responseCallbacks.add((content) -> handleResponseModificationForDevServer(
                     content.get(),
                     config,
                     slingRequest));
-        }
+        });
 
-        if (useCapturedResponse) {
+        if (Boolean.TRUE.equals(useCapturedResponse.get())) {
             try (BufferedHttpServletResponse capturedResponse = new BufferedHttpServletResponse(response, new StringWriter(), null)) {
                 filterChain.doFilter(request, capturedResponse);
 
