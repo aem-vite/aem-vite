@@ -56,6 +56,7 @@ public class ClientLibUseObject implements Use {
     protected ResourceResolver resourceResolver;
     protected XSSAPI xss;
 
+    @Override
     public void init(Bindings bindings) {
         final Object categoriesObject = bindings.get(CLIENTLIB_BINDINGS_CATEGORIES);
         log = (Logger) bindings.get(SlingBindings.LOG);
