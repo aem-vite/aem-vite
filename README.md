@@ -4,8 +4,11 @@
   </a>
 </p>
 <br/>
-
-[![Build Status](https://travis-ci.com/aem-vite/aem-vite.svg?branch=main)](https://travis-ci.com/aem-vite/aem-vite)
+<p align="center">
+  <a href="https://travis-ci.com/aem-vite/aem-vite"><img src="https://travis-ci.com/aem-vite/aem-vite.svg?branch=main" alt="travis ci build"></a>
+  <a href="https://mvnrepository.com/artifact/dev.aemvite/aem-vite.all"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/dev.aemvite/aem-vite"></a>
+</p>
+<br/>
 
 # AEM Vite
 
