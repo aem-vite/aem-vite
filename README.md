@@ -11,6 +11,7 @@
   <a href="https://github.com/aem-vite/aem-vite/pulls"><img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/aem-vite/aem-vite"></a>
   <a href="https://mvnrepository.com/artifact/dev.aemvite/aem-vite.all"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/dev.aemvite/aem-vite"></a>
   <a href="https://github.com/aem-vite/aem-vite/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/Licence-Apache%202.0-blue.svg"></a>
+  <a href="https://sonarcloud.io/dashboard?id=aem-vite_aem-vite"><img alt="Sonar Quality Gate" src="https://img.shields.io/sonar/quality_gate/aem-vite_aem-vite?server=https%3A%2F%2Fsonarcloud.io"></a>
 </p>
 <br/>
 
