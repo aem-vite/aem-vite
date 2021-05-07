@@ -102,7 +102,7 @@
         <sonar.organization>aem-vite</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
      
-        <skip.gpg>false</skip.gpg>
+        <skip.gpg>true</skip.gpg>
     </properties>
 
     <build>
