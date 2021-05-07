@@ -13,7 +13,9 @@ on:
 
 jobs:
   quality:
+    name: Quality
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
         with:
