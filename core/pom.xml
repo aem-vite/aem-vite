@@ -68,6 +68,7 @@ com.adobe.acs.commons.util;version=0.0.0,\
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>bnd-baseline-maven-plugin</artifactId>
                 <configuration>
+                    <continueOnError>true</continueOnError>
                     <failOnMissing>false</failOnMissing>
                 </configuration>
                 <executions>
