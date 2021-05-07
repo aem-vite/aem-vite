@@ -59,7 +59,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -108,9 +107,10 @@ public class ViteDevServerFilter implements Filter {
     }
 
     @Override
-    public void doFilter(final ServletRequest servletRequest,
-                         final ServletResponse servletResponse,
-                         final FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(
+            final ServletRequest servletRequest,
+            final ServletResponse servletResponse,
+            final FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         final SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
@@ -133,7 +133,7 @@ public class ViteDevServerFilter implements Filter {
                 int statusCode = devServerActive(devServerUrl);
 
                 if (statusCode < 200 || statusCode >= 400) {
-                    throw new Exception("Unable to connect with the Vite DevServer... " + devServerUrl);
+                    throw new Error("Unable to connect with the Vite DevServer... " + devServerUrl);
                 }
 
                 log.info("Successfully connected to Vite DevServer... {} (status code: {})", devServerUrl, statusCode);
@@ -146,36 +146,14 @@ public class ViteDevServerFilter implements Filter {
 
             useCapturedResponse.set(true);
 
-            responseCallbacks.add((content) -> handleResponseModificationForDevServer(
+            responseCallbacks.add(content -> handleResponseModificationForDevServer(
                     content.get(),
                     config,
                     slingRequest));
         });
 
         if (Boolean.TRUE.equals(useCapturedResponse.get())) {
-            try (BufferedHttpServletResponse capturedResponse = new BufferedHttpServletResponse(response, new StringWriter(), null)) {
-                filterChain.doFilter(request, capturedResponse);
-
-                final String contents = capturedResponse.getBufferedServletOutput().getWriteMethod() == BufferedServletOutput.ResponseWriteMethod.WRITER
-                        ? capturedResponse.getBufferedServletOutput().getBufferedString()
-                        : null;
-
-                if (contents != null && StringUtils.contains(response.getContentType(), "html")) {
-                    if (contents.contains("</head>") && contents.contains("</body>")) {
-                        // prevent the captured response from being given out a 2nd time via the implicit close()
-                        capturedResponse.setFlushBufferOnClose(false);
-
-                        final PrintWriter printWriter = response.getWriter();
-
-                        AtomicReference<String> contentsToModify = new AtomicReference<>(
-                                String.copyValueOf(contents.toCharArray()));
-
-                        responseCallbacks.forEach((callback) -> contentsToModify.set(callback.apply(contentsToModify)));
-
-                        printWriter.write(contentsToModify.get());
-                    }
-                }
-            }
+            writeCapturedResponse(request, response, filterChain);
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
@@ -189,6 +167,36 @@ public class ViteDevServerFilter implements Filter {
     @Override
     public void destroy() {
         log.info("Vite DevServer filter has been destroyed.");
+    }
+
+    private void writeCapturedResponse(
+            final HttpServletRequest request,
+            final HttpServletResponse response,
+            final FilterChain filterChain) throws IOException, ServletException {
+        try (BufferedHttpServletResponse capturedResponse = new BufferedHttpServletResponse(response, new StringWriter(), null)) {
+            filterChain.doFilter(request, capturedResponse);
+
+            final String contents = capturedResponse.getBufferedServletOutput().getWriteMethod() == BufferedServletOutput.ResponseWriteMethod.WRITER
+                    ? capturedResponse.getBufferedServletOutput().getBufferedString()
+                    : null;
+
+            if (contents != null
+                    && StringUtils.contains(response.getContentType(), "html")
+                    && contents.contains("</head>")
+                    && contents.contains("</body>")) {
+                // prevent the captured response from being given out a 2nd time via the implicit close()
+                capturedResponse.setFlushBufferOnClose(false);
+
+                final PrintWriter printWriter = response.getWriter();
+
+                AtomicReference<String> contentsToModify = new AtomicReference<>(
+                        String.copyValueOf(contents.toCharArray()));
+
+                responseCallbacks.forEach(callback -> contentsToModify.set(callback.apply(contentsToModify)));
+
+                printWriter.write(contentsToModify.get());
+            }
+        }
     }
 
     private String getDevServerUrl(final ViteDevServerConfig config) {
@@ -223,18 +231,12 @@ public class ViteDevServerFilter implements Filter {
     }
 
     private boolean accepts(final HttpServletRequest request, final ViteDevServerConfig config) {
-        if (StringUtils.equals(request.getHeader("X-Requested-With"), "XMLHttpRequest")) {
-            // Do not inject into XHR requests
-            return false;
-        } else if (!acceptsContentPath(request, config)) {
-            // Do not inject into content paths that haven't been specified
-            return false;
-        } else if (!config.automaticInjection() && !requestHasManualInjectionSelector(request, config)) {
-            // Only allow injection when a certain selector is present
-            return false;
-        }
-
-        return true;
+        // 1. Do not inject into XHR requests
+        // 2. Do not inject into content paths that haven't been specified
+        // 3. Only allow injection when a certain selector is present
+        return StringUtils.equals(request.getHeader("X-Requested-With"), "XMLHttpRequest")
+                || !acceptsContentPath(request, config)
+                || !(config.automaticInjection() && requestHasManualInjectionSelector(request, config));
     }
 
     private boolean acceptsContentPath(final HttpServletRequest request, final ViteDevServerConfig config) {
@@ -295,10 +297,10 @@ public class ViteDevServerFilter implements Filter {
             clientScripts.append(CLIENT_HTML_REACT_SCRIPT);
         }
 
-        clientScripts.append(String.format("%s\n%s", CLIENT_HTML_SCRIPT, String.join("\n", entryPoints))
-                .replaceAll("\\$devServer", config.devServerUrl()));
+        clientScripts.append(String.format("%s%n%s", CLIENT_HTML_SCRIPT, String.join("\n", entryPoints))
+                .replace("$devServer", config.devServerUrl()));
 
-        return BODY_END_TAG_PATTERN.matcher(content).replaceFirst(String.format("%s\n\n%s", clientScripts, BODY_END_TAG));
+        return BODY_END_TAG_PATTERN.matcher(content).replaceFirst(String.format("%s%n%n%s", clientScripts, BODY_END_TAG));
     }
 
     private Collection<String> getClientLibraryIncludes(

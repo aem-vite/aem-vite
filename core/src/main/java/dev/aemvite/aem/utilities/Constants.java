@@ -56,6 +56,7 @@ public class Constants {
 
     public static final String DOCKER_INTERNAL_HOSTNAME = "host.docker.internal";
 
-    public Constants() {
+    private Constants() {
+        // Does nothing as this class only contains static constants
     }
 }

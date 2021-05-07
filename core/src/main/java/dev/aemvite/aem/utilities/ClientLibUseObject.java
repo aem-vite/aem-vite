@@ -59,30 +59,14 @@ public class ClientLibUseObject implements Use {
     @Override
     public void init(Bindings bindings) {
         final Object categoriesObject = bindings.get(CLIENTLIB_BINDINGS_CATEGORIES);
+
         log = (Logger) bindings.get(SlingBindings.LOG);
 
         resource = (Resource) bindings.get("resource");
         resourceResolver = resource.getResourceResolver();
 
         if (categoriesObject != null) {
-            if (categoriesObject instanceof Object[]) {
-                Object[] categoriesArray = (Object[]) categoriesObject;
-                categories = new String[categoriesArray.length];
-
-                int i = 0;
-                for (Object o : categoriesArray) {
-                    if (o instanceof String) {
-                        categories[i++] = ((String) o).trim();
-                    }
-                }
-            } else if (categoriesObject instanceof String) {
-                categories = ((String) categoriesObject).split(",");
-
-                int i = 0;
-                for (String c : categories) {
-                    categories[i++] = c.trim();
-                }
-            }
+            getCategoriesFromBinding(categoriesObject);
 
             if (categories != null && categories.length > 0) {
                 mode = (String) bindings.get(CLIENTLIB_BINDINGS_MODE);
@@ -116,6 +100,32 @@ public class ClientLibUseObject implements Use {
         }
 
         return sw.toString();
+    }
+
+    /**
+     * Parse through the ClientLib categories from the HTL binding.
+     *
+     * @param categoriesObject list of categories
+     */
+    private void getCategoriesFromBinding(final Object categoriesObject) {
+        if (categoriesObject instanceof Object[]) {
+            Object[] categoriesArray = (Object[]) categoriesObject;
+            categories = new String[categoriesArray.length];
+
+            int i = 0;
+            for (Object o : categoriesArray) {
+                if (o instanceof String) {
+                    categories[i++] = ((String) o).trim();
+                }
+            }
+        } else if (categoriesObject instanceof String) {
+            categories = ((String) categoriesObject).split(",");
+
+            int i = 0;
+            for (String c : categories) {
+                categories[i++] = c.trim();
+            }
+        }
     }
 
     /**
