@@ -99,7 +99,6 @@
         <meta.provider.name>AEM Vite</meta.provider.name>
         <meta.provider.url>https://github.com/aem-vite/aem-vite</meta.provider.url>
      
-        <sonar.projectKey>dev.aemvite:aem-vite</sonar.projectKey>
         <sonar.organization>aem-vite</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
      
