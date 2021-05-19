@@ -37,7 +37,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build
-        run: mvn -B package -DskipTests
+        run: mvn -B package -DskipTests -Dgpg.skip
 
       - name: Test core
-        run: mvn -B test --file core/pom.xml
+        run: mvn -B -Dgpg.skip test --file core/pom.xml
