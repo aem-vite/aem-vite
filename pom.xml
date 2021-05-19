@@ -24,7 +24,7 @@
     <version>1.0.2-SNAPSHOT</version>
     <name>AEM Vite</name>
     <description>Next generation front end tooling for AEM</description>
-    <url>https:/aemvite.dev</url>
+    <url>https://aemvite.dev</url>
 
     <licenses>
         <license>
