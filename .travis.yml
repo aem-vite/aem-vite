@@ -13,7 +13,7 @@ before_install: |
     gpg --import maven-artifact-signing-key.asc
   fi
 
-  export MAVEN_OPTS="${MAVEN_OPTS} -Dskip.gpg=false"
+  echo "MAVEN_OPTS='-Dskip.gpg=false'" > ~/.mavenrc
 before_script:
   - nvm install '12'
   - yarn install
