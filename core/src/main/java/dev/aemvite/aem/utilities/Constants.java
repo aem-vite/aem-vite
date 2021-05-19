@@ -36,8 +36,8 @@ public class Constants {
     public static final String CLIENT_HTML_REACT_SCRIPT = "<script type=\"module\">\n" +
             "  import RefreshRuntime from '$devServer/@react-refresh'\n" +
             "  RefreshRuntime.injectIntoGlobalHook(window)\n" +
-            "  window.$RefreshReg$ = () => {}\n" +
-            "  window.$RefreshSig$ = () => (type) => type\n" +
+            "  window.\\$RefreshReg\\$ = () => {}\n" +
+            "  window.\\$RefreshSig\\$ = () => (type) => type\n" +
             "  window.__vite_plugin_react_preamble_installed__ = true\n" +
             "</script>";
 

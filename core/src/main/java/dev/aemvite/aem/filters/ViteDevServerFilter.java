@@ -297,10 +297,12 @@ public class ViteDevServerFilter implements Filter {
             clientScripts.append(CLIENT_HTML_REACT_SCRIPT);
         }
 
-        clientScripts.append(String.format("%s%n%s", CLIENT_HTML_SCRIPT, String.join("\n", entryPoints))
-                .replace("$devServer", config.devServerUrl()));
+        clientScripts.append(String.format("%s%n%s", CLIENT_HTML_SCRIPT, String.join("\n", entryPoints)));
 
-        return BODY_END_TAG_PATTERN.matcher(content).replaceFirst(String.format("%s%n%n%s", clientScripts, BODY_END_TAG));
+        return BODY_END_TAG_PATTERN.matcher(content).replaceFirst(String.format(
+                "%s%n%n%s",
+                clientScripts.toString().replace("$devServer", config.devServerUrl()),
+                BODY_END_TAG));
     }
 
     private Collection<String> getClientLibraryIncludes(
