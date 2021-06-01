@@ -1,3 +1,22 @@
+# [2.0.0](https://github.com/aem-vite/aem-vite/compare/v1.0.2...v2.0.0) (2021-06-01)
+
+
+### Features
+
+* **core:** replace AEM entry with ES6 module entry ([9d29c48](https://github.com/aem-vite/aem-vite/commit/9d29c4896e23275ad62f74f8060f8b055a5996a3))
+
+
+### BREAKING CHANGES
+
+* **core:** New ClientLib handling for js.txt
+
+The js.txt file now requires the entry file path rather than the conventional AEM `#base` statement and file names/paths. See the below example.
+```
+resources/js/main.js
+```
+
+Please note that only a single entry is supported at this time with the possibility of multiple coming in the near future.
+
 ## [1.0.2](https://github.com/aem-vite/aem-vite/compare/v1.0.1...v1.0.2) (2021-05-19)
 
 
