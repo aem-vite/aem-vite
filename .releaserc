@@ -13,10 +13,10 @@
     ["@semantic-release/github", {
       "assets": [
         {
-          "path": "all/target/aem-vite.all-${nextRelease.version}.zip"
+          "path": "all/target/aem-vite.all-<%= nextRelease.version %>.zip"
         },
         {
-          "path": "core/target/aem-vite.core-${nextRelease.version}.jar"
+          "path": "core/target/aem-vite.core-<%= nextRelease.version %>.jar"
         }
       ]
     }],
