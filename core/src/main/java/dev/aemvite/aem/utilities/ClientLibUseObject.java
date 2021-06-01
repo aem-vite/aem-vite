@@ -18,6 +18,7 @@ package dev.aemvite.aem.utilities;
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
 import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
 import com.adobe.granite.ui.clientlibs.LibraryType;
+import com.day.cq.commons.jcr.JcrConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -29,7 +30,11 @@ import org.apache.sling.scripting.sightly.pojo.Use;
 import org.apache.sling.xss.XSSAPI;
 import org.slf4j.Logger;
 
+import javax.jcr.Node;
 import javax.script.Bindings;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
@@ -140,6 +145,33 @@ public class ClientLibUseObject implements Use {
 
             for (ClientLibrary lib : libs) {
                 String path = getIncludePath(request, lib, libraryType, htmlLibraryManager.isMinifyEnabled());
+
+                if (libraryType.equals(LibraryType.JS) && clientlibHasProperty(lib, CLIENTLIB_PROPERTY_ESMODULE)) {
+                    Resource bundleResource = resourceResolver.resolve(lib.getThemeLibId() + "/js.txt");
+
+                    if (!ResourceUtil.isNonExistingResource(bundleResource)) {
+                        Node bundleNode = bundleResource.adaptTo(Node.class);
+
+                        try {
+                            InputStream bundleInputStream = bundleNode.getNode(JcrConstants.JCR_CONTENT)
+                                    .getProperty(JcrConstants.JCR_DATA)
+                                    .getBinary()
+                                    .getStream();
+
+                            BufferedReader br = new BufferedReader(new InputStreamReader(bundleInputStream));
+                            StringBuilder sb = new StringBuilder();
+
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                sb.append(line);
+                            }
+
+                            path = path.replace(LibraryType.JS.extension, "/" + sb.toString().trim());
+                        } catch (Exception e) {
+                            log.error("Unable to open stream and/or parse js.txt file for: {}", bundleResource.getPath());
+                        }
+                    }
+                }
 
                 if (path != null) {
                     generateOutputForClientLib(lib, path, libraryType, out);
