@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/aem-vite/aem-vite/compare/v2.0.0...v2.0.1) (2021-06-02)
+
+
+### Bug Fixes
+
+* resolved some ClientLib paths not being removed ([f19abd0](https://github.com/aem-vite/aem-vite/commit/f19abd0d52b270c04fc74ab56a698da151e4a398))
+
 # [2.0.0](https://github.com/aem-vite/aem-vite/compare/v1.0.2...v2.0.0) (2021-06-01)
 
 
