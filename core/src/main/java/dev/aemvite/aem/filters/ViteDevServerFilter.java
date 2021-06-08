@@ -133,7 +133,7 @@ public class ViteDevServerFilter implements Filter {
                 int statusCode = devServerActive(devServerUrl);
 
                 if (statusCode < 200 || statusCode >= 400) {
-                    throw new Error("Unable to connect with the Vite DevServer... " + devServerUrl);
+                    throw new Exception("Unable to connect with the Vite DevServer... " + devServerUrl);
                 }
 
                 log.info("Successfully connected to Vite DevServer... {} (status code: {})", devServerUrl, statusCode);
