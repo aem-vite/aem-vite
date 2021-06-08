@@ -232,11 +232,13 @@ public class ViteDevServerFilter implements Filter {
 
     private boolean accepts(final HttpServletRequest request, final ViteDevServerConfig config) {
         // 1. Do not inject into XHR requests
-        // 2. Do not inject into content paths that haven't been specified
-        // 3. Only allow injection when a certain selector is present
-        return StringUtils.equals(request.getHeader("X-Requested-With"), "XMLHttpRequest")
-                || !acceptsContentPath(request, config)
-                || !(config.automaticInjection() && requestHasManualInjectionSelector(request, config));
+        // 2. Only accept paths that begin with '/content'
+        // 3. Do not inject into content paths that haven't been specified
+        // 4. Only allow injection when a certain selector is present
+        return !StringUtils.equals(request.getHeader("X-Requested-With"), "XMLHttpRequest")
+                && request.getRequestURI().startsWith("/content")
+                && acceptsContentPath(request, config)
+                && (config.automaticInjection() || requestHasManualInjectionSelector(request, config));
     }
 
     private boolean acceptsContentPath(final HttpServletRequest request, final ViteDevServerConfig config) {
