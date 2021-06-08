@@ -271,12 +271,20 @@ public class ViteDevServerFilter implements Filter {
         try {
             Collection<String> includes = getClientLibraryIncludes(config.clientlibCategories(), slingRequest);
 
+            String originalContent = content;
+
             for (String include : includes) {
                 Matcher includeMatches = getClientLibPattern(include).matcher(content);
 
                 while (includeMatches.find()) {
                     content = content.replaceAll(includeMatches.group(), StringUtils.EMPTY);
                 }
+            }
+
+            // If nothing about the content changed after going through any matching ClientLibs
+            // includes, then simply return the existing content.
+            if (originalContent.equals(content)) {
+                return content;
             }
         } catch (IOException ex) {
             log.warn("Unable to modify response as the ClientLibs generator returned an exception!", ex);
