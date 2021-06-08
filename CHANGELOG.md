@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/aem-vite/aem-vite/compare/v2.0.1...v2.0.2) (2021-06-08)
+
+
+### Bug Fixes
+
+* resolved issues with the `accepts` logic ([3fca432](https://github.com/aem-vite/aem-vite/commit/3fca43201088cc7a7ff2eea9ea0664a183deca64))
+
 ## [2.0.1](https://github.com/aem-vite/aem-vite/compare/v2.0.0...v2.0.1) (2021-06-02)
 
 
