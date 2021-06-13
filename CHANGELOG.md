@@ -1,3 +1,12 @@
+## [2.0.3](https://github.com/aem-vite/aem-vite/compare/v2.0.2...v2.0.3) (2021-06-13)
+
+
+### Bug Fixes
+
+* check if content changes after ClientLib removals ([75b19c4](https://github.com/aem-vite/aem-vite/commit/75b19c4ed38cc692ccf81aa86e7d958bb9a1e65a))
+* pages not display due to error handling ([024aaec](https://github.com/aem-vite/aem-vite/commit/024aaec34aff567d51243a33a036f25ce8eaa561))
+* prevent extra script/link tags been removed ([a59f698](https://github.com/aem-vite/aem-vite/commit/a59f698614e7d0705ab1594a0911d354d655a49c))
+
 ## [2.0.2](https://github.com/aem-vite/aem-vite/compare/v2.0.1...v2.0.2) (2021-06-08)
 
 
