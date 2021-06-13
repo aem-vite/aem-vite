@@ -326,19 +326,19 @@ public class ViteDevServerFilter implements Filter {
         Matcher includeMatches = getClientLibPattern(null).matcher(writer.toString().trim());
 
         while (includeMatches.find()) {
-            includes.add(includeMatches.group(1).replaceAll("\\.(css|js)$", StringUtils.EMPTY));
+            includes.add(includeMatches.group(3).replaceAll("\\.(css|js)$", StringUtils.EMPTY));
         }
 
         return includes;
     }
 
     private Pattern getClientLibPattern(String customExpression) {
-        String extensionPattern = "(.*\\.(?:css|js))";
+        if (StringUtils.isNotEmpty(customExpression)) {
+            return Pattern.compile(String.format(
+                    "<(?:script|link).*(?:src|href)=\"%s\\.(?:css|js)\"(([\\w+])=['\\\"]([^'\\\"]*)['\\\"][^>]*>|[^>]*><\\/script>|>)",
+                    customExpression));
+        }
 
-        String expression = StringUtils.isNotEmpty(customExpression)
-                ? customExpression + extensionPattern
-                : extensionPattern;
-
-        return Pattern.compile(String.format("<(?:script|link).*(?:src|href)=\"%s\".*>", expression));
+        return Pattern.compile("<(link|script)(?:.*(href|src)=['\\\"]([^'\\\"]*)['\\\"][^>]*>|[^>]*>(<\\/script>)?)");
     }
 }
