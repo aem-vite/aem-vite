@@ -8,7 +8,7 @@
     <parent>
         <groupId>dev.aemvite</groupId>
         <artifactId>aem-vite</artifactId>
-        <version>2.0.4-SNAPSHOT</version>
+        <version>2.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
