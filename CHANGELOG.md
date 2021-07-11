@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/aem-vite/aem-vite/compare/v2.0.3...v2.1.0) (2021-07-11)
+
+
+### Features
+
+* added support for JCR resolver access via 'aem-vite-clientlibs' ([acffe47](https://github.com/aem-vite/aem-vite/commit/acffe4787f873559c3460dca6b5f2bb9132be4ff))
+
 ## [2.0.3](https://github.com/aem-vite/aem-vite/compare/v2.0.2...v2.0.3) (2021-06-13)
 
 
