@@ -69,6 +69,12 @@
                             <type>zip</type>
                             <target>/apps/aem-vite-packages/application/install</target>
                         </embedded>
+                        <embedded>
+                            <groupId>dev.aemvite</groupId>
+                            <artifactId>aem-vite.ui.content</artifactId>
+                            <type>zip</type>
+                            <target>/apps/aem-vite-packages/application/install</target>
+                        </embedded>
                     </embeddeds>
                 </configuration>
             </plugin>
@@ -168,6 +174,12 @@
         <dependency>
             <groupId>dev.aemvite</groupId>
             <artifactId>aem-vite.ui.config</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>dev.aemvite</groupId>
+            <artifactId>aem-vite.ui.content</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
