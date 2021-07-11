@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/aem-vite/aem-vite/compare/v2.1.0...v2.1.1) (2021-07-11)
+
+
+### Bug Fixes
+
+* ensure aem-vite-clientlibs user gets installed ([9aa0604](https://github.com/aem-vite/aem-vite/commit/9aa060499cf2c04bcf1e38329ac8c5bcd2986fc5))
+
 # [2.1.0](https://github.com/aem-vite/aem-vite/compare/v2.0.3...v2.1.0) (2021-07-11)
 
 
