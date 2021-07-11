@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:rep="internal"
+          jcr:mixinTypes="[rep:AccessControllable]"
+          jcr:primaryType="rep:SystemUser"
+          jcr:uuid="6a96d6cd-df4f-3bd4-aed4-9cffde91a6be"
+          rep:authorizableId="aem-vite-clientlibs"
+          rep:principalName="aem-vite-clientlibs"/>

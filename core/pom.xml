@@ -230,5 +230,9 @@ com.adobe.acs.commons.util;version=0.0.0,\
             <artifactId>acs-aem-commons-bundle</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>biz.aQute.bnd</groupId>
+            <artifactId>bndlib</artifactId>
+        </dependency>
     </dependencies>
 </project>

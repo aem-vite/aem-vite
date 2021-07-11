@@ -15,24 +15,27 @@
  */
 package dev.aemvite.aem.utilities;
 
+import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
 import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
 import com.adobe.granite.ui.clientlibs.LibraryType;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.apache.sling.scripting.sightly.pojo.Use;
 import org.apache.sling.xss.XSSAPI;
 import org.slf4j.Logger;
 
-import javax.script.Bindings;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_CATEGORIES;
 import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_ESMODULE;
@@ -44,7 +47,7 @@ import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_PROPERTY_NOMODULE;
 import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_TAG_JAVASCRIPT;
 import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_TAG_STYLESHEET;
 
-public class ClientLibUseObject implements Use {
+public class ClientLibUseObject extends WCMUsePojo {
     protected String[] categories;
     protected String mode;
     protected Boolean esModule;
@@ -56,23 +59,35 @@ public class ClientLibUseObject implements Use {
     protected ResourceResolver resourceResolver;
     protected XSSAPI xss;
 
+    private static final Map<String, Object> AUTH_INFO =
+            Collections.singletonMap(ResourceResolverFactory.SUBSERVICE, "aem-vite-clientlibs");
+
     @Override
-    public void init(Bindings bindings) {
-        final Object categoriesObject = bindings.get(CLIENTLIB_BINDINGS_CATEGORIES);
+    public void activate() {
+        final Object categoriesObject = get(CLIENTLIB_BINDINGS_CATEGORIES, Object.class);
 
-        log = (Logger) bindings.get(SlingBindings.LOG);
+        log = get(SlingBindings.LOG, Logger.class);
+        resource = get("resource", Resource.class);
 
-        resource = (Resource) bindings.get("resource");
-        resourceResolver = resource.getResourceResolver();
+        try {
+            ResourceResolverFactory resolverFactory = getSlingScriptHelper().getService(ResourceResolverFactory.class);
+
+            resourceResolver = resolverFactory.getServiceResourceResolver(AUTH_INFO);
+        } catch (LoginException | NullPointerException ex) {
+            log.error("Unable to retrieve resource resolver for 'aem-vite-clientlibs'. Falling back to to request resolver.");
+            log.error(String.valueOf(ex));
+
+            resourceResolver = request.getResourceResolver();
+        }
 
         if (categoriesObject != null) {
             getCategoriesFromBinding(categoriesObject);
 
             if (categories != null && categories.length > 0) {
-                mode = (String) bindings.get(CLIENTLIB_BINDINGS_MODE);
-                esModule = (Boolean) bindings.getOrDefault(CLIENTLIB_BINDINGS_ESMODULE, false);
-                request = (SlingHttpServletRequest) bindings.get(SlingBindings.REQUEST);
-                SlingScriptHelper sling = (SlingScriptHelper) bindings.get(SlingBindings.SLING);
+                mode = get(CLIENTLIB_BINDINGS_MODE, String.class);
+                esModule = get(CLIENTLIB_BINDINGS_ESMODULE, Boolean.class);
+                request = get(SlingBindings.REQUEST, SlingHttpServletRequest.class);
+                SlingScriptHelper sling = get(SlingBindings.SLING, SlingScriptHelper.class);
                 htmlLibraryManager = sling.getService(HtmlLibraryManager.class);
                 xss = sling.getService(XSSAPI.class);
             }
