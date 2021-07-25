@@ -68,6 +68,7 @@ public class ClientLibUseObject extends WCMUsePojo {
 
         log = get(SlingBindings.LOG, Logger.class);
         resource = get("resource", Resource.class);
+        request = get(SlingBindings.REQUEST, SlingHttpServletRequest.class);
 
         try {
             ResourceResolverFactory resolverFactory = getSlingScriptHelper().getService(ResourceResolverFactory.class);
@@ -86,7 +87,6 @@ public class ClientLibUseObject extends WCMUsePojo {
             if (categories != null && categories.length > 0) {
                 mode = get(CLIENTLIB_BINDINGS_MODE, String.class);
                 esModule = get(CLIENTLIB_BINDINGS_ESMODULE, Boolean.class);
-                request = get(SlingBindings.REQUEST, SlingHttpServletRequest.class);
                 SlingScriptHelper sling = get(SlingBindings.SLING, SlingScriptHelper.class);
                 htmlLibraryManager = sling.getService(HtmlLibraryManager.class);
                 xss = sling.getService(XSSAPI.class);
