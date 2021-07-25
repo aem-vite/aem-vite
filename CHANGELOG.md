@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/aem-vite/aem-vite/compare/v2.1.1...v2.1.2) (2021-07-25)
+
+
+### Bug Fixes
+
+* ensure fallback resource resolver is available ([830c660](https://github.com/aem-vite/aem-vite/commit/830c66034de3217fd1dfb27dbd45e2663a056f41))
+
 ## [2.1.1](https://github.com/aem-vite/aem-vite/compare/v2.1.0...v2.1.1) (2021-07-11)
 
 
