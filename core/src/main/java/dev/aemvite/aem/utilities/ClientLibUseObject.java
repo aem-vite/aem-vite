@@ -151,7 +151,7 @@ public class ClientLibUseObject extends WCMUsePojo {
      */
     private void includeLibraries(final PrintWriter out, final LibraryType libraryType) {
         if (htmlLibraryManager != null && libraryType != null && xss != null) {
-            Collection<ClientLibrary> libs = htmlLibraryManager.getLibraries(categories, libraryType, false, false);
+            Collection<ClientLibrary> libs = htmlLibraryManager.getLibraries(categories, libraryType, false, true);
 
             for (ClientLibrary lib : libs) {
                 String path = getIncludePath(request, lib, libraryType, htmlLibraryManager.isMinifyEnabled());

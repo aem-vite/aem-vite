@@ -41,8 +41,8 @@ public class Constants {
             "  window.__vite_plugin_react_preamble_installed__ = true\n" +
             "</script>";
 
-    public static final String CLIENTLIB_TAG_JAVASCRIPT = "<script src=\"%s\"%s></script>";
-    public static final String CLIENTLIB_TAG_STYLESHEET = "<link rel=\"stylesheet\" href=\"%s\"%s>";
+    public static final String CLIENTLIB_TAG_JAVASCRIPT = "<script src=\"%s\"%s></script>\n";
+    public static final String CLIENTLIB_TAG_STYLESHEET = "<link rel=\"stylesheet\" href=\"%s\"%s>\n";
 
     public static final String CLIENTLIB_BINDINGS_CATEGORIES = "categories";
     public static final String CLIENTLIB_BINDINGS_MODE = "mode";
