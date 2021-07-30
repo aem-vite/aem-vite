@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/aem-vite/aem-vite/compare/v2.1.2...v2.1.3) (2021-07-30)
+
+
+### Bug Fixes
+
+* updated `getLibraries` execute to use `transitive` resolution ([33b0edf](https://github.com/aem-vite/aem-vite/commit/33b0edf3fa077dfc0940b7473aee888c51818994))
+
 ## [2.1.2](https://github.com/aem-vite/aem-vite/compare/v2.1.1...v2.1.2) (2021-07-25)
 
 
