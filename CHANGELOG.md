@@ -1,3 +1,10 @@
+## [2.1.4](https://github.com/aem-vite/aem-vite/compare/v2.1.3...v2.1.4) (2021-09-22)
+
+
+### Bug Fixes
+
+* switched from principal users to single user mapping ([1c66f00](https://github.com/aem-vite/aem-vite/commit/1c66f008f7aa9655004b568cd8dea3da77b4b0e9))
+
 ## [2.1.3](https://github.com/aem-vite/aem-vite/compare/v2.1.2...v2.1.3) (2021-07-30)
 
 
