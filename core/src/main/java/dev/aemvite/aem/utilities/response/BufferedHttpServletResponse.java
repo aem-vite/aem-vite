@@ -77,6 +77,8 @@ public class BufferedHttpServletResponse extends HttpServletResponseWrapper impl
 
     /**
      * Calls {@link BufferedServletOutput#setFlushBufferOnClose(boolean)}.
+     *
+     * @param flushBufferOnClose flush the buffer when closing the stream?
      */
     public void setFlushBufferOnClose(boolean flushBufferOnClose) {
         bufferedOutput.setFlushBufferOnClose(flushBufferOnClose);

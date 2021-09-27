@@ -179,7 +179,7 @@ public final class BufferedServletOutput {
      * Influences the behavior of the buffered data during calling {@link #close()}.
      * If {@code flushBufferOnClose} is {@code true} (default setting) the buffer is flushed to the wrapped response, otherwise the buffer is discarded.
      *
-     * @param flushBufferOnClose
+     * @param flushBufferOnClose flush the buffer when closing the stream?
      */
     public void setFlushBufferOnClose(boolean flushBufferOnClose) {
         this.flushBufferOnClose = flushBufferOnClose;
@@ -188,8 +188,6 @@ public final class BufferedServletOutput {
     /**
      * Closing leads to flushing the buffered output stream or writer to the underlying/wrapped response but only in case {@link #flushBufferOnClose} is set to {@code true}.
      * Also this will automatically commit the response in case {@link #flushBuffer} has been called previously!
-     *
-     * @throws IOException
      */
     void close() throws IOException {
         if (flushBufferOnClose) {
