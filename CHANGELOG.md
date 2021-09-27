@@ -1,3 +1,5 @@
+# [2.2.0](https://github.com/aem-vite/aem-vite/compare/v2.1.5...v2.2.0) (2021-09-27)
+
 ## [2.1.5](https://github.com/aem-vite/aem-vite/compare/v2.1.4...v2.1.5) (2021-09-27)
 
 
