@@ -1,3 +1,10 @@
+## [2.1.5](https://github.com/aem-vite/aem-vite/compare/v2.1.4...v2.1.5) (2021-09-27)
+
+
+### Bug Fixes
+
+* resolve user mapping for precompiled files ([c8bb838](https://github.com/aem-vite/aem-vite/commit/c8bb8387720496dbb4b5ea1eb625dea213476bf9))
+
 ## [2.1.4](https://github.com/aem-vite/aem-vite/compare/v2.1.3...v2.1.4) (2021-09-22)
 
 
