@@ -21,7 +21,7 @@
     <groupId>dev.aemvite</groupId>
     <artifactId>aem-vite</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.5-SNAPSHOT</version>
+    <version>2.1.5</version>
     <name>AEM Vite</name>
     <description>Next generation front end tooling for AEM</description>
     <url>https://aemvite.dev</url>
