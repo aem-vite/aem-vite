@@ -144,6 +144,15 @@ public class ClientLibUseObject extends WCMUsePojo {
     }
 
     /**
+     * Retrieve the parsed categories list.
+     *
+     * @return a list of ClientLib categories
+     */
+    public String[] getCategories() {
+        return categories;
+    }
+
+    /**
      * Construct the HTML markup for the script and link elements.
      *
      * @param out         {@link PrintWriter} object responsible for writing the HTML

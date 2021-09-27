@@ -15,10 +15,10 @@
  */
 package dev.aemvite.aem.filters;
 
-import com.adobe.acs.commons.util.BufferedHttpServletResponse;
-import com.adobe.acs.commons.util.BufferedServletOutput;
 import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
 import dev.aemvite.aem.services.ViteDevServerConfig;
+import dev.aemvite.aem.utilities.response.BufferedHttpServletResponse;
+import dev.aemvite.aem.utilities.response.BufferedServletOutput;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.config.RequestConfig;
@@ -79,7 +79,7 @@ import static dev.aemvite.aem.utilities.Constants.DOCKER_INTERNAL_HOSTNAME;
         scope = SlingServletFilterScope.REQUEST
 )
 @ServiceDescription("Vite DevServer script injection filter.")
-@ServiceVendor("Chris Shaw")
+@ServiceVendor("AEM Vite")
 public class ViteDevServerFilter implements Filter {
     private final Logger log = LoggerFactory.getLogger(ViteDevServerFilter.class);
 

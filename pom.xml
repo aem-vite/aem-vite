@@ -868,12 +868,6 @@ Embed-Transitive: true
             </dependency>
             <!-- Other -->
             <dependency>
-                <groupId>com.adobe.acs</groupId>
-                <artifactId>acs-aem-commons-bundle</artifactId>
-                <version>4.11.0</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-imaging</artifactId>
                 <version>1.0-alpha2</version>

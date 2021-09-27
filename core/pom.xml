@@ -57,7 +57,6 @@
 Import-Package: \
 com.adobe.cq.commerce.*;resolution:=optional,\
 javax.annotation;version=0.0.0,\
-com.adobe.acs.commons.util;version=0.0.0,\
 *
                                 ]]></bnd>
                         </configuration>
@@ -225,11 +224,6 @@ com.adobe.acs.commons.util;version=0.0.0,\
             <scope>test</scope>
         </dependency>
         <!-- Other -->
-        <dependency>
-            <groupId>com.adobe.acs</groupId>
-            <artifactId>acs-aem-commons-bundle</artifactId>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>biz.aQute.bnd</groupId>
             <artifactId>bndlib</artifactId>
