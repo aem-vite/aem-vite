@@ -60,7 +60,7 @@ public class ClientLibUseObject extends WCMUsePojo {
     protected XSSAPI xss;
 
     private static final Map<String, Object> AUTH_INFO =
-            Collections.singletonMap(ResourceResolverFactory.SUBSERVICE, "aem-vite-clientlibs");
+            Collections.singletonMap(ResourceResolverFactory.SUBSERVICE, "aemViteClientLibsService");
 
     @Override
     public void activate() {

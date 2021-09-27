@@ -1,7 +1,7 @@
 {
-  "service.ranking": 100,
+  "service.ranking": 0,
   "user.mapping": [
-    "dev.aemvite.aem-vite.core:aem-vite-clientlibs=aem-vite-clientlibs"
-  ],
-  "user.default": "admin"
+    "dev.aemvite.aem-vite.core:aemViteClientLibsService=aem-vite-clientlibs",
+    "aem-precompiled-scripts:aemViteClientLibsService=aem-vite-clientlibs"
+  ]
 }
