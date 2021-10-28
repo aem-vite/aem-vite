@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/aem-vite/aem-vite/compare/v2.2.0...v2.2.1) (2021-10-28)
+
+
+### Bug Fixes
+
+* resolve repoinit failing during install ([5feb0c2](https://github.com/aem-vite/aem-vite/commit/5feb0c202f00e9341ed601f3a901c6ae0de768c3))
+
 # [2.2.0](https://github.com/aem-vite/aem-vite/compare/v2.1.5...v2.2.0) (2021-09-27)
 
 
