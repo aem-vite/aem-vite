@@ -103,8 +103,6 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
         <aemanalyser.version>1.1.12</aemanalyser.version>
-
-        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <build>
