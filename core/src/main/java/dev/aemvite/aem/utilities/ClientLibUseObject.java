@@ -28,7 +28,6 @@ import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.apache.sling.xss.XSSAPI;
 import org.slf4j.Logger;
 
 import java.io.PrintWriter;
@@ -57,10 +56,9 @@ public class ClientLibUseObject extends WCMUsePojo {
     protected SlingHttpServletRequest request;
     protected Resource resource;
     protected ResourceResolver resourceResolver;
-    protected XSSAPI xss;
 
-    private static final Map<String, Object> AUTH_INFO =
-            Collections.singletonMap(ResourceResolverFactory.SUBSERVICE, "aem-vite-clientlibs");
+    public static final Map<String, Object> AUTH_INFO =
+            Collections.singletonMap(ResourceResolverFactory.SUBSERVICE, "aemViteClientLibsService");
 
     @Override
     public void activate() {
@@ -73,10 +71,16 @@ public class ClientLibUseObject extends WCMUsePojo {
         try {
             ResourceResolverFactory resolverFactory = getSlingScriptHelper().getService(ResourceResolverFactory.class);
 
-            resourceResolver = resolverFactory.getServiceResourceResolver(AUTH_INFO);
-        } catch (LoginException | NullPointerException ex) {
-            log.error("Unable to retrieve resource resolver for 'aem-vite-clientlibs'. Falling back to to request resolver.");
+            if (resolverFactory != null) {
+                resourceResolver = resolverFactory.getServiceResourceResolver(AUTH_INFO);
+            }
+        } catch (LoginException ex) {
+            log.error("Unable to retrieve resource resolver for 'aem-vite-clientlibs'.");
             log.error(String.valueOf(ex));
+        }
+
+        if (resourceResolver == null) {
+            log.info("Falling back to request resolver for resource requests.");
 
             resourceResolver = request.getResourceResolver();
         }
@@ -89,7 +93,6 @@ public class ClientLibUseObject extends WCMUsePojo {
                 esModule = get(CLIENTLIB_BINDINGS_ESMODULE, Boolean.class);
                 SlingScriptHelper sling = get(SlingBindings.SLING, SlingScriptHelper.class);
                 htmlLibraryManager = sling.getService(HtmlLibraryManager.class);
-                xss = sling.getService(XSSAPI.class);
             }
         }
     }
@@ -144,13 +147,22 @@ public class ClientLibUseObject extends WCMUsePojo {
     }
 
     /**
+     * Retrieve the parsed categories list.
+     *
+     * @return a list of ClientLib categories
+     */
+    public String[] getCategories() {
+        return categories;
+    }
+
+    /**
      * Construct the HTML markup for the script and link elements.
      *
      * @param out         {@link PrintWriter} object responsible for writing the HTML
      * @param libraryType {@link LibraryType} which is either CSS or JS
      */
     private void includeLibraries(final PrintWriter out, final LibraryType libraryType) {
-        if (htmlLibraryManager != null && libraryType != null && xss != null) {
+        if (htmlLibraryManager != null && libraryType != null) {
             Collection<ClientLibrary> libs = htmlLibraryManager.getLibraries(categories, libraryType, false, true);
 
             for (ClientLibrary lib : libs) {
@@ -204,7 +216,7 @@ public class ClientLibUseObject extends WCMUsePojo {
     }
 
     /**
-     * Update the provided input path so it points to the '/etc' proxy path.
+     * Update the provided input path, so it points to the '/etc' proxy path.
      *
      * @param path {@link String} path to the {@link ClientLibrary} resource
      * @return updated proxy path
