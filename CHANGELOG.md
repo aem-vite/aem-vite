@@ -1,3 +1,31 @@
+## [2.2.1](https://github.com/aem-vite/aem-vite/compare/v2.2.0...v2.2.1) (2021-10-28)
+
+
+### Bug Fixes
+
+* resolve repoinit failing during install ([5feb0c2](https://github.com/aem-vite/aem-vite/commit/5feb0c202f00e9341ed601f3a901c6ae0de768c3))
+
+# [2.2.0](https://github.com/aem-vite/aem-vite/compare/v2.1.5...v2.2.0) (2021-09-27)
+
+
+### Refactor
+
+* removed ACS Commons dependency ([79fe70f](https://github.com/aem-vite/aem-vite/commit/79fe70fe378eace700a8d72cdef2056ca8395ee2))
+
+## [2.1.5](https://github.com/aem-vite/aem-vite/compare/v2.1.4...v2.1.5) (2021-09-27)
+
+
+### Bug Fixes
+
+* resolve user mapping for precompiled files ([c8bb838](https://github.com/aem-vite/aem-vite/commit/c8bb8387720496dbb4b5ea1eb625dea213476bf9))
+
+## [2.1.4](https://github.com/aem-vite/aem-vite/compare/v2.1.3...v2.1.4) (2021-09-22)
+
+
+### Bug Fixes
+
+* switched from principal users to single user mapping ([1c66f00](https://github.com/aem-vite/aem-vite/commit/1c66f008f7aa9655004b568cd8dea3da77b4b0e9))
+
 ## [2.1.3](https://github.com/aem-vite/aem-vite/compare/v2.1.2...v2.1.3) (2021-07-30)
 
 
