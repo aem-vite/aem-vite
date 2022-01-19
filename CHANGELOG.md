@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/aem-vite/aem-vite/compare/v2.2.1...v2.2.2) (2022-01-19)
+
+
+### Bug Fixes
+
+* ensure apps paths don't overlap ([bf6a92c](https://github.com/aem-vite/aem-vite/commit/bf6a92c796731dce82133162d78c95bcffe0cad6))
+
 ## [2.2.1](https://github.com/aem-vite/aem-vite/compare/v2.2.0...v2.2.1) (2021-10-28)
 
 
