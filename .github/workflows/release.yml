@@ -26,6 +26,7 @@ jobs:
         with:
           java-version: 8
           distribution: "adopt"
+          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
 
       - name: Cache Maven repository
         uses: actions/cache@v2
@@ -34,12 +35,6 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-
-      - name: Install gpg secret key
-        id: install-secret-key
-        run: |
-          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-          gpg --list-secret-keys --keyid-format LONG
 
       - name: Build and analyse
         run: mvn -B package -DskipTests -Dgpg.skip -Pdependency-check
