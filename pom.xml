@@ -44,10 +44,16 @@
         </developer>
     </developers>
 
+    <organization>
+        <name>AEM Vite</name>
+        <url>https://aemvite.dev</url>
+    </organization>
+
     <scm>
         <connection>scm:git:https://github.com/aem-vite/aem-vite.git</connection>
         <developerConnection>scm:git:https://github.com/aem-vite/aem-vite.git</developerConnection>
         <url>https://github.com/aem-vite/aem-vite</url>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
