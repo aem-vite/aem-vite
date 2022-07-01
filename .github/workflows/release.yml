@@ -47,14 +47,10 @@ jobs:
       - name: Test core
         run: mvn -B -Dgpg.skip test --file core/pom.xml
 
-      - name: Build packages
-        id: build
-        run: |
-          mvn --no-transfer-progress --batch-mode clean package
-
       - name: Publish to Maven Central
         id: publish
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           MAVEN_GPG_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
