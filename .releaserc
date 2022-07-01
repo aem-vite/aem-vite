@@ -27,6 +27,7 @@
     ],
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
+    "@conveyal/maven-semantic-release",
     [
       "@semantic-release/git",
       {
@@ -49,7 +50,6 @@
           }
         ]
       }
-    ],
-    "@conveyal/maven-semantic-release"
+    ]
   ]
 }
