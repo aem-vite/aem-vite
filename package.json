@@ -6,13 +6,13 @@
   "license": "Apache-2.0",
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^12.1.1",
-    "@commitlint/config-conventional": "^12.1.1",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@conveyal/maven-semantic-release": "^5.0.0",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "husky": "^6.0.0",
-    "semantic-release": "^17.4.2"
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "husky": "^8.0.1",
+    "semantic-release": "^19.0.3"
   },
   "scripts": {
     "prepare": "husky install",
@@ -22,9 +22,12 @@
     "extends": [
       "@commitlint/config-conventional"
     ],
-
     "rules": {
-      "footer-max-line-length": [2, "always", 300]
+      "footer-max-line-length": [
+        2,
+        "always",
+        300
+      ]
     }
   }
 }
