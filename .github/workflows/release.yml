@@ -26,7 +26,11 @@ jobs:
         with:
           java-version: 8
           distribution: "adopt"
+          server-id: ossrh
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
           gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          gpg-passphrase: OSSRH_GPG_SECRET_KEY_PASSWORD
 
       - name: Cache Maven repository
         uses: actions/cache@v2
@@ -46,9 +50,8 @@ jobs:
         id: publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          MAVEN_GPG_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-        run: |
-          export GPG_TTY=$(tty)
-          yarn semantic-release --use-conveyal-workflow --dev-branch=prerelease
+          OSSRH_GPG_KEY_NAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
+          OSSRH_GPG_SECRET_KEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: yarn semantic-release --use-conveyal-workflow --dev-branch=prerelease
