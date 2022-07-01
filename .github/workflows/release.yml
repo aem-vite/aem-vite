@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - prerelease
 
 jobs:
   release:
@@ -54,4 +53,4 @@ jobs:
           OSSRH_GPG_SECRET_KEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        run: yarn semantic-release --use-conveyal-workflow --dev-branch=prerelease
+        run: yarn semantic-release --use-conveyal-workflow
