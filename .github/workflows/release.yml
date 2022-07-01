@@ -14,6 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
