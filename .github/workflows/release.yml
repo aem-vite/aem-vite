@@ -39,12 +39,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build and analyse
-        run: mvn -B package -DskipTests -Dgpg.skip -Pdependency-check
-
-      - name: Test core
-        run: mvn -B -Dgpg.skip test --file core/pom.xml
-
       - name: Publish to Maven Central
         id: publish
         env:
