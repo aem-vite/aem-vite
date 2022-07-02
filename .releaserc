@@ -10,7 +10,7 @@
         "releaseRules": [
           {
             "type": "refactor",
-            "release": "minor"
+            "release": "major"
           }
         ],
         "parserOpts": {
@@ -37,11 +37,11 @@
       {
         "assets": [
           {
-            "path": "**/aem-vite.all-*.zip",
+            "path": "**/all/target/aem-vite.all-*.zip",
             "name": "aem-vite.all-${nextRelease.version}.zip"
           },
           {
-            "path": "**/aem-vite.core-*.jar",
+            "path": "**/core/target/aem-vite.core-*.jar",
             "name": "aem-vite.core-${nextRelease.version}.jar"
           }
         ]
