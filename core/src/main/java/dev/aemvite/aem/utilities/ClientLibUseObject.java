@@ -20,14 +20,10 @@ import com.adobe.granite.ui.clientlibs.ClientLibrary;
 import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
 import com.adobe.granite.ui.clientlibs.LibraryType;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.resource.LoginException;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ResourceUtil;
-import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.resource.*;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
+import org.osgi.service.component.annotations.Deactivate;
 import org.slf4j.Logger;
 
 import java.io.PrintWriter;
@@ -36,15 +32,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_CATEGORIES;
-import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_ESMODULE;
-import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_MODE;
-import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_MODULE_TYPE_ATTRIBUTE;
-import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_NOMODULE_TYPE_ATTRIBUTE;
-import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_PROPERTY_ESMODULE;
-import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_PROPERTY_NOMODULE;
-import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_TAG_JAVASCRIPT;
-import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_TAG_STYLESHEET;
+import static dev.aemvite.aem.utilities.Constants.*;
 
 public class ClientLibUseObject extends WCMUsePojo {
     protected String[] categories;
@@ -94,6 +82,19 @@ public class ClientLibUseObject extends WCMUsePojo {
                 SlingScriptHelper sling = get(SlingBindings.SLING, SlingScriptHelper.class);
                 htmlLibraryManager = sling.getService(HtmlLibraryManager.class);
             }
+        }
+    }
+
+    @Deactivate
+    public void deactivate() {
+        log.debug("Shutting down AEM Vite and closing any open resolvers.");
+
+        try {
+            if (resourceResolver != null) {
+                resourceResolver.close();
+            }
+        } catch (Exception ex) {
+            log.debug("An unexpected condition was encountered when attempting to close the resource resolver!", ex);
         }
     }
 
