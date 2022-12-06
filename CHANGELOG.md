@@ -1,3 +1,11 @@
+# [3.0.0](https://github.com/aem-vite/aem-vite/compare/v2.3.0...v3.0.0) (2022-12-06)
+
+
+### Bug Fixes
+
+* resolve unclosed resource resolver ([c146cef](https://github.com/aem-vite/aem-vite/commit/c146cefe742e15e0fb79dd15d653a33a3d80c8dc))
+* resolve unclosed resource resolver ([afe7c08](https://github.com/aem-vite/aem-vite/commit/afe7c0813d9b6367261ecc598606823ff7b3836e))
+
 # [2.3.0](https://github.com/aem-vite/aem-vite/compare/v2.2.2...v2.3.0) (2022-07-01)
 
 
