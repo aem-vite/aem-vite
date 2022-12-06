@@ -6,7 +6,6 @@
 <br/>
 <p align="center">
   <a href="https://mvnrepository.com/artifact/dev.aemvite/aem-vite.all"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/dev.aemvite/aem-vite"></a>
-  <a href="https://travis-ci.com/aem-vite/aem-vite"><img src="https://img.shields.io/travis/com/aem-vite/aem-vite?label=travis-ci" alt="travis ci build"></a>
   <a href="https://github.com/aem-vite/aem-vite/actions/workflows/build-and-test.yml"><img alt="Build and Test" src="https://github.com/aem-vite/aem-vite/actions/workflows/build-and-test.yml/badge.svg?branch=develop"></a>
   <a href="https://github.com/aem-vite/aem-vite/actions/workflows/sonarcloud.yml"><img alt="Sonarcloud" src="https://github.com/aem-vite/aem-vite/actions/workflows/sonarcloud.yml/badge.svg?branch=develop"></a>
   <a href="https://sonarcloud.io/dashboard?id=dev.aemvite%3Aaem-vite"><img alt="Sonar Quality Gate" src="https://img.shields.io/sonar/quality_gate/dev.aemvite:aem-vite?server=https%3A%2F%2Fsonarcloud.io"></a>
