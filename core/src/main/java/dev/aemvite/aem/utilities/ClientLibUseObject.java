@@ -42,6 +42,7 @@ public class ClientLibUseObject extends WCMUsePojo {
     protected Logger log;
     protected SlingHttpServletRequest request;
     protected Resource resource;
+    protected SlingScriptHelper sling;
 
     public static final Map<String, Object> AUTH_INFO =
             Collections.singletonMap(ResourceResolverFactory.SUBSERVICE, "aemViteClientLibsService");
@@ -60,7 +61,7 @@ public class ClientLibUseObject extends WCMUsePojo {
             if (categories != null && categories.length > 0) {
                 mode = get(CLIENTLIB_BINDINGS_MODE, String.class);
                 esModule = get(CLIENTLIB_BINDINGS_ESMODULE, Boolean.class);
-                SlingScriptHelper sling = get(SlingBindings.SLING, SlingScriptHelper.class);
+                sling = get(SlingBindings.SLING, SlingScriptHelper.class);
 
                 if (sling != null) {
                     htmlLibraryManager = sling.getService(HtmlLibraryManager.class);
@@ -208,15 +209,11 @@ public class ClientLibUseObject extends WCMUsePojo {
      * @return {@code true} when the property exists, otherwise {@code false}
      */
     protected final boolean clientlibHasProperty(ClientLibrary lib, String property) {
-        SlingScriptHelper slingScriptHelper = getSlingScriptHelper();
-
-        if (slingScriptHelper == null) {
-            return false;
-        }
-
-        ResourceResolverFactory factory = slingScriptHelper.getService(ResourceResolverFactory.class);
+        ResourceResolverFactory factory = sling.getService(ResourceResolverFactory.class);
 
         if (factory == null) {
+            log.warn("No valid ResourceResolverFactory service could be retrieved");
+
             return false;
         }
 
