@@ -23,7 +23,6 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.*;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.osgi.service.component.annotations.Deactivate;
 import org.slf4j.Logger;
 
 import java.io.PrintWriter;
