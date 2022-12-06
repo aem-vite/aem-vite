@@ -32,10 +32,7 @@ import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_CATEGORIES;
 import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_ESMODULE;
 import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_BINDINGS_MODE;
 import static dev.aemvite.aem.utilities.Constants.CLIENTLIB_MODULE_TYPE_ATTRIBUTE;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith({AemContextExtension.class, MockitoExtension.class})
 class ClientLibUseObjectTest {
@@ -126,12 +123,11 @@ class ClientLibUseObjectTest {
 
     @Test
     @DisplayName("should return a 'module' attribute")
-    void testJsModuleAttribute() {
-        when(mockSlingScriptHelper.getService(ResourceResolverFactory.class))
-                .thenReturn(null);
+    void testJsModuleAttribute() throws LoginException {
+        ResourceResolverFactory mockFactory = spy(context.getService(ResourceResolverFactory.class));
 
-        when(mockSlingHttpServletRequest.getResourceResolver())
-                .thenReturn(mockResourceResolver);
+        when(mockSlingScriptHelper.getService(ResourceResolverFactory.class)).thenReturn(mockFactory);
+        when(mockFactory.getServiceResourceResolver(AUTH_INFO)).thenReturn(mockResourceResolver);
 
         context.create().resource(LIB_PATH, "esModule", true);
 
