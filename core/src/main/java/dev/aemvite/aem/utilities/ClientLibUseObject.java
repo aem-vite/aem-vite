@@ -24,6 +24,7 @@ import org.apache.sling.api.resource.*;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -34,12 +35,13 @@ import java.util.Map;
 import static dev.aemvite.aem.utilities.Constants.*;
 
 public class ClientLibUseObject extends WCMUsePojo {
+    private static final Logger log = LoggerFactory.getLogger(ClientLibUseObject.class);
+
     protected String[] categories;
     protected String mode;
     protected Boolean esModule;
 
     protected HtmlLibraryManager htmlLibraryManager = null;
-    protected Logger log;
     protected SlingHttpServletRequest request;
     protected Resource resource;
     protected SlingScriptHelper sling;
@@ -51,7 +53,6 @@ public class ClientLibUseObject extends WCMUsePojo {
     public void activate() {
         final Object categoriesObject = get(CLIENTLIB_BINDINGS_CATEGORIES, Object.class);
 
-        log = get(SlingBindings.LOG, Logger.class);
         resource = get("resource", Resource.class);
         request = get(SlingBindings.REQUEST, SlingHttpServletRequest.class);
 
