@@ -43,7 +43,6 @@ public class ClientLibUseObject extends WCMUsePojo {
     protected Logger log;
     protected SlingHttpServletRequest request;
     protected Resource resource;
-    protected ResourceResolver resourceResolver;
 
     public static final Map<String, Object> AUTH_INFO =
             Collections.singletonMap(ResourceResolverFactory.SUBSERVICE, "aemViteClientLibsService");
@@ -56,23 +55,6 @@ public class ClientLibUseObject extends WCMUsePojo {
         resource = get("resource", Resource.class);
         request = get(SlingBindings.REQUEST, SlingHttpServletRequest.class);
 
-        try {
-            ResourceResolverFactory resolverFactory = getSlingScriptHelper().getService(ResourceResolverFactory.class);
-
-            if (resolverFactory != null) {
-                resourceResolver = resolverFactory.getServiceResourceResolver(AUTH_INFO);
-            }
-        } catch (LoginException ex) {
-            log.error("Unable to retrieve resource resolver for 'aem-vite-clientlibs'.");
-            log.error(String.valueOf(ex));
-        }
-
-        if (resourceResolver == null) {
-            log.info("Falling back to request resolver for resource requests.");
-
-            resourceResolver = request.getResourceResolver();
-        }
-
         if (categoriesObject != null) {
             getCategoriesFromBinding(categoriesObject);
 
@@ -80,21 +62,14 @@ public class ClientLibUseObject extends WCMUsePojo {
                 mode = get(CLIENTLIB_BINDINGS_MODE, String.class);
                 esModule = get(CLIENTLIB_BINDINGS_ESMODULE, Boolean.class);
                 SlingScriptHelper sling = get(SlingBindings.SLING, SlingScriptHelper.class);
-                htmlLibraryManager = sling.getService(HtmlLibraryManager.class);
-            }
-        }
-    }
 
-    @Deactivate
-    public void deactivate() {
-        log.debug("Shutting down AEM Vite and closing any open resolvers.");
-
-        try {
-            if (resourceResolver != null) {
-                resourceResolver.close();
+                if (sling != null) {
+                    htmlLibraryManager = sling.getService(HtmlLibraryManager.class);
+                } else {
+                    throw new IllegalStateException("Unable to get an instance of SlingScriptHelper. " +
+                            "This is required to get an instance of HtmlLibraryManager.");
+                }
             }
-        } catch (Exception ex) {
-            log.debug("An unexpected condition was encountered when attempting to close the resource resolver!", ex);
         }
     }
 
@@ -234,12 +209,29 @@ public class ClientLibUseObject extends WCMUsePojo {
      * @return {@code true} when the property exists, otherwise {@code false}
      */
     protected final boolean clientlibHasProperty(ClientLibrary lib, String property) {
-        Resource libResource = resourceResolver.resolve(lib.getPath());
+        SlingScriptHelper slingScriptHelper = getSlingScriptHelper();
 
-        if (!ResourceUtil.isNonExistingResource(libResource)) {
-            ValueMap libProps = libResource.getValueMap();
+        if (slingScriptHelper == null) {
+            return false;
+        }
 
-            return Boolean.TRUE.equals(libProps.get(property, Boolean.class));
+        ResourceResolverFactory factory = slingScriptHelper.getService(ResourceResolverFactory.class);
+
+        if (factory == null) {
+            return false;
+        }
+
+        try (ResourceResolver resourceResolver = factory.getServiceResourceResolver(AUTH_INFO)) {
+            Resource libResource = resourceResolver.resolve(lib.getPath());
+
+            if (!ResourceUtil.isNonExistingResource(libResource)) {
+                ValueMap libProps = libResource.getValueMap();
+
+                return Boolean.TRUE.equals(libProps.get(property, Boolean.class));
+            }
+        } catch (LoginException ex) {
+            log.error("Unable to retrieve resource resolver for 'aem-vite-clientlibs'.");
+            log.error(String.valueOf(ex));
         }
 
         return false;
