@@ -37,6 +37,6 @@ jobs:
 
       - name: Build and analyse
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B -Dgpg.skip verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage-report
+        run: mvn -B -Dgpg.skip verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage-report -Dsonar.projectKey=aem-vite_aem-vite
