@@ -52,13 +52,20 @@
     ],
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
-    "@conveyal/maven-semantic-release",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "maven versions:set -DnewVersion=${nextRelease.version} -DprocessAllModules -DgenerateBackupPoms=false"
+      }
+    ],
     [
       "@semantic-release/git",
       {
         "assets": [
+          "**/pom.xml",
           "CHANGELOG.md"
-        ]
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ],
     [
