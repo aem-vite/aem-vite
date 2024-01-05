@@ -6,13 +6,13 @@
   "license": "Apache-2.0",
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^17.0.3",
-    "@commitlint/config-conventional": "^17.0.3",
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
     "@conveyal/maven-semantic-release": "^5.0.0",
-    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "husky": "^8.0.1",
-    "semantic-release": "^19.0.3"
+    "husky": "^8.0.3",
+    "semantic-release": "^22.0.12"
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
