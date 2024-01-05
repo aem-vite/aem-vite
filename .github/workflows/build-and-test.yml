@@ -30,6 +30,8 @@ jobs:
           distribution: 'adopt'
 
       - name: Build and analyse
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: mvn -B package -DskipTests -Dgpg.skip -Pdependency-check
 
       - name: Test core
