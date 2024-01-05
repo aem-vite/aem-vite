@@ -108,7 +108,7 @@
         <sonar.organization>aem-vite</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
-        <aemanalyser.version>1.4.10</aemanalyser.version>
+        <aemanalyser.version>1.5.8</aemanalyser.version>
     </properties>
 
     <build>
