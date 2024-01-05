@@ -15,6 +15,7 @@
     "semantic-release": "^19.0.3"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
     "semantic-release": "semantic-release"
   },
