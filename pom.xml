@@ -497,10 +497,11 @@ Embed-Transitive: true
                 <plugin>
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
-                    <version>7.1.1</version>
+                    <version>9.0.7</version>
                     <configuration>
-                        <cveValidForHours>24</cveValidForHours>
-                        <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
+                        <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
+                        <nvdValidForHours>24</nvdValidForHours>
+                        <failBuildOnCVSS>0</failBuildOnCVSS>
                         <skipProvidedScope>true</skipProvidedScope>
                         <skipSystemScope>true</skipSystemScope>
                         <retireJsAnalyzerEnabled>false</retireJsAnalyzerEnabled>
