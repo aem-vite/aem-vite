@@ -14,6 +14,9 @@
     "husky": "^8.0.3",
     "semantic-release": "^22.0.12"
   },
+  "overrides": {
+    "semantic-release": "^22.0.12"
+  },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
