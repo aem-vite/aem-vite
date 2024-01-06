@@ -67,11 +67,11 @@
         "assets": [
           {
             "path": "all/target/aem-vite.all-*.zip",
-            "name": "aem-vite.all-${nextRelease.gitTag}.zip"
+            "name": "aem-vite.all-${nextRelease.version}.zip"
           },
           {
             "path": "core/target/aem-vite.core-*.jar",
-            "name": "aem-vite.core-${nextRelease.gitTag}.jar"
+            "name": "aem-vite.core-${nextRelease.version}.jar"
           }
         ]
       }
