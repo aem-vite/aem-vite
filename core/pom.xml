@@ -162,6 +162,15 @@ javax.annotation;version=0.0.0,\
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.util.tracker</artifactId>
         </dependency>
+        <!-- Annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+        </dependency>
         <!-- Other Dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>
