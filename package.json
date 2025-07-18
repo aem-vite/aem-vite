@@ -22,17 +22,5 @@
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
     "semantic-release": "semantic-release"
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ],
-    "rules": {
-      "footer-max-line-length": [
-        2,
-        "always",
-        300
-      ]
-    }
   }
 }
