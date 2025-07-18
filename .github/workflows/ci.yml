@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  build_and_test:
+    name: CI with JDK ${{ matrix.java.version }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    strategy:
+      matrix:
+        java:
+          - { aemanalyser: 1.5.8, version: 8 }
+          - { aemanalyser: 1.5.8, version: 11 }
+          - { aemanalyser: 1.6.8, version: 17 }
+          - { aemanalyser: 1.6.8, version: 21 }
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4.7.1
+        with:
+          java-version: ${{ matrix.java.version }}
+          cache: 'maven'
+          distribution: 'adopt'
+
+      - name: Build and analyse
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: mvn -B package -DskipTests -Dgpg.skip -Pdependency-check -Daemanalyser.version="${{ matrix.java.aemanalyser }}"
+
+      - name: Test core
+        run: mvn -B -Dgpg.skip test --file core/pom.xml
