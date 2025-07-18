@@ -6,7 +6,7 @@
 <br/>
 <p align="center">
   <a href="https://mvnrepository.com/artifact/dev.aemvite/aem-vite.all"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/dev.aemvite/aem-vite"></a>
-  <a href="https://github.com/aem-vite/aem-vite/actions/workflows/build-and-test.yml"><img alt="Build and Test" src="https://github.com/aem-vite/aem-vite/actions/workflows/build-and-test.yml/badge.svg?branch=develop"></a>
+  <a href="https://github.com/aem-vite/aem-vite/actions/workflows/ci.yml"><img alt="Build and Test" src="https://github.com/aem-vite/aem-vite/actions/workflows/ci.yml/badge.svg?branch=develop"></a>
   <a href="https://github.com/aem-vite/aem-vite/actions/workflows/sonarcloud.yml"><img alt="Sonarcloud" src="https://github.com/aem-vite/aem-vite/actions/workflows/sonarcloud.yml/badge.svg?branch=develop"></a>
   <a href="https://sonarcloud.io/dashboard?id=aem-vite_aem-vite"><img alt="Sonar Quality Gate" src="https://sonarcloud.io/api/project_badges/measure?project=aem-vite_aem-vite&metric=alert_status"></a>
   <a href="https://sonarcloud.io/summary/new_code?id=aem-vite_aem-vite"><img alt="Sonar Coverage" src="https://sonarcloud.io/api/project_badges/measure?project=aem-vite_aem-vite&metric=coverage"></a>
