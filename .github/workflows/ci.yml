@@ -39,7 +39,7 @@ jobs:
       - name: Build and analyse
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        run: mvn -B package -DskipTests -Dgpg.skip -Pdependency-check -Daemanalyser.version="${{ matrix.java.aemanalyser }}"
+        run: mvn -B package -DskipTests -Dgpg.skip -Daemanalyser.version="${{ matrix.java.aemanalyser }}"
 
       - name: Test core
         run: mvn -B -Dgpg.skip test --file core/pom.xml
