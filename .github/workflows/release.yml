@@ -37,7 +37,7 @@ jobs:
           cache: 'maven'
           distribution: 'adopt'
           gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          gpg-passphrase: OSSRH_GPG_SECRET_KEY_PASSWORD
+          gpg-passphrase: JRELEASER_GPG_PASSPHRASE
 
       - name: Publish to Maven Central
         id: publish

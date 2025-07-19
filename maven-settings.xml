@@ -8,15 +8,15 @@
     </servers>
     <profiles>
         <profile>
-            <id>central-gpg</id>
+            <id>central-config</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <central.publish>true</central.publish>
                 <gpg.executable>gpg</gpg.executable>
-                <gpg.keyname>${OSSRH_GPG_KEY_NAME}</gpg.keyname>
-                <gpg.passphrase>${OSSRH_GPG_SECRET_KEY_PASSWORD}</gpg.passphrase>
+                <gpg.keyname>${JRELEASER_GPG_KEYNAME}</gpg.keyname>
+                <gpg.passphrase>${JRELEASER_GPG_PASSPHRASE}</gpg.passphrase>
             </properties>
         </profile>
     </profiles>
