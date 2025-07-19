@@ -36,6 +36,9 @@ jobs:
           java-version: 8
           cache: 'maven'
           distribution: 'adopt'
+          server-id: central
+          server-username: JRELEASER_MAVENCENTRAL_USERNAME
+          server-password: JRELEASER_MAVENCENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           gpg-passphrase: JRELEASER_GPG_PASSPHRASE
 
