@@ -12,6 +12,7 @@ jobs:
 
     permissions:
       contents: write
+      issues: write
       packages: write
 
     steps:
@@ -44,6 +45,7 @@ jobs:
       - name: Publish to Maven Central
         id: publish
         env:
+          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OSSRH_GPG_KEY_NAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
           OSSRH_GPG_SECRET_KEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
