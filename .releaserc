@@ -50,13 +50,21 @@
         ]
       }
     ],
+    [
+      "@terrestris/maven-semantic-release",
+      {
+        "processAllModules": true,
+        "settingsPath": "./maven-settings.xml",
+        "updateSnapshotVersion": true
+      }
+    ],
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
-    "@conveyal/maven-semantic-release",
     [
       "@semantic-release/git",
       {
         "assets": [
+          "**/pom.xml",
           "CHANGELOG.md"
         ]
       }
