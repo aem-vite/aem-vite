@@ -13,7 +13,9 @@
  |  See the License for the specific language governing permissions and
  |  limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- ====================================================================== -->
@@ -22,7 +24,7 @@
     <parent>
         <groupId>dev.aemvite</groupId>
         <artifactId>aem-vite</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -49,7 +51,8 @@
                 <configuration>
                     <group>dev.aemvite</group>
                     <packageType>container</packageType>
-                    <!-- skip sub package validation for now as some vendor packages like CIF apps will not pass -->
+                    <!-- skip sub package validation for now as some vendor packages like CIF apps
+                    will not pass -->
                     <skipSubPackageValidation>true</skipSubPackageValidation>
                     <embeddeds>
                         <embedded>
@@ -129,7 +132,8 @@
                                     <goal>install</goal>
                                 </goals>
                                 <configuration>
-                                    <targetURL>http://${aem.host}:${aem.port}/crx/packmgr/service.jsp</targetURL>
+                                    <targetURL>
+                                        http://${aem.host}:${aem.port}/crx/packmgr/service.jsp</targetURL>
                                     <failOnError>true</failOnError>
                                 </configuration>
                             </execution>
@@ -155,7 +159,8 @@
                                     <goal>install</goal>
                                 </goals>
                                 <configuration>
-                                    <targetURL>http://${aem.publish.host}:${aem.publish.port}/crx/packmgr/service.jsp
+                                    <targetURL>
+                                        http://${aem.publish.host}:${aem.publish.port}/crx/packmgr/service.jsp
                                     </targetURL>
                                     <failOnError>true</failOnError>
                                 </configuration>

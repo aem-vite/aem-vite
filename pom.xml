@@ -14,14 +14,15 @@
  |  See the License for the specific language governing permissions and
  |  limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.aemvite</groupId>
     <artifactId>aem-vite</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.0</version>
     <name>AEM Vite</name>
     <description>Next generation front end tooling for AEM</description>
     <url>https://aemvite.dev</url>
@@ -205,7 +206,7 @@
                         <execution>
                             <id>attach-sources</id>
                             <goals>
-                            <goal>jar-no-fork</goal>
+                                <goal>jar-no-fork</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -218,7 +219,7 @@
                         <execution>
                             <id>attach-javadocs</id>
                             <goals>
-                            <goal>jar</goal>
+                                <goal>jar</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -251,12 +252,6 @@
                     <configuration>
                         <tarLongFileMode>posix</tarLongFileMode>
                     </configuration>
-                </plugin>
-                <!-- Maven Jar Plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.2</version>
                 </plugin>
                 <!-- Maven Clean Plugin -->
                 <plugin>
@@ -375,7 +370,8 @@ Embed-Transitive: true
                         <validatorsSettings>
                             <jackrabbit-nodetypes>
                                 <options>
-                                    <!-- use the nodetypes and namespaces from the aem-nodetypes.jar provided in the plugin dependencies -->
+                                    <!-- use the nodetypes and namespaces from the aem-nodetypes.jar
+                                    provided in the plugin dependencies -->
                                     <cnds>tccl:aem.cnd</cnds>
                                 </options>
                             </jackrabbit-nodetypes>
@@ -426,7 +422,8 @@ Embed-Transitive: true
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>3.0.0</version>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse
+                <!--This
+                plugin's configuration is used to store Eclipse
                     m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
@@ -445,7 +442,7 @@ Embed-Transitive: true
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -465,7 +462,7 @@ Embed-Transitive: true
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -486,7 +483,7 @@ Embed-Transitive: true
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -617,7 +614,8 @@ Embed-Transitive: true
                                         <goal>install</goal>
                                     </goals>
                                     <configuration>
-                                        <targetURL>http://${aem.host}:${aem.port}/crx/packmgr/service.jsp</targetURL>
+                                        <targetURL>
+                                            http://${aem.host}:${aem.port}/crx/packmgr/service.jsp</targetURL>
                                     </configuration>
                                 </execution>
                             </executions>
