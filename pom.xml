@@ -62,13 +62,6 @@
         <url>https://github.com/aem-vite/aem-vite/issues</url>
     </issueManagement>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <modules>
         <module>all</module>
         <module>core</module>
@@ -102,49 +95,6 @@
 
     <build>
         <plugins>
-            <!-- Maven Release Plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <scmCommentPrefix>[maven-scm] :</scmCommentPrefix>
-                    <preparationGoals>clean install</preparationGoals>
-                    <goals>install</goals>
-                    <releaseProfiles>release</releaseProfiles>
-                </configuration>
-            </plugin>
-            <!-- Maven Source Plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
-                <inherited>true</inherited>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.6.3</version>
-                <configuration>
-                    <doclint>none</doclint>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- Maven Enforcer Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -190,10 +140,40 @@
                     <downloadSources>true</downloadSources>
                 </configuration>
             </plugin>
+            <!-- JReleaser -->
+             <plugin>
+                <groupId>org.jreleaser</groupId>
+                <artifactId>jreleaser-maven-plugin</artifactId>
+                <configuration>
+                    <jreleaser>
+                        <signing>
+                            <active>ALWAYS</active>
+                            <armored>true</armored>
+                        </signing>
+                        <deploy>
+                            <maven>
+                                <mavenCentral>
+                                    <sonatype>
+                                        <active>ALWAYS</active>
+                                        <url>https://central.sonatype.com/api/v1/publisher</url>
+                                        <applyMavenCentralRules>true</applyMavenCentralRules>
+                                        <stagingRepositories>target/staging-deploy</stagingRepositories>
+                                    </sonatype>
+                                </mavenCentral>
+                            </maven>
+                        </deploy>
+                    </jreleaser>
+                </configuration>
+            </plugin>
         </plugins>
 
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.jreleaser</groupId>
+                    <artifactId>jreleaser-maven-plugin</artifactId>
+                    <version>1.19.0</version>
+                </plugin>
                 <plugin>
                     <groupId>org.sonatype.central</groupId>
                     <artifactId>central-publishing-maven-plugin</artifactId>
@@ -529,6 +509,48 @@ Embed-Transitive: true
     </build>
 
     <profiles>
+        <profile>
+            <id>central-publish</id>
+            <properties>
+                <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
+            </properties>
+            <build>
+                <defaultGoal>deploy</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <attach>true</attach>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <attach>true</attach>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <!-- Coverage/dependency reporting for testing -->
         <profile>
             <id>coverage-report</id>
