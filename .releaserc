@@ -54,7 +54,7 @@
       "@terrestris/maven-semantic-release",
       {
         "processAllModules": true,
-        "settingsPath": "./maven-settings.xml",
+        "settingsPath": "maven-settings.xml",
         "updateSnapshotVersion": true
       }
     ],

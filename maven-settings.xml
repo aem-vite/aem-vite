@@ -8,11 +8,12 @@
     </servers>
     <profiles>
         <profile>
-            <id>central-publish</id>
+            <id>central-gpg</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <central.publish>true</central.publish>
                 <gpg.executable>gpg</gpg.executable>
                 <gpg.keyname>${OSSRH_GPG_KEY_NAME}</gpg.keyname>
                 <gpg.passphrase>${OSSRH_GPG_SECRET_KEY_PASSWORD}</gpg.passphrase>

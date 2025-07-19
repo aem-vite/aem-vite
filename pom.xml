@@ -519,6 +519,12 @@ Embed-Transitive: true
     <profiles>
         <profile>
             <id>central-publish</id>
+            <activation>
+                <property>
+                    <name>central.publish</name>
+                    <value>true</value>
+                </property>
+            </activation>
             <properties>
                 <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
             </properties>
