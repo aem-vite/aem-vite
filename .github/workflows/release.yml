@@ -41,7 +41,6 @@ jobs:
         id: publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MAVEN_OPTS: '-Pcentral-publish'
           JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
