@@ -1,4 +1,11 @@
 <settings>
+    <servers>
+        <server>
+            <id>github</id>
+            <username>${GITHUB_ACTOR}</username>
+            <password>${GITHUB_TOKEN}</password>
+        </server>
+    </servers>
     <profiles>
         <profile>
             <id>central-publish</id>
