@@ -1,14 +1,14 @@
 <settings>
     <servers>
         <server>
-            <id>maven-central</id>
+            <id>central</id>
             <username>${MAVEN_CENTRAL_USERNAME}</username>
             <password>${MAVEN_CENTRAL_PASSWORD}</password>
         </server>
     </servers>
     <profiles>
         <profile>
-            <id>maven-central-deploy</id>
+            <id>central-gpg</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
