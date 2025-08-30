@@ -1,10 +1,3 @@
-## [3.0.1](https://github.com/aem-vite/aem-vite/compare/v3.0.0...v3.0.1) (2025-07-19)
-
-
-### Bug Fixes
-
-* resolve build error with service user mapping [#44](https://github.com/aem-vite/aem-vite/issues/44) ([266eb2c](https://github.com/aem-vite/aem-vite/commit/266eb2c37356595b771a3c7191cf28137e4f9b92))
-
 # [3.0.0](https://github.com/aem-vite/aem-vite/compare/v2.3.0...v3.0.0) (2022-12-06)
 
 

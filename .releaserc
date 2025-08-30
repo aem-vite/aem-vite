@@ -53,9 +53,16 @@
     [
       "@terrestris/maven-semantic-release",
       {
+        "clean": false,
+        "mavenTarget": "-Pcentral-publish",
         "processAllModules": true,
-        "settingsPath": "maven-settings.xml",
-        "updateSnapshotVersion": true
+        "settingsPath": "maven-settings.xml"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "mvn jreleaser:deploy --settings maven-settings.xml"
       }
     ],
     "@semantic-release/release-notes-generator",

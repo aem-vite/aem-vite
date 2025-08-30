@@ -1,0 +1,55 @@
+diff --git a/src/maven.js b/src/maven.js
+index 147d3a9a48142f2657e4170407c3612cf673fc1d..c3fa767c0eae5215627f4b42569ac18c7ce27145 100644
+--- a/src/maven.js
++++ b/src/maven.js
+@@ -116,17 +116,20 @@ async function deploy(logger, mvnw, nextVersion, mavenTarget, settingsPath, clea
+     const debugOption = debug ? ['-X'] : []
+ 
+     try {
++        const commandArgs = [
++            ...cleanOption,
++            ...mavenTarget.split(' '),
++            ...settingsOption(settingsPath),
++            ...debugOption,
++            '--batch-mode',
++            '--no-transfer-progress',
++            '-DskipTests'
++        ]
++        logger.log(`Running maven command:\n "${command} ${commandArgs.join(' ')}`);
++        
+         await exec(
+           command,
+-          [
+-              ...cleanOption,
+-              ...mavenTarget.split(' '),
+-              ...settingsOption(settingsPath),
+-              ...debugOption,
+-              '--batch-mode',
+-              '--no-transfer-progress',
+-              '-DskipTests'
+-          ]
++          commandArgs
+         );
+     } catch (e) {
+         logger.error('Failed to deploy to maven');
+diff --git a/src/plugin-config.js b/src/plugin-config.js
+index 4193a886364ba7a4ab57029e9663d0facfc8bbf9..5083ea3ad8789e3cef71f5bdfe5e8f6a177ef40e 100644
+--- a/src/plugin-config.js
++++ b/src/plugin-config.js
+@@ -36,16 +36,6 @@ function evaluateConfig(config) {
+         throw new SemanticReleaseError('Config settingsPath contains disallowed characters');
+     }
+ 
+-    const availableTargets = [
+-        'deploy',
+-        'package jib:build',
+-        'deploy jib:build'
+-    ];
+-
+-    if (!availableTargets.includes(withDefaults.mavenTarget)) {
+-        throw new SemanticReleaseError(`Unrecognized maven target ${withDefaults.mavenTarget}`);
+-    }
+-
+     return withDefaults;
+ }
+ 

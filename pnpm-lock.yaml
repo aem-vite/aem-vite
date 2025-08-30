@@ -4,30 +4,38 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@terrestris/maven-semantic-release@3.1.0':
+    hash: af8e482e9a94dc38ca9b59660249c2928c4baa05692c9dfa83b79fa150f7f137
+    path: patches/@terrestris__maven-semantic-release@3.1.0.patch
+
 importers:
 
   .:
     devDependencies:
       '@commitlint/cli':
-        specifier: ^19.8.1
+        specifier: 19.8.1
         version: 19.8.1(@types/node@24.0.14)(typescript@5.8.3)
       '@commitlint/config-conventional':
-        specifier: ^19.8.1
+        specifier: 19.8.1
         version: 19.8.1
       '@commitlint/types':
-        specifier: ^19.8.1
+        specifier: 19.8.1
         version: 19.8.1
       '@semantic-release/changelog':
-        specifier: ^6.0.3
+        specifier: 6.0.3
         version: 6.0.3(semantic-release@24.2.7(typescript@5.8.3))
+      '@semantic-release/exec':
+        specifier: 7.1.0
+        version: 7.1.0(semantic-release@24.2.7(typescript@5.8.3))
       '@semantic-release/git':
-        specifier: ^10.0.1
+        specifier: 10.0.1
         version: 10.0.1(semantic-release@24.2.7(typescript@5.8.3))
       '@terrestris/maven-semantic-release':
-        specifier: ^3.1.0
-        version: 3.1.0(semantic-release@24.2.7(typescript@5.8.3))
+        specifier: 3.1.0
+        version: 3.1.0(patch_hash=af8e482e9a94dc38ca9b59660249c2928c4baa05692c9dfa83b79fa150f7f137)(semantic-release@24.2.7(typescript@5.8.3))
       husky:
-        specifier: ^9.1.7
+        specifier: 9.1.7
         version: 9.1.7
       semantic-release:
         specifier: 24.2.7
@@ -210,6 +218,12 @@ packages:
   '@semantic-release/error@4.0.0':
     resolution: {integrity: sha512-mgdxrHTLOjOddRVYIYDo0fR3/v61GNN1YGkfbrjuIKg/uMgCd+Qzo3UAXJ+woLQQpos4pl5Esuw5A7AoNlzjUQ==}
     engines: {node: '>=18'}
+
+  '@semantic-release/exec@7.1.0':
+    resolution: {integrity: sha512-4ycZ2atgEUutspPZ2hxO6z8JoQt4+y/kkHvfZ1cZxgl9WKJId1xPj+UadwInj+gMn2Gsv+fLnbrZ4s+6tK2TFQ==}
+    engines: {node: '>=20.8.1'}
+    peerDependencies:
+      semantic-release: '>=24.1.0'
 
   '@semantic-release/git@10.0.1':
     resolution: {integrity: sha512-eWrx5KguUcU2wUPaO6sfvZI0wPafUKAMNC18aXY4EnNcrZL86dEmpNVnC9uMpGZkmZJ9EfCVJBQx4pV4EMGT1w==}
@@ -1729,6 +1743,18 @@ snapshots:
 
   '@semantic-release/error@4.0.0': {}
 
+  '@semantic-release/exec@7.1.0(semantic-release@24.2.7(typescript@5.8.3))':
+    dependencies:
+      '@semantic-release/error': 4.0.0
+      aggregate-error: 3.1.0
+      debug: 4.4.1
+      execa: 9.6.0
+      lodash-es: 4.17.21
+      parse-json: 8.3.0
+      semantic-release: 24.2.7(typescript@5.8.3)
+    transitivePeerDependencies:
+      - supports-color
+
   '@semantic-release/git@10.0.1(semantic-release@24.2.7(typescript@5.8.3))':
     dependencies:
       '@semantic-release/error': 3.0.0
@@ -1804,7 +1830,7 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@terrestris/maven-semantic-release@3.1.0(semantic-release@24.2.7(typescript@5.8.3))':
+  '@terrestris/maven-semantic-release@3.1.0(patch_hash=af8e482e9a94dc38ca9b59660249c2928c4baa05692c9dfa83b79fa150f7f137)(semantic-release@24.2.7(typescript@5.8.3))':
     dependencies:
       '@semantic-release/error': 3.0.0
       '@semantic-release/git': 10.0.1(semantic-release@24.2.7(typescript@5.8.3))

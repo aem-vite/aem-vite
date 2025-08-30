@@ -36,13 +36,13 @@ jobs:
           java-version: 8
           cache: 'maven'
           distribution: 'adopt'
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
+          server-id: central
+          server-username: JRELEASER_MAVENCENTRAL_USERNAME
+          server-password: JRELEASER_MAVENCENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           gpg-passphrase: JRELEASER_GPG_PASSPHRASE
 
-      - name: Prepare Release
+      - name: Release
         env:
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -52,17 +52,6 @@ jobs:
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
           JRELEASER_GPG_PUBLIC_KEY: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-        run: pnpm semantic-release
-
-      - name: Publish Release
-        shell: bash
-        env:
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
-          JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-          JRELEASER_GPG_PUBLIC_KEY: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
-          JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-        run: mvn jreleaser:deploy
+        run: |
+          export GPG_TTY=$(tty)
+          pnpm semantic-release

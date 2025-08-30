@@ -22,9 +22,10 @@
     <groupId>dev.aemvite</groupId>
     <artifactId>aem-vite</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.1</version>
+    <version>3.0.0</version>
     <name>AEM Vite</name>
     <description>Next generation front end tooling for AEM</description>
+    <inceptionYear>2021</inceptionYear>
     <url>https://aemvite.dev</url>
 
     <licenses>
@@ -65,7 +66,7 @@
     <distributionManagement>
         <repository>
             <id>github</id>
-            <name>GitHub Packages</name>
+            <name>aem-vite</name>
             <url>https://maven.pkg.github.com/aem-vite/aem-vite</url>
         </repository>
     </distributionManagement>
@@ -151,7 +152,7 @@
                 </configuration>
             </plugin>
             <!-- JReleaser -->
-             <plugin>
+            <plugin>
                 <groupId>org.jreleaser</groupId>
                 <artifactId>jreleaser-maven-plugin</artifactId>
                 <configuration>
@@ -168,6 +169,32 @@
                                         <url>https://central.sonatype.com/api/v1/publisher</url>
                                         <applyMavenCentralRules>true</applyMavenCentralRules>
                                         <stagingRepositories>target/staging-deploy</stagingRepositories>
+                                        <artifactOverrides>
+                                            <artifactOverride>
+                                                <artifactId>aem-vite.ui.apps</artifactId>
+                                                <jar>false</jar>
+                                                <sourceJar>false</sourceJar>
+                                                <javadocJar>false</javadocJar>
+                                            </artifactOverride>
+                                            <artifactOverride>
+                                                <artifactId>aem-vite.ui.apps.structure</artifactId>
+                                                <jar>false</jar>
+                                                <sourceJar>false</sourceJar>
+                                                <javadocJar>false</javadocJar>
+                                            </artifactOverride>
+                                            <artifactOverride>
+                                                <artifactId>aem-vite.ui.config</artifactId>
+                                                <jar>false</jar>
+                                                <sourceJar>false</sourceJar>
+                                                <javadocJar>false</javadocJar>
+                                            </artifactOverride>
+                                            <artifactOverride>
+                                                <artifactId>aem-vite.all</artifactId>
+                                                <jar>false</jar>
+                                                <sourceJar>false</sourceJar>
+                                                <javadocJar>false</javadocJar>
+                                            </artifactOverride>
+                                        </artifactOverrides>
                                     </sonatype>
                                 </mavenCentral>
                             </maven>
@@ -494,12 +521,6 @@ Embed-Transitive: true
     <profiles>
         <profile>
             <id>central-publish</id>
-            <activation>
-                <property>
-                    <name>central.publish</name>
-                    <value>true</value>
-                </property>
-            </activation>
             <properties>
                 <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
             </properties>
