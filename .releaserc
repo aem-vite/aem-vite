@@ -56,13 +56,14 @@
         "clean": false,
         "mavenTarget": "-Pcentral-publish",
         "processAllModules": true,
-        "settingsPath": "maven-settings.xml"
+        "settingsPath": "maven-settings.xml",
+        "updateSnapshotVersion": true
       }
     ],
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "mvn jreleaser:deploy --settings maven-settings.xml"
+        "publishCmd": "mvn jreleaser:deploy --settings maven-settings.xml --non-recursive"
       }
     ],
     "@semantic-release/release-notes-generator",
