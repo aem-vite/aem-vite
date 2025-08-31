@@ -1,7 +1,7 @@
 {
   "service.ranking:Integer": 0,
   "user.mapping": [
-    "dev.aemvite.aem-vite.core:aemViteClientLibsService=aem-vite-clientlibs",
-    "aem-precompiled-scripts:aemViteClientLibsService=aem-vite-clientlibs"
+    "dev.aemvite.aem-vite.core:aemViteClientLibsService=[aem-vite-clientlibs]",
+    "aem-precompiled-scripts:aemViteClientLibsService=[aem-vite-clientlibs]"
   ]
 }
