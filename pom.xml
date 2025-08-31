@@ -22,7 +22,7 @@
     <groupId>dev.aemvite</groupId>
     <artifactId>aem-vite</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.2</version>
+    <version>3.0.3-SNAPSHOT</version>
     <name>AEM Vite</name>
     <description>Next generation front end tooling for AEM</description>
     <inceptionYear>2021</inceptionYear>
