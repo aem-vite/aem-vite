@@ -1,3 +1,11 @@
+## [3.0.2](https://github.com/aem-vite/aem-vite/compare/v3.0.1...v3.0.2) (2025-08-31)
+
+
+### Bug Fixes
+
+* remove unsupported log pattern field ([a2f8d36](https://github.com/aem-vite/aem-vite/commit/a2f8d36f8203807bc5a00480961a5fd874f6ac34))
+* update service user with principal names ([df5e422](https://github.com/aem-vite/aem-vite/commit/df5e422761cd82a5d96a82a36a483b3642f4b4fd))
+
 ## [3.0.1](https://github.com/aem-vite/aem-vite/compare/v3.0.0...v3.0.1) (2025-08-30)
 
 
