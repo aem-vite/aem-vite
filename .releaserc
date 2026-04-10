@@ -86,6 +86,14 @@
             "name": "aem-vite.all-${nextRelease.version}.zip"
           },
           {
+            "path": "all.cloud/target/aem-vite.all.cloud-*.zip",
+            "name": "aem-vite.all.cloud-${nextRelease.version}.zip"
+          },
+          {
+            "path": "ui.config.cloud/target/aem-vite.ui.config.cloud-*.zip",
+            "name": "aem-vite.ui.config.cloud-${nextRelease.version}.zip"
+          },
+          {
             "path": "core/target/aem-vite.core-*.jar",
             "name": "aem-vite.core-${nextRelease.version}.jar"
           }

@@ -73,10 +73,12 @@
 
     <modules>
         <module>all</module>
+        <module>all.cloud</module>
         <module>core</module>
         <module>ui.apps</module>
         <module>ui.apps.structure</module>
         <module>ui.config</module>
+        <module>ui.config.cloud</module>
     </modules>
 
     <properties>
@@ -99,7 +101,21 @@
         <sonar.organization>aem-vite</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
-        <aemanalyser.version>1.5.8</aemanalyser.version>
+        <aemanalyser.version.legacy>1.5.8</aemanalyser.version.legacy>
+        <aemanalyser.version.cloud>1.6.8</aemanalyser.version.cloud>
+        <aemanalyser.version>${aemanalyser.version.legacy}</aemanalyser.version>
+
+        <aem.nodetypes.version.legacy>6.5.7.0</aem.nodetypes.version.legacy>
+        <aem.nodetypes.version.cloud>6.5.7.0</aem.nodetypes.version.cloud>
+        <aem.nodetypes.version>${aem.nodetypes.version.legacy}</aem.nodetypes.version>
+
+        <aem.uberjar.version.legacy>6.5.0</aem.uberjar.version.legacy>
+        <aem.uberjar.version.cloud>6.5.0</aem.uberjar.version.cloud>
+        <aem.uberjar.version>${aem.uberjar.version.legacy}</aem.uberjar.version>
+
+        <aem.api.version.legacy>6.0.0.1</aem.api.version.legacy>
+        <aem.api.version.cloud>6.0.0.1</aem.api.version.cloud>
+        <aem.api.version>${aem.api.version.legacy}</aem.api.version>
 
         <jreleaser.git.root.search>true</jreleaser.git.root.search>
     </properties>
@@ -190,6 +206,18 @@
                                             </artifactOverride>
                                             <artifactOverride>
                                                 <artifactId>aem-vite.all</artifactId>
+                                                <jar>false</jar>
+                                                <sourceJar>false</sourceJar>
+                                                <javadocJar>false</javadocJar>
+                                            </artifactOverride>
+                                            <artifactOverride>
+                                                <artifactId>aem-vite.ui.config.cloud</artifactId>
+                                                <jar>false</jar>
+                                                <sourceJar>false</sourceJar>
+                                                <javadocJar>false</javadocJar>
+                                            </artifactOverride>
+                                            <artifactOverride>
+                                                <artifactId>aem-vite.all.cloud</artifactId>
                                                 <jar>false</jar>
                                                 <sourceJar>false</sourceJar>
                                                 <javadocJar>false</javadocJar>
@@ -384,7 +412,7 @@ Embed-Transitive: true
                         <dependency>
                             <groupId>biz.netcentric.aem</groupId>
                             <artifactId>aem-nodetypes</artifactId>
-                            <version>6.5.7.0</version>
+                            <version>${aem.nodetypes.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -519,6 +547,27 @@ Embed-Transitive: true
     </build>
 
     <profiles>
+        <profile>
+            <id>legacy</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <aemanalyser.version>${aemanalyser.version.legacy}</aemanalyser.version>
+                <aem.nodetypes.version>${aem.nodetypes.version.legacy}</aem.nodetypes.version>
+                <aem.uberjar.version>${aem.uberjar.version.legacy}</aem.uberjar.version>
+                <aem.api.version>${aem.api.version.legacy}</aem.api.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <properties>
+                <aemanalyser.version>${aemanalyser.version.cloud}</aemanalyser.version>
+                <aem.nodetypes.version>${aem.nodetypes.version.cloud}</aem.nodetypes.version>
+                <aem.uberjar.version>${aem.uberjar.version.cloud}</aem.uberjar.version>
+                <aem.api.version>${aem.api.version.cloud}</aem.api.version>
+            </properties>
+        </profile>
         <profile>
             <id>central-publish</id>
             <properties>
@@ -927,13 +976,13 @@ Embed-Transitive: true
                 <groupId>com.adobe.aem</groupId>
                 <artifactId>uber-jar</artifactId>
                 <classifier>apis</classifier>
-                <version>6.5.0</version>
+                <version>${aem.uberjar.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.adobe.aem</groupId>
                 <artifactId>aem-api</artifactId>
-                <version>6.0.0.1</version>
+                <version>${aem.api.version}</version>
                 <scope>provided</scope>
             </dependency>
             <!-- Apache Sling Dependencies -->

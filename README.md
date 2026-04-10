@@ -33,9 +33,24 @@ The main parts are:
 
 - core: Java bundle containing all core functionality
 - ui.apps: contains the /apps parts of the project
-- ui.config: contains runmode specific OSGi configs for the project
-- all: a single content package that embeds all the compiled modules (bundles and content packages) including any
-  vendor dependencies
+- ui.config: contains runmode specific OSGi configs for the legacy (AEM 6.5) output
+- ui.config.cloud: contains runmode specific OSGi configs for the cloud (AEMaaCS) output
+- all: legacy (AEM 6.5) content package embedding compiled modules
+- all.cloud: cloud (AEMaaCS) content package embedding compiled modules
+
+## Release lanes and artifact mapping
+
+- Legacy lane (unchanged):
+  - `dev.aemvite:aem-vite.core`
+  - `dev.aemvite:aem-vite.ui.apps`
+  - `dev.aemvite:aem-vite.ui.apps.structure`
+  - `dev.aemvite:aem-vite.ui.config`
+  - `dev.aemvite:aem-vite.all`
+- Cloud lane (new):
+  - `dev.aemvite:aem-vite.ui.config.cloud`
+  - `dev.aemvite:aem-vite.all.cloud`
+
+Existing AEM 6.5 consumers can stay on current artifacts. AEMaaCS consumers can switch to the new `.cloud` artifacts.
 
 ## How to build
 

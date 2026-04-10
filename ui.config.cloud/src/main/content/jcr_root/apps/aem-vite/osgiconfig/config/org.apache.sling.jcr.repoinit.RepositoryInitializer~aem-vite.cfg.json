@@ -1,0 +1,5 @@
+{
+  "scripts":[
+    "create service user aem-vite-clientlibs with path /home/users/system"
+  ]
+}

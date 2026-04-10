@@ -1,0 +1,67 @@
+name: Release Dry Run
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  workflow_dispatch:
+
+jobs:
+  dry_run:
+    name: Semantic Release + JReleaser Dry Run
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - uses: pnpm/action-setup@v4.1.0
+        name: Install pnpm
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4.4.0
+        with:
+          cache: 'pnpm'
+          node-version-file: '.nvmrc'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4.7.1
+        with:
+          java-version: 17
+          cache: 'maven'
+          distribution: 'adopt'
+
+      - name: Build staged artifacts
+        if: ${{ secrets.OSSRH_USERNAME != '' && secrets.OSSRH_PASSWORD != '' && secrets.OSSRH_GPG_SECRET_KEY != '' && secrets.OSSRH_GPG_SECRET_KEY_PASSWORD != '' && vars.OSSRH_GPG_PUBLIC_KEY != '' }}
+        env:
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        run: mvn -B -Pcloud,central-publish -DskipTests -Dgpg.skip deploy --settings maven-settings.xml
+
+      - name: Semantic release dry run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm semantic-release --dry-run
+
+      - name: JReleaser dry run
+        if: ${{ secrets.OSSRH_USERNAME != '' && secrets.OSSRH_PASSWORD != '' && secrets.OSSRH_GPG_SECRET_KEY != '' && secrets.OSSRH_GPG_SECRET_KEY_PASSWORD != '' && vars.OSSRH_GPG_PUBLIC_KEY != '' }}
+        env:
+          JRELEASER_DRY_RUN: true
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        run: mvn -B jreleaser:deploy --settings maven-settings.xml --non-recursive
