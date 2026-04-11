@@ -32,7 +32,7 @@ jobs:
 
           root = ET.parse('pom.xml').getroot()
           ns = {'m': 'http://maven.apache.org/POM/4.0.0'}
-          version = root.findtext('m:version', namespaces=ns) or root.findtext('version') or ''
+          version = root.findtext('m:version', namespaces=ns) or ''
           print(version.strip())
           PY
           )"
