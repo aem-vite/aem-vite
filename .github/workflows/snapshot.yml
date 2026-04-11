@@ -27,7 +27,8 @@ jobs:
       - name: Detect SNAPSHOT version
         id: snapshot_check
         run: |
-          VERSION="$(python - <<'PY'
+          ERR_FILE="$(mktemp)"
+          VERSION="$(python - <<'PY' 2>"$ERR_FILE"
           import sys
           import xml.etree.ElementTree as ET
 
@@ -41,7 +42,7 @@ jobs:
               sys.exit(2)
 
           ns = {'m': 'http://maven.apache.org/POM/4.0.0'}
-          version = root.findtext('m:version', namespaces=ns) or ''
+          version = root.findtext('m:version', namespaces=ns) or root.findtext('m:parent/m:version', namespaces=ns) or ''
           if not version.strip():
               print("project.version is missing or empty in pom.xml.", file=sys.stderr)
               sys.exit(3)
@@ -49,9 +50,11 @@ jobs:
           print(version.strip())
           PY
           )" || {
-            echo "::error::Failed to detect project.version from pom.xml."
+            echo "::error::$(tr '\n' ' ' < "$ERR_FILE")"
+            rm -f "$ERR_FILE"
             exit 1
           }
+          rm -f "$ERR_FILE"
           if [[ "$VERSION" != *-SNAPSHOT ]]; then
             echo "is_snapshot=false" >> "$GITHUB_OUTPUT"
             echo "Project version '$VERSION' is not a SNAPSHOT."
