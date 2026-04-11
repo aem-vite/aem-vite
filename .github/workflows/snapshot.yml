@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   snapshot:
-    name: Publish SNAPSHOTs (GitHub Packages)
+    name: Publish SNAPSHOTs (GitHub Packages + Sonatype)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -53,3 +53,35 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
         run: mvn -B -Pgithub-packages,cloud,ci-cloud -am deploy -DskipTests -Dgpg.skip
+
+      - name: Check Sonatype snapshot credentials
+        id: sonatype_snapshot_credentials
+        if: ${{ steps.snapshot_check.outputs.is_snapshot == 'true' }}
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          if [ -z "$OSSRH_USERNAME" ] || [ -z "$OSSRH_PASSWORD" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Sonatype snapshot credentials are not configured; skipping Sonatype publish."
+            exit 0
+          fi
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Setup JDK for Sonatype snapshot publish
+        if: ${{ steps.sonatype_snapshot_credentials.outputs.ready == 'true' }}
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          java-version: '21'
+          cache: 'maven'
+          distribution: 'adopt'
+          server-id: central
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+
+      - name: Publish SNAPSHOT artifacts to Sonatype
+        if: ${{ steps.sonatype_snapshot_credentials.outputs.ready == 'true' }}
+        run: mvn -B -Pcentral-snapshots,cloud,ci-cloud -am deploy -DskipTests -Dgpg.skip

@@ -594,6 +594,16 @@ Embed-Transitive: true
             </distributionManagement>
         </profile>
         <profile>
+            <id>central-snapshots</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>central</id>
+                    <name>Sonatype Central Snapshots</name>
+                    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+        <profile>
             <id>central-publish</id>
             <properties>
                 <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
