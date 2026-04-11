@@ -47,7 +47,8 @@ jobs:
           print(version.strip())
           PY
           )" || {
-            echo "::error::$(tr '\n' ' ' < "$ERR_FILE")"
+            echo "::error::Failed to detect project.version from pom.xml."
+            cat "$ERR_FILE"
             rm -f "$ERR_FILE"
             exit 1
           }
