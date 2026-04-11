@@ -15,7 +15,9 @@ concurrency:
 jobs:
   dry_run:
     permissions:
-      contents: read
+      contents: write
+      issues: write
+      packages: write
     uses: ./.github/workflows/reusable-release.yml
     with:
       dry-run: true
