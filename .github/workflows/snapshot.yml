@@ -17,9 +17,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    env:
-      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -88,6 +85,9 @@ jobs:
       - name: Check Sonatype snapshot credentials
         id: sonatype_snapshot_credentials
         if: ${{ steps.snapshot_check.outputs.is_snapshot == 'true' }}
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
           if [ -z "$OSSRH_USERNAME" ] || [ -z "$OSSRH_PASSWORD" ]; then
             echo "ready=false" >> "$GITHUB_OUTPUT"
@@ -98,4 +98,7 @@ jobs:
 
       - name: Publish SNAPSHOT artifacts to Sonatype
         if: ${{ steps.sonatype_snapshot_credentials.outputs.ready == 'true' }}
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: mvn -B -Pcentral-snapshots,cloud,ci-cloud -am deploy -DskipTests -Dgpg.skip --settings maven-settings.xml

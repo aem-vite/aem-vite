@@ -597,7 +597,7 @@ Embed-Transitive: true
             <id>central-snapshots</id>
             <distributionManagement>
                 <snapshotRepository>
-                    <id>central</id>
+                    <id>sonatype-snapshots</id>
                     <name>Sonatype Central Snapshots</name>
                     <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
                 </snapshotRepository>
