@@ -10,6 +10,21 @@ on:
       java-version:
         required: true
         type: string
+    secrets:
+      GITHUB_TOKEN:
+        required: false
+      GITHUB_ACTOR:
+        required: false
+      OSSRH_USERNAME:
+        required: false
+      OSSRH_PASSWORD:
+        required: false
+      OSSRH_GPG_KEY_NAME:
+        required: false
+      OSSRH_GPG_SECRET_KEY_PASSWORD:
+        required: false
+      OSSRH_GPG_SECRET_KEY:
+        required: false
 
 jobs:
   release:
