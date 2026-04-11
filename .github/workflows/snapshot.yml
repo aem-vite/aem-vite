@@ -1,0 +1,47 @@
+name: Publish SNAPSHOT artifacts
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: snapshot-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    name: Publish SNAPSHOTs (GitHub Packages)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup JDK
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          java-version: '21'
+          cache: 'maven'
+          distribution: 'adopt'
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
+      - name: Verify project is on a SNAPSHOT version
+        run: |
+          VERSION="$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)"
+          if [[ "$VERSION" != *-SNAPSHOT ]]; then
+            echo "Project version '$VERSION' is not a SNAPSHOT; skipping publish."
+            exit 0
+          fi
+          echo "Publishing SNAPSHOT version: $VERSION"
+
+      - name: Publish SNAPSHOT artifacts to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: mvn -B -Pgithub-packages,cloud,ci-cloud -am deploy -DskipTests -Dgpg.skip

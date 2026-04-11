@@ -60,6 +60,23 @@ Existing AEM 6.5 consumers can stay on current artifacts. AEMaaCS consumers can 
 - `ci-legacy`: lane-isolated module set for legacy packaging/testing (`core`, `ui.apps`, `ui.apps.structure`, `ui.config`, `all`)
 - `ci-cloud`: lane-isolated module set for cloud packaging/testing (`core`, `ui.apps`, `ui.apps.structure`, `ui.config.cloud`, `all.cloud`)
 
+## Java support matrix
+
+- Build compatibility: Java 8 bytecode (`source`/`target` 1.8)
+- Minimum required Java runtime for Maven execution: Java 8+
+- CI coverage:
+  - Legacy profile: JDK 8, JDK 11
+  - Cloud profile: JDK 17, JDK 21
+- Release and release dry-run workflows run on JDK 21
+
+## SNAPSHOT publishing
+
+- Workflow: `.github/workflows/snapshot.yml`
+- Triggers: push to `main` and manual `workflow_dispatch`
+- Target repository: GitHub Packages (`github-packages` Maven profile)
+- Scope: cloud lane build set (`github-packages,cloud,ci-cloud`)
+- Isolation: this workflow only publishes `*-SNAPSHOT` versions and is separate from Maven Central GA release workflows
+
 ## Split strategy guidance
 
 - Keep shared modules (`core`, `ui.apps`, `ui.apps.structure`) unified across lanes.

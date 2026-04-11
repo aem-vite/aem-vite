@@ -23,7 +23,7 @@ jobs:
     uses: ./.github/workflows/reusable-release.yml
     with:
       dry-run: false
-      java-version: '8'
+      java-version: '21'
       gpg-public-key: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
     secrets:
       OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
