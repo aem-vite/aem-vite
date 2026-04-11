@@ -599,7 +599,7 @@ Embed-Transitive: true
                 <snapshotRepository>
                     <id>central</id>
                     <name>Sonatype Central Snapshots</name>
-                    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
                 </snapshotRepository>
             </distributionManagement>
         </profile>
