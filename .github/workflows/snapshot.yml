@@ -78,9 +78,6 @@ jobs:
           server-id: central
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
       - name: Publish SNAPSHOT artifacts to Sonatype
         if: ${{ steps.sonatype_snapshot_credentials.outputs.ready == 'true' }}
