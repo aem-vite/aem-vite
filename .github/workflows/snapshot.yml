@@ -17,6 +17,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env:
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -57,9 +60,6 @@ jobs:
       - name: Check Sonatype snapshot credentials
         id: sonatype_snapshot_credentials
         if: ${{ steps.snapshot_check.outputs.is_snapshot == 'true' }}
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
           if [ -z "$OSSRH_USERNAME" ] || [ -z "$OSSRH_PASSWORD" ]; then
             echo "ready=false" >> "$GITHUB_OUTPUT"
