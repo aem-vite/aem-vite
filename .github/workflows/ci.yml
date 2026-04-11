@@ -40,4 +40,6 @@ jobs:
       profile: ${{ matrix.profile }}
       java-version: ${{ matrix.java-version }}
       run-sonar: ${{ matrix.run-sonar }}
-    secrets: inherit
+    secrets:
+      NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

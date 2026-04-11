@@ -90,6 +90,9 @@
         <sling.password>admin</sling.password>
         <vault.user>admin</vault.user>
         <vault.password>admin</vault.password>
+        <aem.application.install.path>/apps/aem-vite-packages/application/install</aem.application.install.path>
+        <aem.ui.apps.structure.artifactId>aem-vite.ui.apps.structure</aem.ui.apps.structure.artifactId>
+        <aem.cloudManagerTarget>none</aem.cloudManagerTarget>
 
         <bnd.version>5.1.2</bnd.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

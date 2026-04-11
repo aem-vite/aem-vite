@@ -25,4 +25,9 @@ jobs:
       dry-run: false
       java-version: '8'
       gpg-public-key: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
-    secrets: inherit
+    secrets:
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      OSSRH_GPG_KEY_NAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
+      OSSRH_GPG_SECRET_KEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+      OSSRH_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}

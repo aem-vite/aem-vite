@@ -49,14 +49,14 @@
                 <artifactId>filevault-package-maven-plugin</artifactId>
                 <configuration>
                     <properties>
-                        <cloudManagerTarget>none</cloudManagerTarget>
+                        <cloudManagerTarget>${aem.cloudManagerTarget}</cloudManagerTarget>
                     </properties>
                     <packageType>container</packageType>
                     <showImportPackageReport>false</showImportPackageReport>
                     <repositoryStructurePackages>
                         <repositoryStructurePackage>
                             <groupId>dev.aemvite</groupId>
-                            <artifactId>aem-vite.ui.apps.structure</artifactId>
+                            <artifactId>${aem.ui.apps.structure.artifactId}</artifactId>
                         </repositoryStructurePackage>
                     </repositoryStructurePackages>
                 </configuration>
@@ -74,7 +74,7 @@
     <dependencies>
         <dependency>
             <groupId>dev.aemvite</groupId>
-            <artifactId>aem-vite.ui.apps.structure</artifactId>
+            <artifactId>${aem.ui.apps.structure.artifactId}</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>

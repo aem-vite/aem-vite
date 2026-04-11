@@ -86,7 +86,7 @@ jobs:
             echo "Release credentials not fully configured; skipping staged artifact build."
             exit 0
           fi
-          mvn -B -Pcentral-publish,cloud -DskipTests -Dgpg.skip deploy --settings maven-settings.xml
+          mvn -B -Pcentral-publish,cloud,ci-cloud -DskipTests -Dgpg.skip deploy --settings maven-settings.xml
 
       - name: Semantic release dry run
         if: ${{ inputs.dry-run }}

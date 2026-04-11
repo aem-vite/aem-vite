@@ -57,6 +57,14 @@ Existing AEM 6.5 consumers can stay on current artifacts. AEMaaCS consumers can 
 - `central-publish`: enables signing/staging/publish behavior for Maven Central release flows
 - `cloud`: selects the AEM Cloud Service dependency/version set
 - `central-publish,cloud`: publishes cloud-targeted artifacts to Maven Central
+- `ci-legacy`: lane-isolated module set for legacy packaging/testing (`core`, `ui.apps`, `ui.apps.structure`, `ui.config`, `all`)
+- `ci-cloud`: lane-isolated module set for cloud packaging/testing (`core`, `ui.apps`, `ui.apps.structure`, `ui.config.cloud`, `all.cloud`)
+
+## Split strategy guidance
+
+- Keep shared modules (`core`, `ui.apps`, `ui.apps.structure`) unified across lanes.
+- Keep lane-specific modules split only where they differ (`ui.config`/`ui.config.cloud`, `all`/`all.cloud`).
+- Revisit deeper lane splitting only when divergence is proven (different Java code, different app content, or incompatible dependency baselines).
 
 ## How to build
 
