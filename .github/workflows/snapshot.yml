@@ -24,20 +24,22 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Setup JDK
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
-        with:
-          java-version: '21'
-          cache: 'maven'
-          distribution: 'adopt'
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
-
       - name: Detect SNAPSHOT version
         id: snapshot_check
         run: |
-          VERSION="$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)"
+          VERSION="$(python - <<'PY'
+          import xml.etree.ElementTree as ET
+
+          root = ET.parse('pom.xml').getroot()
+          ns = {'m': 'http://maven.apache.org/POM/4.0.0'}
+          version = root.findtext('m:version', namespaces=ns) or root.findtext('version') or ''
+          print(version.strip())
+          PY
+          )"
+          if [ -z "$VERSION" ]; then
+            echo "::error::Failed to read project.version from pom.xml."
+            exit 1
+          fi
           if [[ "$VERSION" != *-SNAPSHOT ]]; then
             echo "is_snapshot=false" >> "$GITHUB_OUTPUT"
             echo "Project version '$VERSION' is not a SNAPSHOT."
@@ -49,6 +51,17 @@ jobs:
       - name: Skip publish (non-SNAPSHOT version)
         if: ${{ steps.snapshot_check.outputs.is_snapshot != 'true' }}
         run: echo "Skipping publish because project.version is not a SNAPSHOT."
+
+      - name: Setup JDK
+        if: ${{ steps.snapshot_check.outputs.is_snapshot == 'true' }}
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          java-version: '21'
+          cache: 'maven'
+          distribution: 'adopt'
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
 
       - name: Publish SNAPSHOT artifacts to GitHub Packages
         if: ${{ steps.snapshot_check.outputs.is_snapshot == 'true' }}
