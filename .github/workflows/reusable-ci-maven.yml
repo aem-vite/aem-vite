@@ -39,7 +39,7 @@ jobs:
           cache: 'maven'
           distribution: 'adopt'
 
-      - name: Build and analyse
+      - name: Build package
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: mvn -B -P${{ inputs.profile }},ci-${{ inputs.profile }} -am package -DskipTests -Dgpg.skip
