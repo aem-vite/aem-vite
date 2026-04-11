@@ -25,7 +25,7 @@ jobs:
         id: snapshot_check
         run: |
           ERR_FILE="$(mktemp)"
-          VERSION="$(python - <<'PY' 2>"$ERR_FILE"
+          VERSION="$(python3 - <<'PY' 2>"$ERR_FILE"
           import sys
           import xml.etree.ElementTree as ET
 
