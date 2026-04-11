@@ -569,6 +569,26 @@ Embed-Transitive: true
             </properties>
         </profile>
         <profile>
+            <id>ci-legacy</id>
+            <modules>
+                <module>core</module>
+                <module>ui.apps</module>
+                <module>ui.apps.structure</module>
+                <module>ui.config</module>
+                <module>all</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>ci-cloud</id>
+            <modules>
+                <module>core</module>
+                <module>ui.apps</module>
+                <module>ui.apps.structure</module>
+                <module>ui.config.cloud</module>
+                <module>all.cloud</module>
+            </modules>
+        </profile>
+        <profile>
             <id>central-publish</id>
             <properties>
                 <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>

@@ -10,65 +10,32 @@ on:
       - reopened
       - synchronize
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  legacy_build_and_test:
-    name: Legacy CI with JDK ${{ matrix.java.version }}
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
+  build_and_test:
+    name: ${{ matrix.profile }} CI with JDK ${{ matrix.java-version }}
     strategy:
       matrix:
-        java:
-          - { version: 8 }
-          - { version: 11 }
+        include:
+          - profile: legacy
+            java-version: '8'
+            run-sonar: false
+          - profile: legacy
+            java-version: '11'
+            run-sonar: false
+          - profile: cloud
+            java-version: '17'
+            run-sonar: false
+          - profile: cloud
+            java-version: '21'
+            run-sonar: true
 
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
-      - name: Set up JDK
-        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
-        with:
-          java-version: ${{ matrix.java.version }}
-          cache: 'maven'
-          distribution: 'adopt'
-
-      - name: Build and analyse
-        env:
-          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        run: mvn -B -Plegacy -pl core,ui.apps,ui.apps.structure,ui.config,all -am package -DskipTests -Dgpg.skip
-
-      - name: Test core
-        run: mvn -B -Plegacy -Dgpg.skip test --file core/pom.xml
-
-  cloud_build_and_test:
-    name: Cloud CI with JDK ${{ matrix.java.version }}
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
-    strategy:
-      matrix:
-        java:
-          - { version: 17 }
-          - { version: 21 }
-
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
-      - name: Set up JDK
-        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
-        with:
-          java-version: ${{ matrix.java.version }}
-          cache: 'maven'
-          distribution: 'adopt'
-
-      - name: Build and analyse
-        env:
-          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        run: mvn -B -Pcloud -pl core,ui.apps,ui.apps.structure,ui.config.cloud,all.cloud -am package -DskipTests -Dgpg.skip
-
-      - name: Test core
-        run: mvn -B -Pcloud -Dgpg.skip test --file core/pom.xml
+    uses: ./.github/workflows/reusable-ci-maven.yml
+    with:
+      profile: ${{ matrix.profile }}
+      java-version: ${{ matrix.java-version }}
+      run-sonar: ${{ matrix.run-sonar }}
+    secrets: inherit
