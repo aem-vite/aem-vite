@@ -31,16 +31,24 @@ jobs:
           server-username: GITHUB_ACTOR
           server-password: GITHUB_TOKEN
 
-      - name: Verify project is on a SNAPSHOT version
+      - name: Detect SNAPSHOT version
+        id: snapshot_check
         run: |
           VERSION="$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)"
           if [[ "$VERSION" != *-SNAPSHOT ]]; then
-            echo "Project version '$VERSION' is not a SNAPSHOT; skipping publish."
+            echo "is_snapshot=false" >> "$GITHUB_OUTPUT"
+            echo "Project version '$VERSION' is not a SNAPSHOT."
             exit 0
           fi
+          echo "is_snapshot=true" >> "$GITHUB_OUTPUT"
           echo "Publishing SNAPSHOT version: $VERSION"
 
+      - name: Skip publish (non-SNAPSHOT version)
+        if: ${{ steps.snapshot_check.outputs.is_snapshot != 'true' }}
+        run: echo "Skipping publish because project.version is not a SNAPSHOT."
+
       - name: Publish SNAPSHOT artifacts to GitHub Packages
+        if: ${{ steps.snapshot_check.outputs.is_snapshot == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
