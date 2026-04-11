@@ -81,17 +81,6 @@ jobs:
           fi
           echo "ready=true" >> "$GITHUB_OUTPUT"
 
-      - name: Setup JDK for Sonatype snapshot publish
-        if: ${{ steps.sonatype_snapshot_credentials.outputs.ready == 'true' }}
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
-        with:
-          java-version: '21'
-          cache: 'maven'
-          distribution: 'adopt'
-          server-id: central
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
-
       - name: Publish SNAPSHOT artifacts to Sonatype
         if: ${{ steps.sonatype_snapshot_credentials.outputs.ready == 'true' }}
-        run: mvn -B -Pcentral-snapshots,cloud,ci-cloud -am deploy -DskipTests -Dgpg.skip
+        run: mvn -B -Pcentral-snapshots,cloud,ci-cloud -am deploy -DskipTests -Dgpg.skip --settings maven-settings.xml
