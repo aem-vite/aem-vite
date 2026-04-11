@@ -39,13 +39,37 @@ jobs:
           cache: 'maven'
           distribution: 'adopt'
 
-      - name: Build package
+      - name: Validate profile input
+        env:
+          PROFILE: ${{ inputs.profile }}
+        run: |
+          case "$PROFILE" in
+            legacy|cloud) ;;
+            *)
+              echo "::error::Unsupported profile '$PROFILE'. Allowed values: legacy, cloud."
+              exit 1
+              ;;
+          esac
+
+      - name: Build package (legacy)
+        if: ${{ inputs.profile == 'legacy' }}
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        run: mvn -B -P${{ inputs.profile }},ci-${{ inputs.profile }} -am package -DskipTests -Dgpg.skip
+        run: mvn -B -Plegacy,ci-legacy -am package -DskipTests -Dgpg.skip
 
-      - name: Test core
-        run: mvn -B -P${{ inputs.profile }} -Dgpg.skip test --file core/pom.xml
+      - name: Build package (cloud)
+        if: ${{ inputs.profile == 'cloud' }}
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: mvn -B -Pcloud,ci-cloud -am package -DskipTests -Dgpg.skip
+
+      - name: Test core (legacy)
+        if: ${{ inputs.profile == 'legacy' }}
+        run: mvn -B -Plegacy -Dgpg.skip test --file core/pom.xml
+
+      - name: Test core (cloud)
+        if: ${{ inputs.profile == 'cloud' }}
+        run: mvn -B -Pcloud -Dgpg.skip test --file core/pom.xml
 
       - name: Build and analyse with SonarCloud
         if: ${{ inputs.run-sonar }}
