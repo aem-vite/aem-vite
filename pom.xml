@@ -604,6 +604,10 @@ Embed-Transitive: true
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <detectJavaApiLink>false</detectJavaApiLink>
+                            <doclint>all,-missing</doclint>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
