@@ -2,6 +2,8 @@ name: Release Dry Run
 
 on:
   pull_request:
+    branches:
+      - main
     types:
       - opened
       - reopened
