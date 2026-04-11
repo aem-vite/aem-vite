@@ -10,11 +10,11 @@ on:
       java-version:
         required: true
         type: string
+      gpg-public-key:
+        required: false
+        default: ''
+        type: string
     secrets:
-      GITHUB_TOKEN:
-        required: false
-      GITHUB_ACTOR:
-        required: false
       OSSRH_USERNAME:
         required: false
       OSSRH_PASSWORD:
@@ -79,7 +79,7 @@ jobs:
           JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-          JRELEASER_GPG_PUBLIC_KEY: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ inputs.gpg-public-key }}
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
         run: |
           if [ -z "$JRELEASER_MAVENCENTRAL_USERNAME" ] || [ -z "$JRELEASER_MAVENCENTRAL_PASSWORD" ] || [ -z "$JRELEASER_GPG_SECRET_KEY" ] || [ -z "$JRELEASER_GPG_PASSPHRASE" ] || [ -z "$JRELEASER_GPG_PUBLIC_KEY" ]; then
@@ -102,7 +102,7 @@ jobs:
           JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-          JRELEASER_GPG_PUBLIC_KEY: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ inputs.gpg-public-key }}
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
         run: |
           if [ -z "$JRELEASER_MAVENCENTRAL_USERNAME" ] || [ -z "$JRELEASER_MAVENCENTRAL_PASSWORD" ] || [ -z "$JRELEASER_GPG_SECRET_KEY" ] || [ -z "$JRELEASER_GPG_PASSPHRASE" ] || [ -z "$JRELEASER_GPG_PUBLIC_KEY" ]; then
@@ -114,13 +114,13 @@ jobs:
       - name: Release
         if: ${{ !inputs.dry-run }}
         env:
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-          JRELEASER_GPG_PUBLIC_KEY: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ inputs.gpg-public-key }}
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
         run: |
           export GPG_TTY=$(tty)

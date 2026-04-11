@@ -24,4 +24,5 @@ jobs:
     with:
       dry-run: false
       java-version: '8'
+      gpg-public-key: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
     secrets: inherit
