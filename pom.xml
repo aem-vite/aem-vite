@@ -102,7 +102,7 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
         <aemanalyser.version.legacy>1.5.8</aemanalyser.version.legacy>
-        <aemanalyser.version.cloud>1.6.8</aemanalyser.version.cloud>
+        <aemanalyser.version.cloud>1.6.16</aemanalyser.version.cloud>
         <aemanalyser.version>${aemanalyser.version.legacy}</aemanalyser.version>
 
         <aem.nodetypes.version.legacy>6.5.7.0</aem.nodetypes.version.legacy>
