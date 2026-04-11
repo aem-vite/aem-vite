@@ -2,44 +2,46 @@ name: CI
 
 on:
   push:
-    branches-ignore:
+    branches:
       - main
   pull_request:
+    branches:
+      - main
     types:
       - opened
       - reopened
       - synchronize
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build_and_test:
-    name: CI with JDK ${{ matrix.java.version }}
-    runs-on: ubuntu-latest
-
+    name: ${{ matrix.profile }} CI with JDK ${{ matrix.java-version }}
     permissions:
       contents: read
-
     strategy:
       matrix:
-        java:
-          - { aemanalyser: 1.5.8, version: 8 }
-          - { aemanalyser: 1.5.8, version: 11 }
-          - { aemanalyser: 1.6.8, version: 17 }
-          - { aemanalyser: 1.6.8, version: 21 }
+        include:
+          - profile: legacy
+            java-version: '8'
+            run-sonar: false
+          - profile: legacy
+            java-version: '11'
+            run-sonar: false
+          - profile: cloud
+            java-version: '17'
+            run-sonar: false
+          - profile: cloud
+            java-version: '21'
+            run-sonar: true
 
-    steps:
-      - uses: actions/checkout@v4.2.2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4.7.1
-        with:
-          java-version: ${{ matrix.java.version }}
-          cache: 'maven'
-          distribution: 'adopt'
-
-      - name: Build and analyse
-        env:
-          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        run: mvn -B package -DskipTests -Dgpg.skip -Daemanalyser.version="${{ matrix.java.aemanalyser }}"
-
-      - name: Test core
-        run: mvn -B -Dgpg.skip test --file core/pom.xml
+    uses: ./.github/workflows/reusable-ci-maven.yml
+    with:
+      profile: ${{ matrix.profile }}
+      java-version: ${{ matrix.java-version }}
+      run-sonar: ${{ matrix.run-sonar }}
+    secrets:
+      NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

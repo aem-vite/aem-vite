@@ -1,5 +1,5 @@
 <!--
- |  Copyright 2021 Chris Shaw Systems Incorporated
+ |  Copyright 2021 Chris Shaw
  |
  |  Licensed under the Apache License, Version 2.0 (the "License");
  |  you may not use this file except in compliance with the License.
@@ -31,10 +31,10 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>aem-vite.all</artifactId>
+    <artifactId>aem-vite.all.cloud</artifactId>
     <packaging>content-package</packaging>
-    <name>Vite for AEM - All</name>
-    <description>All content package for Vite for AEM</description>
+    <name>Vite for AEM - All (cloud)</name>
+    <description>Cloud all content package for Vite for AEM</description>
     <url>https://aemvite.dev</url>
 
     <!-- ====================================================================== -->
@@ -69,7 +69,7 @@
                         </embedded>
                         <embedded>
                             <groupId>dev.aemvite</groupId>
-                            <artifactId>aem-vite.ui.config</artifactId>
+                            <artifactId>aem-vite.ui.config.cloud</artifactId>
                             <type>zip</type>
                             <target>${aem.application.install.path}</target>
                         </embedded>
@@ -185,7 +185,7 @@
         </dependency>
         <dependency>
             <groupId>dev.aemvite</groupId>
-            <artifactId>aem-vite.ui.config</artifactId>
+            <artifactId>aem-vite.ui.config.cloud</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>

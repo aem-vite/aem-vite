@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://mvnrepository.com/artifact/dev.aemvite/aem-vite.all"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/dev.aemvite/aem-vite"></a>
   <a href="https://github.com/aem-vite/aem-vite/actions/workflows/ci.yml"><img alt="Build and Test" src="https://github.com/aem-vite/aem-vite/actions/workflows/ci.yml/badge.svg?branch=develop"></a>
-  <a href="https://github.com/aem-vite/aem-vite/actions/workflows/sonarcloud.yml"><img alt="Sonarcloud" src="https://github.com/aem-vite/aem-vite/actions/workflows/sonarcloud.yml/badge.svg?branch=develop"></a>
+  <a href="https://github.com/aem-vite/aem-vite/actions/workflows/ci.yml"><img alt="Sonarcloud" src="https://github.com/aem-vite/aem-vite/actions/workflows/ci.yml/badge.svg?branch=develop"></a>
   <a href="https://sonarcloud.io/dashboard?id=aem-vite_aem-vite"><img alt="Sonar Quality Gate" src="https://sonarcloud.io/api/project_badges/measure?project=aem-vite_aem-vite&metric=alert_status"></a>
   <a href="https://sonarcloud.io/summary/new_code?id=aem-vite_aem-vite"><img alt="Sonar Coverage" src="https://sonarcloud.io/api/project_badges/measure?project=aem-vite_aem-vite&metric=coverage"></a>
   <a href="https://sonarcloud.io/dashboard?id=aem-vite_aem-vite"><img alt="Sonar Security Rating" src="https://sonarcloud.io/api/project_badges/measure?project=aem-vite_aem-vite&metric=security_rating"></a>
@@ -33,9 +33,55 @@ The main parts are:
 
 - core: Java bundle containing all core functionality
 - ui.apps: contains the /apps parts of the project
-- ui.config: contains runmode specific OSGi configs for the project
-- all: a single content package that embeds all the compiled modules (bundles and content packages) including any
-  vendor dependencies
+- ui.config: contains runmode specific OSGi configs for the legacy (AEM 6.5) output
+- ui.config.cloud: contains runmode specific OSGi configs for the cloud (AEMaaCS) output
+- all: legacy (AEM 6.5) content package embedding compiled modules
+- all.cloud: cloud (AEMaaCS) content package embedding compiled modules
+
+## Release lanes and artifact mapping
+
+- Legacy lane (unchanged):
+  - `dev.aemvite:aem-vite.core`
+  - `dev.aemvite:aem-vite.ui.apps`
+  - `dev.aemvite:aem-vite.ui.apps.structure`
+  - `dev.aemvite:aem-vite.ui.config`
+  - `dev.aemvite:aem-vite.all`
+- Cloud lane (new):
+  - `dev.aemvite:aem-vite.ui.config.cloud`
+  - `dev.aemvite:aem-vite.all.cloud`
+
+Existing AEM 6.5 consumers can stay on current artifacts. AEMaaCS consumers can switch to the new `.cloud` artifacts.
+
+## Release Maven profile intent
+
+- `central-publish`: enables signing/staging/publish behavior for Maven Central release flows
+- `cloud`: selects the AEM Cloud Service dependency/version set
+- `central-publish,cloud`: publishes cloud-targeted artifacts to Maven Central
+- `ci-legacy`: lane-isolated module set for legacy packaging/testing (`core`, `ui.apps`, `ui.apps.structure`, `ui.config`, `all`)
+- `ci-cloud`: lane-isolated module set for cloud packaging/testing (`core`, `ui.apps`, `ui.apps.structure`, `ui.config.cloud`, `all.cloud`)
+
+## Java support matrix
+
+- Build compatibility: Java 8 bytecode (`source`/`target` 1.8)
+- Minimum required Java runtime for Maven execution: Java 8+
+- CI coverage:
+  - Legacy profile: JDK 8, JDK 11
+  - Cloud profile: JDK 17, JDK 21
+- Release and release dry-run workflows run on JDK 21
+
+## SNAPSHOT publishing
+
+- Workflow: `.github/workflows/snapshot.yml`
+- Triggers: push to `canary` and manual `workflow_dispatch`
+- Target repository: GitHub Packages (`github-packages` Maven profile)
+- Scope: cloud lane build set (`github-packages,cloud,ci-cloud`)
+- Isolation: this workflow only publishes `*-SNAPSHOT` versions and is separate from Maven Central GA release workflows
+
+## Split strategy guidance
+
+- Keep shared modules (`core`, `ui.apps`, `ui.apps.structure`) unified across lanes.
+- Keep lane-specific modules split only where they differ (`ui.config`/`ui.config.cloud`, `all`/`all.cloud`).
+- Revisit deeper lane splitting only when divergence is proven (different Java code, different app content, or incompatible dependency baselines).
 
 ## How to build
 

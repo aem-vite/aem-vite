@@ -32,10 +32,10 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>aem-vite.ui.config</artifactId>
+    <artifactId>aem-vite.ui.config.cloud</artifactId>
     <packaging>content-package</packaging>
-    <name>Vite for AEM - UI config</name>
-    <description>UI config package for Vite for AEM</description>
+    <name>Vite for AEM - UI config (cloud)</name>
+    <description>UI config cloud package for Vite for AEM</description>
     <url>https://aemvite.dev</url>
 
     <!-- ====================================================================== -->

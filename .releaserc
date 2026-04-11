@@ -54,7 +54,7 @@
       "@terrestris/maven-semantic-release",
       {
         "clean": false,
-        "mavenTarget": "-Pcentral-publish",
+        "mavenTarget": "-Pcentral-publish,cloud",
         "processAllModules": true,
         "settingsPath": "maven-settings.xml",
         "updateSnapshotVersion": true
@@ -84,6 +84,14 @@
           {
             "path": "all/target/aem-vite.all-*.zip",
             "name": "aem-vite.all-${nextRelease.version}.zip"
+          },
+          {
+            "path": "all.cloud/target/aem-vite.all.cloud-*.zip",
+            "name": "aem-vite.all.cloud-${nextRelease.version}.zip"
+          },
+          {
+            "path": "ui.config.cloud/target/aem-vite.ui.config.cloud-*.zip",
+            "name": "aem-vite.ui.config.cloud-${nextRelease.version}.zip"
           },
           {
             "path": "core/target/aem-vite.core-*.jar",

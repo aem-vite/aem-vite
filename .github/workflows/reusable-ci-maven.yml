@@ -1,0 +1,84 @@
+name: Reusable Maven CI Leg
+
+on:
+  workflow_call:
+    inputs:
+      profile:
+        required: true
+        type: string
+      java-version:
+        required: true
+        type: string
+      run-sonar:
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      NVD_API_KEY:
+        required: false
+      SONAR_TOKEN:
+        required: false
+
+jobs:
+  build_and_test:
+    name: Build/Test (${{ inputs.profile }}, JDK ${{ inputs.java-version }})
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          java-version: ${{ inputs.java-version }}
+          cache: 'maven'
+          distribution: 'adopt'
+
+      - name: Validate profile input
+        env:
+          PROFILE: ${{ inputs.profile }}
+        run: |
+          case "$PROFILE" in
+            legacy|cloud) ;;
+            *)
+              echo "::error::Unsupported profile '$PROFILE'. Allowed values: legacy, cloud."
+              exit 1
+              ;;
+          esac
+
+      - name: Build package (legacy)
+        if: ${{ inputs.profile == 'legacy' }}
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: mvn -B -Plegacy,ci-legacy -am package -DskipTests -Dgpg.skip
+
+      - name: Build package (cloud)
+        if: ${{ inputs.profile == 'cloud' }}
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: mvn -B -Pcloud,ci-cloud -am package -DskipTests -Dgpg.skip
+
+      - name: Test core (legacy)
+        if: ${{ inputs.profile == 'legacy' }}
+        run: mvn -B -Plegacy -Dgpg.skip test --file core/pom.xml
+
+      - name: Test core (cloud)
+        if: ${{ inputs.profile == 'cloud' }}
+        run: mvn -B -Pcloud -Dgpg.skip test --file core/pom.xml
+
+      - name: Build and analyse with SonarCloud
+        if: ${{ inputs.run-sonar }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [ -z "$SONAR_TOKEN" ]; then
+            echo "SONAR_TOKEN is not configured; skipping SonarCloud analysis."
+            exit 0
+          fi
+          mvn -B -Dgpg.skip verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage-report -Dsonar.projectKey=aem-vite_aem-vite

@@ -1,0 +1,127 @@
+name: Reusable Release
+
+on:
+  workflow_call:
+    inputs:
+      dry-run:
+        required: false
+        default: false
+        type: boolean
+      java-version:
+        required: true
+        type: string
+      gpg-public-key:
+        required: false
+        default: ''
+        type: string
+    secrets:
+      OSSRH_USERNAME:
+        required: false
+      OSSRH_PASSWORD:
+        required: false
+      OSSRH_GPG_KEY_NAME:
+        required: false
+      OSSRH_GPG_SECRET_KEY_PASSWORD:
+        required: false
+      OSSRH_GPG_SECRET_KEY:
+        required: false
+
+jobs:
+  release:
+    name: ${{ inputs.dry-run && 'Semantic Release + JReleaser Dry Run' || 'Release to Maven Central' }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      packages: write
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+        name: Install pnpm
+
+      - name: Install Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          cache: 'pnpm'
+          node-version-file: '.nvmrc'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Setup JDK (dry run)
+        if: ${{ inputs.dry-run }}
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          java-version: ${{ inputs.java-version }}
+          cache: 'maven'
+          distribution: 'adopt'
+
+      - name: Setup JDK (publish)
+        if: ${{ !inputs.dry-run }}
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          java-version: ${{ inputs.java-version }}
+          cache: 'maven'
+          distribution: 'adopt'
+          server-id: central
+          server-username: JRELEASER_MAVENCENTRAL_USERNAME
+          server-password: JRELEASER_MAVENCENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          gpg-passphrase: JRELEASER_GPG_PASSPHRASE
+
+      - name: Build staged artifacts (Central Publish + Cloud profile)
+        if: ${{ inputs.dry-run }}
+        env:
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ inputs.gpg-public-key }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        run: |
+          if [ -z "$JRELEASER_MAVENCENTRAL_USERNAME" ] || [ -z "$JRELEASER_MAVENCENTRAL_PASSWORD" ] || [ -z "$JRELEASER_GPG_SECRET_KEY" ] || [ -z "$JRELEASER_GPG_PASSPHRASE" ] || [ -z "$JRELEASER_GPG_PUBLIC_KEY" ]; then
+            echo "Release credentials not fully configured; skipping staged artifact build."
+            exit 0
+          fi
+          mvn -B -Pcentral-publish,cloud,ci-cloud -DskipTests -Dgpg.skip deploy --settings maven-settings.xml
+
+      - name: Semantic release dry run
+        if: ${{ inputs.dry-run }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm semantic-release --dry-run
+
+      - name: JReleaser dry run
+        if: ${{ inputs.dry-run }}
+        env:
+          JRELEASER_DRY_RUN: true
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ inputs.gpg-public-key }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        run: |
+          if [ -z "$JRELEASER_MAVENCENTRAL_USERNAME" ] || [ -z "$JRELEASER_MAVENCENTRAL_PASSWORD" ] || [ -z "$JRELEASER_GPG_SECRET_KEY" ] || [ -z "$JRELEASER_GPG_PASSPHRASE" ] || [ -z "$JRELEASER_GPG_PUBLIC_KEY" ]; then
+            echo "Release credentials not fully configured; skipping JReleaser dry run."
+            exit 0
+          fi
+          mvn -B jreleaser:deploy --settings maven-settings.xml --non-recursive
+
+      - name: Release
+        if: ${{ !inputs.dry-run }}
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          JRELEASER_GPG_KEYNAME: ${{ secrets.OSSRH_GPG_KEY_NAME }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ inputs.gpg-public-key }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        run: |
+          export GPG_TTY=$(tty)
+          pnpm semantic-release

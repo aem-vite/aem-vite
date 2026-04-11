@@ -1,28 +1,28 @@
-name: Release to Maven Central
+name: Release Dry Run
 
 on:
-  workflow_run:
-    workflows:
-      - CI
-    types:
-      - completed
+  pull_request:
     branches:
       - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+  workflow_dispatch:
 
 concurrency:
-  group: release-main
-  cancel-in-progress: false
+  group: release-dry-run-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  release:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  dry_run:
     permissions:
       contents: write
       issues: write
       packages: write
     uses: ./.github/workflows/reusable-release.yml
     with:
-      dry-run: false
+      dry-run: true
       java-version: '21'
       gpg-public-key: ${{ vars.OSSRH_GPG_PUBLIC_KEY }}
     secrets:
