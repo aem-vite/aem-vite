@@ -63,14 +63,6 @@
         <url>https://github.com/aem-vite/aem-vite/issues</url>
     </issueManagement>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>aem-vite</name>
-            <url>https://maven.pkg.github.com/aem-vite/aem-vite</url>
-        </repository>
-    </distributionManagement>
-
     <modules>
         <module>all</module>
         <module>all.cloud</module>
@@ -590,6 +582,16 @@ Embed-Transitive: true
                 <module>ui.config.cloud</module>
                 <module>all.cloud</module>
             </modules>
+        </profile>
+        <profile>
+            <id>github-packages</id>
+            <distributionManagement>
+                <repository>
+                    <id>github</id>
+                    <name>aem-vite</name>
+                    <url>https://maven.pkg.github.com/aem-vite/aem-vite</url>
+                </repository>
+            </distributionManagement>
         </profile>
         <profile>
             <id>central-publish</id>
