@@ -72,7 +72,7 @@ Existing AEM 6.5 consumers can stay on current artifacts. AEMaaCS consumers can 
 ## SNAPSHOT publishing
 
 - Workflow: `.github/workflows/snapshot.yml`
-- Triggers: push to `main` and manual `workflow_dispatch`
+- Triggers: push to `canary` and manual `workflow_dispatch`
 - Target repository: GitHub Packages (`github-packages` Maven profile)
 - Scope: cloud lane build set (`github-packages,cloud,ci-cloud`)
 - Isolation: this workflow only publishes `*-SNAPSHOT` versions and is separate from Maven Central GA release workflows

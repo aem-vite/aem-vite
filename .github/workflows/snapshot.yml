@@ -3,7 +3,7 @@ name: Publish SNAPSHOT artifacts
 on:
   push:
     branches:
-      - main
+      - canary
   workflow_dispatch:
 
 concurrency:
