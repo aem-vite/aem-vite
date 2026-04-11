@@ -52,6 +52,12 @@ The main parts are:
 
 Existing AEM 6.5 consumers can stay on current artifacts. AEMaaCS consumers can switch to the new `.cloud` artifacts.
 
+## Release Maven profile intent
+
+- `central-publish`: enables signing/staging/publish behavior for Maven Central release flows
+- `cloud`: selects the AEM Cloud Service dependency/version set
+- `central-publish,cloud`: publishes cloud-targeted artifacts to Maven Central
+
 ## How to build
 
 To build all the modules run in the project root directory the following command with Maven 3:

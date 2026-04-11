@@ -54,7 +54,7 @@
       "@terrestris/maven-semantic-release",
       {
         "clean": false,
-        "mavenTarget": "-Pcentral-publish",
+        "mavenTarget": "-Pcentral-publish,cloud",
         "processAllModules": true,
         "settingsPath": "maven-settings.xml",
         "updateSnapshotVersion": true
