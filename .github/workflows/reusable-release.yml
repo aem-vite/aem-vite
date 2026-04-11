@@ -7,6 +7,9 @@ on:
         required: false
         default: false
         type: boolean
+      java-version:
+        required: true
+        type: string
 
 jobs:
   release:
@@ -37,7 +40,7 @@ jobs:
         if: ${{ inputs.dry-run }}
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
-          java-version: 21
+          java-version: ${{ inputs.java-version }}
           cache: 'maven'
           distribution: 'adopt'
 
@@ -45,7 +48,7 @@ jobs:
         if: ${{ !inputs.dry-run }}
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
-          java-version: 21
+          java-version: ${{ inputs.java-version }}
           cache: 'maven'
           distribution: 'adopt'
           server-id: central

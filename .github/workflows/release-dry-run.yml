@@ -14,7 +14,10 @@ concurrency:
 
 jobs:
   dry_run:
+    permissions:
+      contents: read
     uses: ./.github/workflows/reusable-release.yml
     with:
       dry-run: true
+      java-version: '17'
     secrets: inherit

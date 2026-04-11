@@ -17,6 +17,8 @@ concurrency:
 jobs:
   build_and_test:
     name: ${{ matrix.profile }} CI with JDK ${{ matrix.java-version }}
+    permissions:
+      contents: read
     strategy:
       matrix:
         include:

@@ -16,7 +16,12 @@ concurrency:
 jobs:
   release:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: write
+      issues: write
+      packages: write
     uses: ./.github/workflows/reusable-release.yml
     with:
       dry-run: false
+      java-version: '8'
     secrets: inherit
