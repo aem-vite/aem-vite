@@ -36,11 +36,14 @@ jobs:
           except ET.ParseError as exc:
               print(f"Failed to parse pom.xml: {exc}", file=sys.stderr)
               sys.exit(2)
+          except FileNotFoundError:
+              print("pom.xml was not found.", file=sys.stderr)
+              sys.exit(2)
 
           ns = {'m': 'http://maven.apache.org/POM/4.0.0'}
           version = root.findtext('m:version', namespaces=ns) or ''
           if not version.strip():
-              print("project.version is missing in pom.xml.", file=sys.stderr)
+              print("project.version is missing or empty in pom.xml.", file=sys.stderr)
               sys.exit(3)
 
           print(version.strip())
