@@ -80,7 +80,7 @@ Existing AEM 6.5 consumers can stay on current artifacts. AEMaaCS consumers can 
   - GitHub publish command uses `github-packages,cloud,ci-cloud`
   - Sonatype publish command uses `central-snapshots,cloud,ci-cloud`
 - Sonatype snapshot endpoint: `https://central.sonatype.com/repository/maven-snapshots/`
-- Prerequisite: enable SNAPSHOTs for the `dev.aemvite` namespace in Sonatype Central Portal before running the snapshot workflow
+- Prerequisite: enable snapshots for the `dev.aemvite` namespace in Sonatype Central Portal before running the snapshot workflow
 - Isolation: this workflow only publishes `*-SNAPSHOT` versions and is separate from Maven Central GA release workflows
 
 ## Split strategy guidance
