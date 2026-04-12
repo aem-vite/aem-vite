@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   snapshot:
-    name: Publish SNAPSHOTs (GitHub Packages)
+    name: Publish SNAPSHOTs (GitHub Packages + Sonatype)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -21,20 +21,38 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Setup JDK
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
-        with:
-          java-version: '21'
-          cache: 'maven'
-          distribution: 'adopt'
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
-
       - name: Detect SNAPSHOT version
         id: snapshot_check
         run: |
-          VERSION="$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)"
+          ERR_FILE="$(mktemp)"
+          VERSION="$(python3 - <<'PY' 2>"$ERR_FILE"
+          import sys
+          import xml.etree.ElementTree as ET
+
+          try:
+              root = ET.parse('pom.xml').getroot()
+          except ET.ParseError as exc:
+              print(f"Failed to parse pom.xml: {exc}", file=sys.stderr)
+              sys.exit(2)
+          except FileNotFoundError:
+              print("pom.xml was not found.", file=sys.stderr)
+              sys.exit(2)
+
+          ns = {'m': 'http://maven.apache.org/POM/4.0.0'}
+          version = root.findtext('m:version', namespaces=ns) or root.findtext('m:parent/m:version', namespaces=ns) or ''
+          if not version.strip():
+              print("project.version is missing or empty in pom.xml.", file=sys.stderr)
+              sys.exit(3)
+
+          print(version.strip())
+          PY
+          )" || {
+            echo "::error::Failed to detect project.version from pom.xml."
+            cat "$ERR_FILE"
+            rm -f "$ERR_FILE"
+            exit 1
+          }
+          rm -f "$ERR_FILE"
           if [[ "$VERSION" != *-SNAPSHOT ]]; then
             echo "is_snapshot=false" >> "$GITHUB_OUTPUT"
             echo "Project version '$VERSION' is not a SNAPSHOT."
@@ -47,9 +65,41 @@ jobs:
         if: ${{ steps.snapshot_check.outputs.is_snapshot != 'true' }}
         run: echo "Skipping publish because project.version is not a SNAPSHOT."
 
+      - name: Setup JDK
+        if: ${{ steps.snapshot_check.outputs.is_snapshot == 'true' }}
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          java-version: '21'
+          cache: 'maven'
+          distribution: 'adopt'
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
       - name: Publish SNAPSHOT artifacts to GitHub Packages
         if: ${{ steps.snapshot_check.outputs.is_snapshot == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
         run: mvn -B -Pgithub-packages,cloud,ci-cloud -am deploy -DskipTests -Dgpg.skip
+
+      - name: Check Sonatype snapshot credentials
+        id: sonatype_snapshot_credentials
+        if: ${{ steps.snapshot_check.outputs.is_snapshot == 'true' }}
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          if [ -z "$OSSRH_USERNAME" ] || [ -z "$OSSRH_PASSWORD" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Sonatype snapshot credentials are not configured; skipping Sonatype publish."
+            exit 0
+          fi
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Publish SNAPSHOT artifacts to Sonatype
+        if: ${{ steps.sonatype_snapshot_credentials.outputs.ready == 'true' }}
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: mvn -B -Pcentral-snapshots,cloud,ci-cloud -am deploy -DskipTests -Dgpg.skip --settings maven-settings.xml
