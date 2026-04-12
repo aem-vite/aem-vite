@@ -6,7 +6,7 @@
             <password>${GITHUB_TOKEN}</password>
         </server>
         <server>
-            <id>central</id>
+            <id>central-snapshots</id>
             <username>${OSSRH_USERNAME}</username>
             <password>${OSSRH_PASSWORD}</password>
         </server>
